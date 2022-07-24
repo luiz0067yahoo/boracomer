@@ -12,7 +12,7 @@ Configurar<br/>
 const serverUrl="http://localhost/";
 url backend
 bodyRequest:{
-		"userAPI": "username,
+		"userAPI": "username",
 		"password": "password"
 	},
 ```
