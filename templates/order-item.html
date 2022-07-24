@@ -1,0 +1,85 @@
+<div id="order_items" class="d-flex justify-content-center flex-wrap h-100">
+	<div class="d-flex align-self-start flex-wrap margin-15 list container-block-by w-100 h-100 ">
+		<div class="w-100 d-flex justify-content-between">
+			<button class="bg-transparent border-0" @click="goBack"><label class="font-size-1  "><svg class="button-mini-squared" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 504C119 504 8 393 8 256S119 8 256 8s248 111 248 248-111 248-248 248zM142.1 273l135.5 135.5c9.4 9.4 24.6 9.4 33.9 0l17-17c9.4-9.4 9.4-24.6 0-33.9L226.9 256l101.6-101.6c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L142.1 239c-9.4 9.4-9.4 24.6 0 34z"/></svg></label></button>	
+			 <label class="w-100 text-center font-size-1 text-muted">Item Pedido</label>
+		</div>
+		<div v-if="product.pizza" class="w-100 d-flex justify-content-between font-size-button margin-bottom-20">
+			<div class="list-products d-flex justify-content-between mx-auto">
+				<div id="pizza" class="product-image  mx-auto" >
+					<div v-if="countFlavorsPizzaSelected() == 1" class="pieContainer">
+						<div class="only" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(0) + ')' }"></div>
+					</div>
+					<div v-else-if ="countFlavorsPizzaSelected()==2" class="pieContainer">
+						<div  class=" pieSlice-1-2 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(0) + ')' }"></div></div>
+						<div  class=" pieSlice-2-2 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(1) + ')' }"></div></div>
+					</div>
+					<div v-else-if="countFlavorsPizzaSelected()==3" class="pieContainer">
+						<div  class=" pieSlice-1-3 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(0) + ')' }"></div></div>
+						<div  class=" pieSlice-2-3 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(1) + ')' }"></div></div>
+						<div  class=" pieSlice-3-3 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(2) + ')' }"></div></div>
+					</div>
+					<div v-else-if="countFlavorsPizzaSelected()==4" class="pieContainer">
+						<div  class=" pieSlice-1-4 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(0) + ')' }"></div></div>
+						<div  class=" pieSlice-2-4 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(1) + ')' }"></div></div>
+						<div  class=" pieSlice-3-4 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(2) + ')' }"></div></div>
+						<div  class=" pieSlice-4-4 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(0) + ')' }"></div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div v-else class="w-100 d-flex justify-content-between font-size-button margin-bottom-20">
+			<div class="list-products d-flex justify-content-between mx-auto">
+				<div class="product-image rounded-10 mx-auto" v-if="!isEmpty(product.image_url)" v-bind:style="{ backgroundImage: 'url(' + product.image_url + ')' }"></div>
+				
+			</div>
+		</div>
+		
+		<label  class="text-danger font-size-2 m-0 w-100 text-center"><b>{{messageError}}</b></label>
+		<div class=" d-flex justify-content-between  margin-top-20 w-100">
+			<div class="d-flex flex-wrap w-100">
+				<label  class="font-size-2 m-0  w-100"><b>{{product.descricao}}</b></label>
+				<div v-if="group.nome === 'Pizzas'" class="w-100">
+					<label class="font-size-3 w-100"> Tamanho </label>
+					<select v-model="sizePizzaSelected"  class="big-button form-select form-select-lg font-size-2 w-100" @change="changeSize()">
+						<option disabled  selected>Escolha o Tamanho</option>
+						<option  v-for="(item) in sizesPizza"  :value="item" :key="item.id">{{item.descricao}} - {{formatMoney(item.valor_tamanho)}} - até {{item.maximo_sabores}} sabores</option>
+					</select>
+					<div  v-for="(flavorspizzaselected, index) in flavorsPizzaSelected" class="w-100" >
+						<label class="font-size-3 w-100"> Sabor {{index+1}}</label>
+						<select v-model="flavorsPizzaSelected[index]"  class="big-button form-select form-select-lg font-size-2 w-100"  @change="changeFlavor(index)">
+							<option disabled  selected>Escolha o sabor {{index+1}} 	</option>
+							<option v-if="index>=2">Nenhum</option>
+							<option  v-for="(item) in flavorsPizza"  :value="item" :key="item.id">{{item.descricao}}{{(item.valor==0)?"":" - "+formatMoney(item.valor)}}</option>
+						</select>
+					</div>
+					<label class="font-size-3 w-100"> Borda </label>
+					<select v-model="borderPizzaSelected"  class="big-button form-select form-select-lg font-size-2 w-100" @change="changeSize()">
+						<option disabled  selected>Escolha a Borda</option>
+						<option  v-for="(item) in bordersPizza"  :value="item" :key="item.id">{{item.descricao}}{{""/*(item.valor_tamanho==0)?"":" - R$ "+formatMoney(item.valor_borda)*/}}</option>
+					</select>
+				</div>
+				<label class="font-size-3 m-0 text-muted w-100 product-description"> {{product.descricao_longa}}</label>
+				<label class="font-size-3 m-0 align-self-end w-100">{{formatMoney(calcPriceProduct())}}</label>
+				<div class="d-flex align-self-end justify-content-between w-100"> 
+					<label class="font-size-3 m-0 align-self-end">Previsão de entrega</label>
+					<label class="font-size-3 m-0">30 - 40 min</label>
+				</div>
+			</div>
+		</div>
+		<div class="w-100 d-flex justify-content-between  margin-top-20 margin-x-15 ">
+			<div class="rounded-10 border  d-flex justify-content-between container-block-by font-size-3 align-items-stretch flex-nowrap"> 
+				<button @click="minusAmountitem" class="button-mini-squared d-flex rounded-10 hover-opacity-75 d-flex justify-content-center align-items-center font-size-4 bg-white text-danger border-danger"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"/></svg></button>
+				<div class=" block-by-auto"><input v-model="amount" type="text" class="border-0 text-center count" ></div>
+				<button @click="addAmountitem" class="button-mini-squared d-flex rounded-10 hover-opacity-75 d-flex justify-content-center align-items-center font-size-4 bg-white text-success border-success"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"/></svg></button>	
+			</div>
+			<button @click="addItem" class="d-flex rounded-10 margin-x-15 hover-opacity-75 d-flex justify-content-center align-items-center bg-success text-white font-size-1 "><label class="margin-x-15">Incluir</label></button>
+			<div class="d-flex align-self-end justify-content-end margin-x-15 w-100 border-bottom  ">
+				<label class="font-size-1 ">{{formatMoney(total)}}</label>
+			</div>
+		</div>
+		<div class="d-flex align-self-end justify-content-end margin-15 w-100 ">
+			<button class="font-size-1 border-0 bg-white text-danger">Remover Item</button>
+		</div>
+	</div>
+</div>

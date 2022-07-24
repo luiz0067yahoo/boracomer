@@ -1,0 +1,42 @@
+<div id="order_items" class="d-flex justify-content-center flex-wrap h-100">
+	<div class="d-flex align-self-start flex-wrap margin-15 list container-block-by w-100 h-100 ">
+		<div class="w-100 d-flex justify-content-between">
+			<button class="bg-transparent border-0" @click="goBack"><label class="font-size-1  "><svg class="button-mini-squared" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 504C119 504 8 393 8 256S119 8 256 8s248 111 248 248-111 248-248 248zM142.1 273l135.5 135.5c9.4 9.4 24.6 9.4 33.9 0l17-17c9.4-9.4 9.4-24.6 0-33.9L226.9 256l101.6-101.6c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L142.1 239c-9.4 9.4-9.4 24.6 0 34z"/></svg></label></button>	
+			 <label class="w-100 text-center font-size-1 text-muted">Itens do seu pedido</label>
+		</div>
+		<div v-for="(item, index) in order" class="w-100 d-flex justify-content-between  margin-top-20 margin-x-15 ">
+			<div class="d-flex flex-wrap justify-content-between align-items-end w-100 border-bottom padding-bottom-5 ">
+				<div class="d-flex justify-content-between align-items-end w-100 ">
+					<label class="font-size-2 m-0  ">
+						<b>{{item.amount}}x {{(isEmpty(item.product))?"":item.product.descricao}}</b>
+					</label>
+					<label class="font-size-3 m-0  ">{{formatMoney(calcPriceItem(item))}}</label>
+				</div>
+				<div v-if="item.pizza==true"  class="d-flex  w-100 ">
+					<label class="font-size-4 m-0 ">
+						{{(isEmpty(item.size))?"":"TAMANHO:  "+item.size.descricao}}
+						{{(isEmpty(item.flavors))?"":"SABORES: "+getDesriptionFlavorsPizza(item.flavors).join(", ")}}
+						{{(isEmpty(item.border))?"":" BORDA: "+item.border.descricao}}
+					</label>
+				</div>
+			</div>
+			<button @click="editItem(item)" class="d-flex rounded-10 margin-left-15 button-mini-squared  hover-opacity-75 justify-content-center align-items-center  font-size-1 ">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+			</button>
+		</div>
+		<div class="d-flex align-self-end justify-content-center margin-15 w-100 ">
+			<button @click="addItem" class="font-size-1 border-0 bg-white text-danger">Incluir mais Itens</button>
+		</div>
+		<div class="w-100 d-flex justify-content-between  margin-top-20 margin-x-15 ">
+			<div class="d-flex justify-content-between align-items-end w-100 border-bottom padding-bottom-5 ">
+				<label class="font-size-2 m-0  ">Total</label>
+				<label class="font-size-2 m-0  ">{{formatMoney(calcTotal())}}</label>
+			</div>
+		</div>
+		<div class="d-flex justify-content-between margin-15 w-100 ">
+			<button @click="confirmOrder()" class="d-flex rounded-10 margin-x-15 hover-opacity-75 d-flex justify-content-center align-items-center bg-danger text-white font-size-1 "><label class="margin-x-15">Enviar Pedido</label></button>
+			<button @click="cancelOrder" class="font-size-1 border-0 bg-white text-danger">Cancelar Pedido</button>
+		</div>
+		
+	</div>
+</div>

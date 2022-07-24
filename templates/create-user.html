@@ -1,0 +1,82 @@
+<div id="login" class="d-flex flex-wrap align-content-between justify-content-center w-100 h-100">
+	<div class="d-flex justify-content-between w-100">
+		<div class="d-block">
+			<div id="food-left-top"></div>
+			<div id="food-half-top"></div>
+		</div>
+		<div id="food-right-top"></div>
+	</div>
+	<div class="d-flex justify-content-between w-100 align-self-baseline">
+		<div id="food-left-bottom"></div>
+		<div id="food-right-bottom"></div>
+	</div>
+	<div class="position-absolute d-flex justify-content-center flex-wrap h-100">
+		<div class="d-flex align-self-center flex-wrap margin-15 container-block-by">
+			<div class="w-100"><div id="logo" class="mx-auto"  v-bind:style="{ backgroundImage: 'url(' + store_logo + ')' }"></div></div>
+		</div>
+			<label id="slogam" class="w-100 text-center  font-size-1 ">
+				<p><b>{{store_text1}}</b></p>
+				<p><b>{{store_text2}}</b></p>
+			</label>
+			<div class="w-100 margin-top-15" >
+				<input v-model="username" placeholder="Digite seu login" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" @focusout="validUsername">
+			</div>
+			<p class="big-hint-center text-danger font-size-3" v-if="!isEmpty(errorUsername)">{{ errorUsername }}</p>
+			<!--<div class="w-100 margin-top-15" >
+				<input v-model="name" placeholder="Digite seu nome" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" >
+			</div>
+			<p class="big-hint-center text-danger font-size-3" v-if="!isEmpty(errorName)">{{ errorName }}</p>-->
+			<div class="w-100 margin-top-15" >
+				<input v-model="email" type="email" placeholder="Digite seu e-mail" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" @focusout="validEmail">
+			</div>
+			<p class="big-hint-center text-danger font-size-3" v-if="!isEmpty(errorEmail)">{{ errorEmail }}</p>
+			<div class="w-100 margin-top-15" >
+				<input id="phone" type="phone" placeholder="Digite seu telefone" data-inputmask="'mask': '(999) 99999-9999'" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" :class="[(isEmpty(errorPhone))?'':'border-danger']" @focusout="setPhone()">
+			</div>
+			<p class="big-hint-center text-danger" v-if="false &&!isEmpty(errorPhone)">{{ errorPhone }}</p>
+			<div class="w-100 margin-top-15" >
+				<input v-model="password" type="password" placeholder="Digite sua senha" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" @focusout="disableFocusPassword" @focusin="enableFocusPassword" @keyup="validPassword" >
+			</div>
+			<div class="w-100 margin-top-15" >
+				<input v-model="repeatPassword" type="password" placeholder="Repita sua senha" class="text-center big-button-center bg-white rounded-10 font-size-2 hover-opacity-75 d-flex justify-content-center align-items-center" @focusout="disableFocusPassword" @focusin="enableFocusPassword" @keyup="validPassword">
+			</div>
+			<div class="font-size-3 big-hint-center d-flex flex-wrap bg-white position-relative" id="hintPassword" v-if="focusPassword">
+				<p class="w-100 text-dark" >
+					{{ messageHintPassword }}
+				</p>
+				<ul style=" list-style-type: none;">
+				<li  :class="[checkLowerCaseOneOrMore ? 'text-success valid' : ' text-danger invalid']">
+					{{ messageCheckLowerCaseOneOrMore }}
+				</li>
+				<li  :class="[checkUpperCaseOneOrMore ? 'text-success valid' : ' text-danger invalid']">
+					{{ messageCheckUpperCaseOneOrMore }}
+				</li>
+				<li  :class="[checkNumberOneOrMore ? 'text-success valid' : ' text-danger invalid']">
+					{{ messageCheckNumberOneOrMore }}
+				</li>
+				<li :class="[checkSizeDigits ? 'text-success valid' : ' text-danger invalid']">
+					{{ messageCheckSizeDigits }}
+				</li>
+				<li :class="[checkRepeatPassword ? 'text-success valid' : ' text-danger invalid']">
+					{{ messageCheckRepeatPassword }}
+				</li>
+				</ul>
+			</div>
+			<div class="w-100 margin-top-15" >
+				<button class="big-button-center bg-primary text-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" @click="createUser">
+					<label class="d-flex align-self-center">Criar conta</label>
+				</button>
+			</div>
+			
+			<div class="w-100 " >
+				<a :href="'#'+storePath+'/panel'" class="text-decoration-none"><button class="big-button-center bg-white border-0 font-size-2 text-center text-muted hover-opacity-75 d-flex justify-content-center  align-items-center">
+					<label class="">Manter como visitante </label>
+				</button></a>
+			</div>
+			<div class="w-100 margin-top-15" >
+				<a  :href="'#'+storePath+'/'" class="text-decoration-none"><button class="big-button-center bg-white border-0 font-size-2 text-center text-primary hover-opacity-75 d-flex justify-content-center  align-items-center">
+					<label ><svg class="button-mini-squared" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 504C119 504 8 393 8 256S119 8 256 8s248 111 248 248-111 248-248 248zM142.1 273l135.5 135.5c9.4 9.4 24.6 9.4 33.9 0l17-17c9.4-9.4 9.4-24.6 0-33.9L226.9 256l101.6-101.6c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L142.1 239c-9.4 9.4-9.4 24.6 0 34z"/></svg>Voltar</label>
+				</button></a>
+			</div>
+	</div>
+</div>

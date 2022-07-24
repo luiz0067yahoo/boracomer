@@ -1,0 +1,67 @@
+<div id="login" class="d-flex flex-wrap align-content-between justify-content-center w-100 h-100">
+	<div class="d-flex justify-content-between w-100">
+		<div class="d-block">
+			<div id="food-left-top"></div>
+			<div id="food-half-top"></div>
+		</div>
+		<div id="food-right-top"></div>
+	</div>
+	<div class="d-flex justify-content-between w-100 align-self-baseline">
+		<div id="food-left-bottom"></div>
+		<div id="food-right-bottom"></div>
+	</div>
+	<div class="position-absolute d-flex justify-content-center flex-wrap h-100">
+		<div class="d-flex align-self-center flex-wrap margin-15 container-block-by">
+			<div class="w-100"><div id="logo" class="mx-auto"  v-bind:style="{ backgroundImage: 'url(' + storeLogo + ')' }"></div></div>
+		</div>
+			<label id="slogam" class="w-100 text-center  font-size-1 ">
+				<p><b>{{storeText1}}</b></p>
+				<p><b>{{storeText2}}</b></p>
+			</label>
+			<label id="slogam" class="w-100 text-center font-size-2 ">
+				<p>Como quer entrar?</p>
+			</label>
+			<div class="w-100" >
+				<button class="big-button-center bg-primary rounded-10 text-white font-size-2 text-center hover-opacity-75 d-flex" >
+					<div class="d-flex align-self-center w-100 align-items-center">
+						<div class="rounded-10 mini-button logo-google d-flex align-self-center " ></div>
+						<label class="w-100 text-centeralign-self-center ">Use sua conta Google</label>
+					</div>
+				</button>
+			</div>
+			<div class="w-100  margin-top-15" >
+				<button class="big-button-center bg-primary rounded-10 text-white font-size-2 text-center hover-opacity-75 d-flex" >
+					<div class="d-flex align-self-center w-100 align-items-center">
+						<div class="rounded-10 mini-button d-flex align-self-center bg-white" ><svg class="mx-auto text-primary align-self-center h-75" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor"><path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/></svg></div>
+						<label class="w-100 text-centeralign-self-center ">Use sua conta Facebook</label>
+					</div>
+				</button>
+			</div>
+			
+			<div class="w-100  margin-top-15" >
+				<button class="big-button-center bg-primary rounded-10 text-white font-size-2 text-center hover-opacity-75 d-flex" >
+					<div class="d-flex align-self-center w-100 align-items-center">
+						<div class="rounded-10 mini-button  d-flex align-self-center  bg-white logo-instagram"> </div>
+						<label class="w-100 text-centeralign-self-center ">Use sua conta Intagram</label>
+					</div>
+				</button>
+			</div>
+			<div class="w-100 margin-top-15">
+				<a  :href="'#'+storePath+'/create-user'" class="text-decoration-none"><button class="big-button-center bg-white border-0 font-size-2 text-center text-primary hover-opacity-75 d-flex justify-content-center  align-items-center">
+					<label class="">Crie sua conta {{store.nome}} aqui</label>
+				</button></a>
+			</div>
+			<div class="w-100 " >
+				<a :href="'#'+storePath+'/panel'" class="text-decoration-none"><button class="big-button-center bg-white border-0 font-size-2 text-center text-muted hover-opacity-75 d-flex justify-content-center  align-items-center">
+					<label class="">Manter como visitante </label>
+				</button></a>
+			</div>
+			<div class="w-100 margin-top-15" >
+				<a :href="'#'+storePath+'/'" class="text-decoration-none "><button class="big-button-center bg-white border-0 font-size-2 text-center text-primary hover-opacity-75 d-flex justify-content-center align-items-center">
+					<label class="#home d-flex text-dark d-flex justify-content-center align-items-center">
+						<svg class="button-mini-squared" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 504C119 504 8 393 8 256S119 8 256 8s248 111 248 248-111 248-248 248zM142.1 273l135.5 135.5c9.4 9.4 24.6 9.4 33.9 0l17-17c9.4-9.4 9.4-24.6 0-33.9L226.9 256l101.6-101.6c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L142.1 239c-9.4 9.4-9.4 24.6 0 34z"/></svg> 
+					</label>
+				</button></a>
+			</div>
+	</div>
+</div>
