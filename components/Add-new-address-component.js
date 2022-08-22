@@ -2,8 +2,8 @@ import {until} from '../untils/until.js'
 import {StoresHelper} from '../helpers/Stores-helper.js'
 import { AddressHelper } from '../helpers/Address-helper.js';
 import { CitiesHelpers } from '../helpers/Cities-helper.js';
-export const CreateAddressComponent={
-    template: '#create-address-template',
+export const AddNewAddressComponent={
+    template: '#add-new-address-template',
     data() {
         return {
             store:{nome:'Bora Comer'},
@@ -25,6 +25,7 @@ export const CreateAddressComponent={
             errorStreet:"",
             houseNumber:"",
             addressComplement:"",
+            currentUser:{},
         }
     },
     async created(){
@@ -33,6 +34,9 @@ export const CreateAddressComponent={
             this.store= await StoresHelper.findByAliasLocalStorage(this.$route.params.aliasStore);
             $('title').html(this.store.nome+' - Págia Inicial');
             this.cities= await CitiesHelpers.findByStoreAlias(this.$route.params.aliasStore);
+            if(!until.isEmpty(JSON.parse(localStorage.getItem('user')))){
+                this.currentUser=JSON.parse(localStorage.getItem('user'));
+            }
         }
     },
     mounted: function() {
@@ -73,8 +77,7 @@ export const CreateAddressComponent={
             }
         },
         async createAddress(){
-            var acc_user=JSON.parse(localStorage.createUser);
-            var user={"id":acc_user.id};
+            var user={"id":this.currentUser.id};
             if(!until.isEmpty(this.city)){
                 try{
                     var houseNumber=null;
@@ -85,7 +88,7 @@ export const CreateAddressComponent={
                     address=AddressHelper.create(this.zipCode,this.city.id,this.district,this.street,houseNumber,this.addressComplement,user.id);
                     localStorage.address=JSON.stringify(address);
                     if(!until.isEmpty(address)){
-                        this.$router.push({ name: 'create-user-success-store',path: this.storePath+'/create-user-success'});
+                        this.$router.push({ name: 'update-address-success-store',path: this.storePath+'/update-address-success'});
                     }
                 }
                 catch(e){

@@ -1,14 +1,14 @@
 import {until} from '../untils/until.js'
 import {StoresHelper} from '../helpers/Stores-helper.js'
-export const LoginComponent={
-    template: '#login-template',
+export const UpdateAddressSuccessComponent={
+    template: '#update-address-success-template',
     data() {
         return {
             store:{nome:'Bora Comer'},
             storePath: '',
-            storeLogo: './assets/img/logo.svg',
-            storeText1: 'Bora satisfazer',
-            storeText2: 'seu apetite!',
+            store_logo: './assets/img/logo.svg',
+            store_text1: 'Bora satisfazer',
+            store_text2: 'seu apetite!',
         }
     },
     async created(){
@@ -18,7 +18,7 @@ export const LoginComponent={
         }
     },
     mounted: function() {
-        $('title').html(this.store_name+' - Login');
+        $('title').html(this.empresaNome+' - Págia Inicial');
     },
     methods:{
         goBack(){

@@ -1,0 +1,57 @@
+		
+		<div id="profile" class="d-flex justify-content-center align-content-start flex-wrap " style="height: 10px;">
+			<div class="d-flex position-absolute" style="left:0px">
+				<a class="text-decoration-none" :href="'#'+storePath+'/panel'"><button class="margin-x-20 bg-transparent border-0 bg-primary text-primary" ><label class="font-size-1  "><svg class="button-mini-squared" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 504C119 504 8 393 8 256S119 8 256 8s248 111 248 248-111 248-248 248zM142.1 273l135.5 135.5c9.4 9.4 24.6 9.4 33.9 0l17-17c9.4-9.4 9.4-24.6 0-33.9L226.9 256l101.6-101.6c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L142.1 239c-9.4 9.4-9.4 24.6 0 34z"/></svg></label></button></a>
+			</div>
+			<label class="font-size-1 ">
+				<p ><b>SEU PERFIL</b></p>
+			</label>
+			<label class="w-100 margin-x-20 font-size-1 ">
+				<p class="margin-x-20"><b>Login: {{currentUser.username}}</b></p>
+			</label>
+			<label  class="w-100 margin-x-20 font-size-1 ">
+				<p class="margin-x-20"><b>E-mail: {{currentUser.email}}</b></p>
+			</label>
+			
+			<div class="w-100 d-flex d-flex justify-content-center">
+				<div class="w-50">
+					<a :href="'#'+storePath+'/update-user-password-store'" class="mx-auto">
+						<button class="big-button-center bg-primary text-white rounded-10 font-size-2 hover-opacity-75 d-flex justify-content-center">
+							<label class="d-flex align-self-center">Trocar senha</label>
+						</button>
+					</a>
+				</div>
+				<div class="w-50">
+					<a :href="'#'+storePath+'/add-new-address'" class="mx-auto">
+						<button class="big-button-center bg-primary text-white rounded-10 font-size-2 hover-opacity-75 d-flex justify-content-center">
+							<label class="d-flex align-self-center">Cadastrar um novo endereço</label>
+						</button>
+					</a>
+				</div>
+			</div>
+			<div v-for="(address, index) in AddressListcurrentUser" class="d-flex align-self-start flex-wrap margin-15 list container-block-by w-100  ">
+				<hr class="hr-5 opacity-100" style="background-color:cornflowerblue;">
+				<div class="w-100 " >
+					<div  class="w-100 d-flex justify-content-between mt-0 margin-15">
+						<div class="d-flex flex-wrap ">
+							<label class="font-size-3 m-0 text-muted w-100">{{address.logradouro}}, {{address.numero}} {{address.bairro}} {{address.municipio.nome}} - {{address.municipio.uf}}</label>
+							<label class="font-size-2 m-0  w-100"><b>{{address.complemento}} </b></label>
+							<label class="font-size-3 m-0 align-self-end w-100">{{isEmpty(address.cep)?"":"CEP: "+address.cep}}</label>
+						</div>
+
+						<a class="text-decoration-none" :href="'#'+storePath+'/update-address/'+address.id"><button class="button-square rounded-10 bg-primary text-white padding-10 hover-opacity-75 m-x-20">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512"><path d="M362.7 19.32C387.7-5.678 428.3-5.678 453.3 19.32L492.7 58.75C517.7 83.74 517.7 124.3 492.7 149.3L444.3 197.7L314.3 67.72L362.7 19.32zM421.7 220.3L188.5 453.4C178.1 463.8 165.2 471.5 151.1 475.6L30.77 511C22.35 513.5 13.24 511.2 7.03 504.1C.8198 498.8-1.502 489.7 .976 481.2L36.37 360.9C40.53 346.8 48.16 333.9 58.57 323.5L291.7 90.34L421.7 220.3z"/></svg>
+						</button></a>
+					</div>
+					<hr class=" w-100 margin-15"/>
+				</div>
+			</div>
+			
+			
+		</div>
+
+
+
+
+
+

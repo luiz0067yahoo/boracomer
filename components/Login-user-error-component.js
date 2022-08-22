@@ -18,9 +18,11 @@ export const LoginUserErrorComponent={
         }
     },
     mounted: function() {
-        $('title').html(this.empresaNome+' - Págia Inicial');
+        $('title').html(this.empresaNome+' - Erro de login');
     },
     methods:{
-       
+        goBack(){
+            this.$router.go(-1);
+        },
     }
 }

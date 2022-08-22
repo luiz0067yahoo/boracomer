@@ -32,13 +32,18 @@ function startRouterVue(){
         localStorage.user=null;
         localStorage.createUser=null;
         localStorage.createAddress=null;
+        localStorage.addressDelivery=null;
+        localStorage.addressList=null;
         localStorage.store=null;
         localStorage.stores=null;
         localStorage.groups=null;
+        localStorage.groupsAdicionals=null;
         localStorage.products=null;
+        localStorage.itemsGroupsAdditional=null;
         localStorage.flavorsPizza=null;
         localStorage.sizesPizza=null;
         localStorage.bordersPizza=null;
+        localStorage.bordersPizzaSize=null;
         localStorage.order=null;
 
         app.use(router);
@@ -60,3 +65,11 @@ async function  loadTemplates(){
     });
 }
 loadTemplates();
+
+/*
+selecionar o endereço
+fazer pedido
+colocar o sem imagem na logo
+
+
+*/

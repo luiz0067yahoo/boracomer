@@ -1,14 +1,14 @@
 import {until} from '../untils/until.js'
 import {StoresHelper} from '../helpers/Stores-helper.js'
-export const LoginComponent={
-    template: '#login-template',
+export const UpdateUserPasswordErrorComponent={
+    template: '#update-user-password-error-template',
+    //props:['menssageError'],
     data() {
         return {
-            store:{nome:'Bora Comer'},
+            empresaNome:'Bora Comer',
             storePath: '',
             storeLogo: './assets/img/logo.svg',
-            storeText1: 'Bora satisfazer',
-            storeText2: 'seu apetite!',
+            menssageError: '',
         }
     },
     async created(){
@@ -18,12 +18,11 @@ export const LoginComponent={
         }
     },
     mounted: function() {
-        $('title').html(this.store_name+' - Login');
+        $('title').html(this.empresaNome+' - Error ao trocar senha');
     },
     methods:{
         goBack(){
             this.$router.go(-1);
         },
     }
-
 }

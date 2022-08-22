@@ -40,7 +40,7 @@ export const until = {
 		}
 	},
 	isEmpty(val){
-		return (val === undefined || val == null || val.length <= 0) ? true : false;
+		return (val == '' || val === undefined || val == null || val.length <= 0) ? true : false;
 	},
 	arrayAllElementsIsEmpy(array){
 		var count=0

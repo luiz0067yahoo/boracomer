@@ -10,15 +10,33 @@ export const UsersHelper= {
     },  
     async createNewUser(username,email,password){
         let resultUser;
+        let loginTest= await this.loginTest(username,password);
+        if(!until.isEmpty(resultLogin)){
+            try{
+                resultUser = await conect.post(this.url,{"username":username,"email":email,"password":password});
+                return resultUser.data;
+            }catch(e){
+                throw Error("Erro ao salvar Usuário");
+            }
+        }
+        else{
+            throw Error("A senha atual não confere");
+        }
+    }, 
+    async changePassword(id,username,currentPassword,password){
+        let resultUser;
         try{
-            resultUser = await conect.post(this.url,{"username":username,"email":email,"password":password});
+            resultUser = await conect.put(this.url+"/"+id,{"username":username,"password":password,"currentPassword":currentPassword,});
             return resultUser.data;
         }catch(e){
-            throw Error("Erro ao salvar Usuário");
+            throw Error("Nãofoi possivel trocar a senha");
         }
     }, 
     async login(username,password){
         return await conect.login(username,password);
+    },
+    async loginTest(username,password){
+        return await conect.loginTest(username,password);
     },
     logout(){
         return conect.logout();

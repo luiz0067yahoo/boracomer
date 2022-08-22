@@ -1,0 +1,37 @@
+		
+		<div id="profile" class="margin-top-20 d-flex justify-content-center align-content-start flex-wrap " style="height: 10px;">
+			<div class="margin-top-20 w-100 d-flex d-flex justify-content-center">
+				<div class="w-50">
+					<a :href="'#'+storePath+'/add-new-address'" class="mx-auto">
+						<button class="big-button-center bg-primary text-white rounded-10 font-size-2 hover-opacity-75 d-flex justify-content-center">
+							<label class="d-flex align-self-center">Cadastrar um novo endereço</label>
+						</button>
+					</a>
+				</div>
+			</div>
+			<div v-for="(address, index) in AddressListcurrentUser" class="d-flex align-self-start flex-wrap margin-15 list container-block-by w-100  ">
+				<hr class="hr-5 opacity-100" style="background-color:cornflowerblue;">
+				<div class="w-100 " >
+					<div  class="w-100 d-flex justify-content-between mt-0 margin-15">
+						<div class="d-flex flex-wrap ">
+							<label class="font-size-3 m-0 text-muted w-100">{{address.logradouro}}, {{address.numero}} {{address.bairro}} {{address.municipio.nome}} - {{address.municipio.uf}}</label>
+							<label class="font-size-2 m-0  w-100"><b>{{address.complemento}} </b></label>
+							<label class="font-size-3 m-0 align-self-end w-100">{{isEmpty(address.cep)?"":"CEP: "+address.cep}}</label>
+						</div>
+
+						<button @click="defineAddressDelivery(address)" class="button-square rounded-10 bg-primary text-white padding-10 hover-opacity-75 m-x-20">
+							<i class="fa-solid fa-location-pin"></i>
+						</button>
+					</div>
+					<hr class=" w-100 margin-15"/>
+				</div>
+			</div>
+			
+			
+		</div>
+
+
+
+
+
+

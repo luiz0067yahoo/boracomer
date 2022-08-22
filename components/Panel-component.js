@@ -15,18 +15,20 @@ export const PanelComponent={
         }
     },
     async created(){
-        /*
-        localStorage.token=null;
-        localStorage.stores=null;
-        localStorage.user=null;
-        localStorage.store=null;
-        localStorage.flavorsPizza=null;
-        localStorage.sizesPizza=null;
-        localStorage.bordersPizza=null;
-        localStorage.order=null;        
-        */
-        localStorage.groups=null;
-        localStorage.products=null;
+            localStorage.createUser=null;
+            localStorage.createAddress=null;
+            localStorage.addressList=null;
+            localStorage.store=null;
+            localStorage.stores=null;
+            localStorage.groups=null;
+            localStorage.groupsAdicionals=null;
+            localStorage.products=null;
+            localStorage.itemsGroupsAdditional=null;
+            localStorage.flavorsPizza=null;
+            localStorage.sizesPizza=null;
+            localStorage.bordersPizza=null;
+            localStorage.bordersPizzaSize=null;
+            
         if(!until.isEmpty(this.$route.params.aliasStore)){
             this.storePath='/empresa/'+this.$route.params.aliasStore;
             this.store= await StoresHelper.findByAliasLocalStorage(this.$route.params.aliasStore);
@@ -38,6 +40,9 @@ export const PanelComponent={
         
     },
     methods:{
+        goBack(){
+            this.$router.go(-1);
+        },
         toggleMenu(){
             $('#menu-user').toggleClass('d-none');
         },
@@ -50,6 +55,23 @@ export const PanelComponent={
             this.$router.push({ name: 'produtos-store',path: this.storePath+'produtos',params: {products: JSON.stringify(products)} }); 
         },
         logout(){
+            localStorage.token=null;
+            localStorage.user=null;
+            localStorage.createUser=null;
+            localStorage.createAddress=null;
+            localStorage.addressDelivery=null;
+            localStorage.addressList=null;
+            localStorage.store=null;
+            localStorage.stores=null;
+            localStorage.groups=null;
+            localStorage.groupsAdicionals=null;
+            localStorage.products=null;
+            localStorage.itemsGroupsAdditional=null;
+            localStorage.flavorsPizza=null;
+            localStorage.sizesPizza=null;
+            localStorage.bordersPizza=null;
+            localStorage.bordersPizzaSize=null;
+            localStorage.order=null;
             UsersHelper.logout();
             this.$router.push({ name: 'logout-store',path: this.storePath+'logout',params: {}}); 
         },

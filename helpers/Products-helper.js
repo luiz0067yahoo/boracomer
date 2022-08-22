@@ -1,8 +1,6 @@
 import {conect} from '../untils/conect.js'
 import { until } from '../untils/until.js';
-function isEmpty(val){
-    return (val === undefined || val == null || val.length <= 0) ? true : false;
-}
+
 export const ProductsHelper = {
     url:'produtos',
 	async findByStoreAlias(storeAlias){
@@ -23,7 +21,7 @@ export const ProductsHelper = {
     },     
     async findByStoreAliasLocalStorage(storeAlias){
         try{
-            if (isEmpty(JSON.parse(localStorage.getItem('products')))){
+            if (until.isEmpty(JSON.parse(localStorage.getItem('products')))){
                 await this.findByStoreAlias(storeAlias);
             }
             return JSON.parse(localStorage.getItem('products'));
@@ -32,7 +30,7 @@ export const ProductsHelper = {
     async findByStoreAliasIdLocalStorage(storeAlias,id){
         var accumulatorproduct=null;
         try{
-            if(isEmpty(JSON.parse(localStorage.getItem('products')))){
+            if(until.isEmpty(JSON.parse(localStorage.getItem('products')))){
                 await this.findByStoreAlias(storeAlias);
             } 
             JSON.parse(localStorage.getItem('products')).forEach(element => {
@@ -50,10 +48,10 @@ export const ProductsHelper = {
     async findByStoreAliasGroupLocalStorage(storeAlias,groupName){
         var accumulatorproducts=[];
         try{
-            if (isEmpty(groupName)){
+            if (until.isEmpty(groupName)){
                 return await this.findByStoreAliasLocalStorage(storeAlias);
             }
-            else if(isEmpty(JSON.parse(localStorage.getItem('products')))){
+            else if(until.isEmpty(JSON.parse(localStorage.getItem('products')))){
                 await this.findByStoreAlias(storeAlias);
             } 
             JSON.parse(localStorage.getItem('products')).forEach(element => {
@@ -71,10 +69,10 @@ export const ProductsHelper = {
 	async findByStoreAliasGroupDescriptionLocalStorage(storeAlias,groupName,search){
         var accumulatorproducts=[];
         try{
-            if (isEmpty(groupName)){
+            if (until.isEmpty(groupName)){
                 return await  this.findByStoreAliasLocalStorage(storeAlias);
             }
-            else if (!isEmpty(localStorage.getItem('products'))){
+            else if (!until.isEmpty(localStorage.getItem('products'))){
                 await this.findByStoreAlias(storeAlias);
             } 
             JSON.parse(localStorage.getItem('products')).forEach(element => {
@@ -84,7 +82,7 @@ export const ProductsHelper = {
                     (
                         (element.descricao.toUpperCase().indexOf(search.toUpperCase())>=0)
                         ||
-                        (!until.isEmpty(element.descricao_longa)&&(element.descricao_longa.toUpperCase().indexOf(search.toUpperCase())>=0))
+                        (!until.until.isEmpty(element.descricao_longa)&&(element.descricao_longa.toUpperCase().indexOf(search.toUpperCase())>=0))
                     )
                 ){
                     accumulatorproducts.push(element);
@@ -100,7 +98,7 @@ export const ProductsHelper = {
     async findByStoreAliasDescriptionLocalStorage(storeAlias,search){
         var accumulatorproducts=[];
         try{
-            if (isEmpty(JSON.parse(localStorage.getItem('products')))){
+            if (until.isEmpty(JSON.parse(localStorage.getItem('products')))){
                 await this.findByStoreAlias(storeAlias);
             }
             JSON.parse(localStorage.getItem('products')).forEach(element => {
@@ -108,7 +106,7 @@ export const ProductsHelper = {
                     (
                         (element.descricao.toUpperCase().indexOf(search.toUpperCase())>=0)
                         ||
-                       (!until.isEmpty(element.descricao_longa)&&(element.descricao_longa.toUpperCase().indexOf(search.toUpperCase())>=0))
+                       (!until.until.isEmpty(element.descricao_longa)&&(element.descricao_longa.toUpperCase().indexOf(search.toUpperCase())>=0))
                     )
                 ){                    
                     accumulatorproducts.push(element);

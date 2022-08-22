@@ -23,14 +23,14 @@
 						<div  class=" pieSlice-1-4 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(0) + ')' }"></div></div>
 						<div  class=" pieSlice-2-4 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(1) + ')' }"></div></div>
 						<div  class=" pieSlice-3-4 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(2) + ')' }"></div></div>
-						<div  class=" pieSlice-4-4 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(0) + ')' }"></div></div>
+						<div  class=" pieSlice-4-4 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(3) + ')' }"></div></div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div v-else class="w-100 d-flex justify-content-between font-size-button margin-bottom-20">
 			<div class="list-products d-flex justify-content-between mx-auto">
-				<div class="product-image rounded-10 mx-auto" v-if="!isEmpty(product.image_url)" v-bind:style="{ backgroundImage: 'url(' + product.image_url + ')' }"></div>
+				<div class="product-image rounded-10 mx-auto" v-bind:style="{ backgroundImage: (product.image_url==null)?'transparent':'url(' + product.image_url + ')' }"></div>
 				
 			</div>
 		</div>
@@ -54,16 +54,46 @@
 						</select>
 					</div>
 					<label class="font-size-3 w-100"> Borda </label>
-					<select v-model="borderPizzaSelected"  class="big-button form-select form-select-lg font-size-2 w-100" @change="changeSize()">
+					<select v-model="borderPizzaSelected"  class="big-button form-select form-select-lg font-size-2 w-100" @change="changeBorder()">
 						<option disabled  selected>Escolha a Borda</option>
-						<option  v-for="(item) in bordersPizza"  :value="item" :key="item.id">{{item.descricao}}{{""/*(item.valor_tamanho==0)?"":" - R$ "+formatMoney(item.valor_borda)*/}}</option>
+						<option  v-for="(item) in bordersPizza"  :value="item" :key="item.id">{{item.descricao}}{{(getValueBoderbySize(item.id)==0 || getValueBoderbySize(item.id)==null)?"":" - "+formatMoney(getValueBoderbySize(item.id))}}</option>
 					</select>
 				</div>
-				<label class="font-size-3 m-0 text-muted w-100 product-description"> {{product.descricao_longa}}</label>
-				<label class="font-size-3 m-0 align-self-end w-100">{{formatMoney(calcPriceProduct())}}</label>
-				<div class="d-flex align-self-end justify-content-between w-100"> 
-					<label class="font-size-3 m-0 align-self-end">Previsão de entrega</label>
-					<label class="font-size-3 m-0">30 - 40 min</label>
+
+
+
+				<div class="accordion  w-100 margin-y-20" id="product">
+					<div class="accordion-item  w-100">
+					  <h2 class="accordion-header  w-100" id="headingOne">
+						<button class="accordion-button  font-size-3 w-100 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+							Adicionais
+						</button>
+					  </h2>
+					  <div id="collapseOne" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#product">
+						<div class="accordion-body">
+							<div  v-for="(item, index) in itemsGroupsAdditional" class="w-100" >
+								<a class="text-decoration-none text-black" :href="'#'+storePath+'/item-pedido/'+product.id">
+									<div  class="w-100 d-flex justify-content-between mt-0 ">
+										<div class="d-flex flex-wrap ">
+											<label class="font-size-2 m-0  w-100"><b>{{item.produto.descricao}}</b></label>
+											<label class="font-size-3 m-0 text-muted w-100">{{item.produto.descricao_longa}}</label>
+											<label class="font-size-3 m-0 align-self-end w-100">{{formatMoney(item.valor)}}</label>
+										</div>
+										<div class="d-flex flex-wrap ">
+											<div class="product-mini-image rounded-10 " v-bind:style="{ backgroundImage: (item.produto.image_url==null)?'transparent':'url(' + item.produto.image_url + ')' }"></div>
+											<label class="switch align-self-center margin-10">
+												<input class="itemGroupAdditionalCheckBox" type="checkbox" :checked="item.tipo_com_sem=='C'" @click="changeAdditional()">
+												<span class="slider round"></span>
+											</label>
+											<label class="itemGroupAdditionalID d-none">{{item.id}}</label>
+										</div>
+									</div>
+								</a>
+								<hr class=" w-100 margin-15"/>
+							</div>
+						</div>
+					  </div>
+					</div>
 				</div>
 			</div>
 		</div>

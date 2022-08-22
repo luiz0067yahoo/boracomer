@@ -19,6 +19,9 @@ export const SearchStoresComponent={
         $('title').html('Buscar empresa - Págia Inicial');
     },
     methods:{
+        goBack(){
+            this.$router.go(-1);
+        },
         async searchStores(){
             this.stores=await StoresHelper.findByNameStorage(this.inputSearch);
         },

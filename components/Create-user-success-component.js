@@ -21,7 +21,9 @@ export const CreateUserSuccessComponent={
         $('title').html(this.empresaNome+' - Págia Inicial');
     },
     methods:{
-       
+        goBack(){
+            this.$router.go(-1);
+        },
     }
 
 }

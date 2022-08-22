@@ -1,10 +1,11 @@
-const serverUrl="http://localhost/";
+//const serverUrl="http://209.145.62.221:1337/";
+const serverUrl="https://edp.whatsmatic.com/api/";
 const limityAppTime=10*60*1000;
 export const conect = {
 	urlAutRequest:serverUrl+"auth/local",
 	bodyRequest:{
-		"userAPI": "######",
-		"password": "#######"
+		"identifier": "food_api@nobresistemas.com",
+		"password": "jT4h4MtUqkNjLkG"
 	},
 	currentUser:null,
 	startAppTime:(new Date())-limityAppTime,
@@ -39,6 +40,16 @@ export const conect = {
 			//localStorage.token=this.jwt;
 			localStorage.user=JSON.stringify(response.data.user);
 			//this.startAppTime=new Date();
+			return response.data;
+		} catch (error) {throw Error("Usuário ou senha inválido");}	
+	},
+	async loginTest(userName,password) {
+		try {
+			var bodyRequest={
+				"identifier": userName,
+				"password": password
+			}
+			const response = await axios.post(this.urlAutRequest,bodyRequest,{headers:{"content-type":"application/json",}});
 			return response.data;
 		} catch (error) {throw Error("Usuário ou senha inválido");}	
 	},

@@ -2,7 +2,40 @@
 	<div class="d-flex align-self-start flex-wrap margin-15 list container-block-by w-100 h-100 ">
 		<div class="w-100 d-flex justify-content-between">
 			<button class="bg-transparent border-0" @click="goBack"><label class="font-size-1  "><svg class="button-mini-squared" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 504C119 504 8 393 8 256S119 8 256 8s248 111 248 248-111 248-248 248zM142.1 273l135.5 135.5c9.4 9.4 24.6 9.4 33.9 0l17-17c9.4-9.4 9.4-24.6 0-33.9L226.9 256l101.6-101.6c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L142.1 239c-9.4 9.4-9.4 24.6 0 34z"/></svg></label></button>	
-			 <label class="w-100 text-center font-size-1 text-muted">Itens do seu pedido</label>
+			<label class="w-100 text-center font-size-1 text-muted">Seu Pedido</label>
+		</div>
+		<div class="w-100 d-flex justify-content-center flex-wrap">
+			<label class="font-size-2 w-100 margin-top-15 margin-x-15">Nome</label>
+			<input v-model="name" placeholder="Digite seu nome" class="margin-x-15 w-100 big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" >
+			<p class="big-hint-center text-danger text-center font-size-3" v-if="!isEmpty(errorName)">{{ errorName }}</p>
+
+			<label class="font-size-2 w-100 margin-top-15 margin-x-15">Telefone</label>
+			<input id="phone" type="phone" placeholder="(___) _____-____" data-inputmask="'mask': '(999) 99999-9999'" class=" w-100 big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center margin-x-15" :class="[isEmpty(errorPhone)?'':'border-danger']" @focusout="setPhone()" >
+			<p class="big-hint-center tex-center text-danger" v-if="!isEmpty(errorPhone!=null)">{{ errorPhone }}</p>
+			
+
+			<label class="font-size-2 w-100 margin-top-15 margin-x-15">Observação</label>
+			<textarea id="note" type="note"  class=" w-100 big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center margin-x-15"  ></textarea>
+			
+			<label class="font-size-2 w-100 margin-top-15 margin-x-15">Entrega</label>
+			<div class="w-100 d-flex">
+				<label class="switch  margin-15">
+					<input type="checkbox"  @click="toggleTypeDelivery(this)">
+					<span class="slider round"></span>
+				</label>
+				<a class="text-decoration-none" :href="'#'+storePath+'/select-list-address'" ><button v-if="typeDelivery=='ENTREGA'" @click="confirmOrder()" class="d-flex rounded-10 margin-x-15 hover-opacity-75 d-flex justify-content-center align-items-center bg-danger text-white font-size-1 "><label class="margin-x-15">Local de entrega</label></button></a>
+			</div>
+
+			<label class="font-size-2 w-100 margin-top-15 margin-x-15">Precisa de troco</label>
+			<div class="w-100">
+				<label class="switch  margin-15">
+					<input type="checkbox" value='sim' v-model="cashback">
+					<span class="slider round"></span>
+				</label>
+			</div>
+		</div>
+		<div class="w-100 d-flex justify-content-between">
+			<label class="w-100 text-center font-size-1 text-muted">Itens do seu pedido</label>
 		</div>
 		<div v-for="(item, index) in order" class="w-100 d-flex justify-content-between  margin-top-20 margin-x-15 ">
 			<div class="d-flex flex-wrap justify-content-between align-items-end w-100 border-bottom padding-bottom-5 ">

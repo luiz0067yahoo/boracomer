@@ -1,8 +1,8 @@
 import {until} from '../untils/until.js'
 import {StoresHelper} from '../helpers/Stores-helper.js'
 import {UsersHelper} from '../helpers/Users-helper.js'
-export const CreateUserComponent={
-    template: '#create-user-template',
+export const UpdateUserPasswordComponent={
+    template: '#update-user-password-template',
     data() {
         return {
             store:{nome:'Bora Comer'},
@@ -10,13 +10,17 @@ export const CreateUserComponent={
             store_logo: './assets/img/logo.svg',
             store_text1: 'Bora satisfazer',
             store_text2: 'seu apetite!',
+            name:'',
             username:'',
             email:'',
+            phone:'',
+            currentPassword:'',
             password:'',
             repeatPassword:'',
 
             errorUsername:'',
             errorEmail:'',
+            errorPhone:'',
             focusPassword:false,
             messageHintPassword:'Sua senha deve: ',
             checkLowerCaseOneOrMore:false,
@@ -37,7 +41,7 @@ export const CreateUserComponent={
         if(!until.isEmpty(this.$route.params.aliasStore)){
             this.storePath='/empresa/'+this.$route.params.aliasStore;
             this.store= await StoresHelper.findByAliasLocalStorage(this.$route.params.aliasStore);
-            $('title').html(this.store.nome+' - Págia Inicial');
+            $('title').html(this.store.nome+' - Trocar Senha');
         }
     },
     mounted: function() {
@@ -86,6 +90,7 @@ export const CreateUserComponent={
                 this.phone=phone;
             }
         },
+        
         validPassword(){
             this.checkLowerCaseOneOrMore=until.lowerCaseOneOrMore(this.password);
             this.checkUpperCaseOneOrMore=until.upperCaseOneOrMore(this.password);
@@ -93,17 +98,17 @@ export const CreateUserComponent={
             this.checkSizeDigits=this.password.length>=this.sizeDigits;
             this.checkRepeatPassword=!until.isEmpty(this.password)&&(this.password==this.repeatPassword);
         },
-        async createUser(){
+        async changePassword(){
             let resultLogin;
             try{
-                resultLogin=await UsersHelper.createNewUser(this.username,this.email,this.password);
+                resultLogin=await UsersHelper.changePassword(this.username,this.currentPassword,this.password);
                 localStorage.createUser=JSON.stringify(resultLogin);
                 if(!until.isEmpty(resultLogin)){
                     this.$router.push({ name: 'create-address-store',path:this.storePath+'/create-address'});
                 }
             }
             catch(e){
-                this.$router.push({ name: 'login-error-store',path: this.storePath+'login-error', params: { menssageError: e.message} });
+                this.$router.push({ name: 'update-user-password-error',path: this.storePath+'update-user-password-error', params: { menssageError: e.message} });
             }
         },
     }
