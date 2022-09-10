@@ -1,15 +1,10 @@
 name: Deploy to Amazon ECS
-
 on:
   push:
     branches: [ "main" ]
 
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}       # set this to your preferred AWS region, e.g. us-west-1
-  SSH_PRIVATE_KEY: ${ { secrets.AWS_SSH_KEY_PEM }}
-  REMOTE_HOST: ${ { secrets.AWS_INSTANCE_DNS }}
-  REMOTE_USER: ${ { secrets.AWS_INSTANCE_USER }}
-  TARGET: ${ { secrets.AWS_INSTANCE_TARGET_FOLDER }}
   #ECR_REPOSITORY: MY_ECR_REPOSITORY           # set this to your Amazon ECR repository name
   #ECS_SERVICE: MY_ECS_SERVICE                 # set this to your Amazon ECS service name
   #ECS_CLUSTER: MY_ECS_CLUSTER                 # set this to your Amazon ECS cluster name
@@ -31,12 +26,20 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Deploy to Server 1
+      uses: easingthemes/ssh-deploy@main
+      env:
+        SSH_PRIVATE_KEY: ${ { secrets.AWS_SSH_KEY_PEM }}
+        REMOTE_HOST: ${ { secrets.AWS_INSTANCE_DNS }}
+        REMOTE_USER: ${ { secrets.AWS_INSTANCE_USER }}
+        TARGET: ${ { secrets.AWS_INSTANCE_TARGET_FOLDER }}
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region:"us-east-1c"
+        aws-region: "us-east-1c"
         #aws-region: ${{ secrets.AWS_REGION }}
         port: 22
         #endpoint: "https://s3.amazonaws.com"
