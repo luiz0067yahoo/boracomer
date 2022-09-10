@@ -25,19 +25,30 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
           
-
-      - name: ls -a via ssh
-        uses: garygrossgarten/github-action-ssh@release
-        with:
-          command: |
-            mkdir -p ~/server/
-            cd ~/server/
-            sudo rm Dockerfile
-            sudo wget https://raw.githubusercontent.com/luiz0067yahoo/boracomer/main/Dockerfile
-            sudo docker build .
-            sudo docker run -d -p 80:80 06d5a6306104
-          host: ${{ secrets.AWS_INSTANCE_IP }}
-          username: ${{ secrets.AWS_INSTANCE_USER }}
+      - name: Deploy to Staging server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          #SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY_PPK }}
+          SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY_PEM }}
+          ARGS: "-rltgoDzvO"
+          #SOURCE: "dist/"
+          REMOTE_HOST: ${{ secrets.AWS_INSTANCE_IP }}
+          REMOTE_USER: ${{ secrets.AWS_INSTANCE_USER }}
+          REMOTE_PORT: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
+          TARGET: ${{ secrets.AWS_INSTANCE_TARGET_FOLDER }}
+          #EXCLUDE: "/dist/, /node_modules/"
+      #- name: ls -a via ssh
+      #  uses: garygrossgarten/github-action-ssh@release
+      #  with:
+      #    command: |
+      #      mkdir -p ~/server/
+      #      cd ~/server/
+      #      sudo rm Dockerfile
+      #      sudo wget https://raw.githubusercontent.com/luiz0067yahoo/boracomer/main/Dockerfile
+      #      sudo docker build .
+      #      sudo docker run -d -p 80:80 06d5a6306104
+      #    host: ${{ secrets.AWS_INSTANCE_IP }}
+      #    username: ${{ secrets.AWS_INSTANCE_USER }}
           #passphrase: ${{ secrets.PASSPHRASE }}
           #privateKey: ${{ secrets.AWS_SSH_KEY_PPK}}   
-          privateKey: ${{ secrets.AWS_SSH_KEY_PEM}}
+      #    privateKey: ${{ secrets.AWS_SSH_KEY_PEM}}
