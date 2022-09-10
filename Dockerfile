@@ -5,7 +5,9 @@ RUN apt-get update && \
  apt-get -y install apache2
 
 # Install apache and write hello world message
-RUN echo 'Hello World!' > /var/www/html/index.html
+#RUN echo 'Hello World!' > /var/www/html/index.html
+RUN cd  /var/www/html/
+RUN sudo git clone https://github.com/luiz0067yahoo/boracomer.git
 
 # Configure apache
 RUN echo '. /etc/apache2/envvars' > /root/run_apache.sh && \
