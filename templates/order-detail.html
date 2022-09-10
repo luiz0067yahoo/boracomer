@@ -1,0 +1,13 @@
+ <div  class=" w-100 h-100 padding-20" style="background-color:#fdf5ab!important;">
+	<div class="w-100 p-0  d-flex ">
+		<div id="logo" class=""  v-bind:style="{ backgroundImage: 'url(' + (isEmpty(store.logo_url)?emptyPhoto:store.logo_url) + ')' }"></div>
+		<label  class=" p-0  text-center  font-size-1 align-self-end margin-x-10">
+			<p class=" p-0 m-0 align-self-end"><b>{{store.nome}}</b></p>
+		</label>
+	</div>
+	
+	<label class="w-100  p-0 font-size-2 margin-y-10">
+		<hr class="w-100">
+		<p>Pedido: <b>{{id}}</b> De: <b>{{}}</b>Data: <b>{{getDateOrderFormat()}}</b> Hora:<b>{{getHourOrderFormat()}} </b></p>
+	</label>
+</div>

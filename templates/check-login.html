@@ -10,13 +10,17 @@
 		<div id="food-left-bottom"></div>
 		<div id="food-right-bottom"></div>
 	</div>
-	<div class="position-absolute d-flex justify-content-center flex-wrap h-100">
+	<div class="position-absolute d-flex justify-content-center flex-wrap">
 		<div class="d-flex align-self-center flex-wrap margin-15 container-block-by">
 			<div class="w-100"><div id="logo" class="mx-auto"  :style="{ backgroundImage: 'url(' + (isEmpty(store.logo_url)?emptyPhoto:store.logo_url) + ')' }"></div></div>
 		</div>
 			<label id="slogam" class="w-100 text-center  font-size-1 ">
 				<p><b>{{store.nome}}</b></p>
 			</label>
+			<label id="slogam" class="w-100 text-center text-danger font-size-2 ">
+				<p>{{menssageError}}</p>
+			</label>
+			
 			<div class="w-100 margin-top-15" >
 				<input v-model="userName" placeholder="Digite seu Login" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">
 			</div>
@@ -30,22 +34,9 @@
 			</div>
 			
 			<div class="w-100 margin-top-15" >
-				<a :href="'#'+storePath+'/create-user'" class="text-decoration-none"><button class="big-button-center bg-white border-0 font-size-2 text-center text-primary hover-opacity-75 d-flex justify-content-center  align-items-center">
-					<label class="">Crie sua conta aqui</label>
+				<a :href="'#'+storePath+'/create-user-login'" class="text-decoration-none"><button class="big-button-center bg-white border-0 font-size-2 text-center text-primary hover-opacity-75 d-flex justify-content-center  align-items-center">
+					<label class="">Crie sua conta {{store.nome}} aqui</label>
 				</button></a>
-			</div>
-			<!--<div class="w-100 margin-top-15" >
-				<a :href="'#'+storePath+'/login'" class="text-decoration-none"><button class="big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">
-					<label class="d-flex align-self-center">Outras opções</label>
-				</button></a>
-			</div>-->
-			<div class="w-100 " >
-
-
-				<button v-on:click="anonymous()" class="big-button-center bg-white border-0 font-size-2 text-center text-muted hover-opacity-75 d-flex justify-content-center  align-items-center">
-					<label class="">Manter como visitante </label>
-				</button>
-				
 			</div>
 	</div>
 </div>

@@ -5,11 +5,9 @@ export const CreateUserComponent={
     template: '#create-user-template',
     data() {
         return {
-            store:{nome:'Bora Comer'},
+            store:{nome:'',logo_url:'./assets/img/emptyPhoto.svg'},
             storePath: '',
-            store_logo: './assets/img/logo.svg',
-            store_text1: 'Bora satisfazer',
-            store_text2: 'seu apetite!',
+            emptyPhoto: './assets/img/emptyPhoto.svg',
             username:'',
             email:'',
             password:'',
@@ -39,9 +37,21 @@ export const CreateUserComponent={
             this.store= await StoresHelper.findByAliasLocalStorage(this.$route.params.aliasStore);
             $('title').html(this.store.nome+' - Págia Inicial');
         }
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
     },
     mounted: function() {
         $(":input").inputmask();
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
     },
     methods:{
         goBack(){
@@ -68,6 +78,7 @@ export const CreateUserComponent={
             else if(!until.usernameIsValid(username)){
                 this.errorUsername='deve começa com letras e pode conter números sem simbolos e espaços';
             }
+            return this.errorUsername=='';
         },
         validEmail(){
             var email=this.email;
@@ -75,6 +86,7 @@ export const CreateUserComponent={
             if(!until.emailIsValid(email)){
                 this.errorEmail='não é um e-mail válido exemplo de email: "abc@abc.com"';
             }
+            return this.errorEmail=='';
         },        
         setPhone(){
             var phone=$("#phone").val()
@@ -85,6 +97,7 @@ export const CreateUserComponent={
             else{
                 this.phone=phone;
             }
+            return this.errorphone=='';
         },
         validPassword(){
             this.checkLowerCaseOneOrMore=until.lowerCaseOneOrMore(this.password);
@@ -92,14 +105,30 @@ export const CreateUserComponent={
             this.checkNumberOneOrMore=until.numberOneOrMore(this.password);
             this.checkSizeDigits=this.password.length>=this.sizeDigits;
             this.checkRepeatPassword=!until.isEmpty(this.password)&&(this.password==this.repeatPassword);
+            return (
+                this.checkLowerCaseOneOrMore 
+                && this.checkUpperCaseOneOrMore
+                && this.checkNumberOneOrMore
+                && this.checkSizeDigits
+                && this.checkRepeatPassword
+            );
         },
         async createUser(){
             let resultLogin;
             try{
-                resultLogin=await UsersHelper.createNewUser(this.username,this.email,this.password);
-                localStorage.createUser=JSON.stringify(resultLogin);
-                if(!until.isEmpty(resultLogin)){
-                    this.$router.push({ name: 'create-address-store',path:this.storePath+'/create-address'});
+                if(
+                    this.validUsername()
+                    && this.validEmail() 
+                    && this.validPassword()
+                ){
+                    resultLogin=await UsersHelper.createNewUser(this.username,this.email,this.password);
+                    localStorage.createUser=JSON.stringify(resultLogin);
+                    if(!until.isEmpty(resultLogin)){
+                        this.$router.push({ name: 'create-address-store',path:this.storePath+'/create-address'});
+                    }
+                }
+                else{
+                    this.menssageError="Error ao validar campos";
                 }
             }
             catch(e){

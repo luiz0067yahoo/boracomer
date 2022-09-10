@@ -12,11 +12,10 @@
 	</div>
 	<div class="position-absolute d-flex justify-content-center flex-wrap h-100">
 		<div class="d-flex align-self-center flex-wrap margin-15 container-block-by">
-			<div class="w-100"><div id="logo" class="mx-auto"  v-bind:style="{ backgroundImage: 'url(' + store_logo + ')' }"></div></div>
+			<div class="w-100"><div id="logo" class="mx-auto"  :style="{ backgroundImage: 'url(' + (isEmpty(store.logo_url)?emptyPhoto:store.logo_url) + ')' }"></div></div>
 		</div>
 			<label id="slogam" class="w-100 text-center  font-size-1 ">
-				<p><b>{{store_text1}}</b></p>
-				<p><b>{{store_text2}}</b></p>
+				<p><b>{{store.nome}}</b></p>
 			</label>
 			<label id="slogam" class="w-100 text-center font-size-2 ">
 				<p class="text-success">Parabéns seu cadastro foi concluído com sucesso</p>

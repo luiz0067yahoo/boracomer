@@ -20,7 +20,7 @@
 		<div v-for="(store, index) in stores" class="w-100 d-flex justify-content-start mt-0 margin-15">
 			<a :href="'#/empresa/'+store.apelido+'/panel'">
 				<div class="product-mini-image rounded-10 d-flex justify-content-center align-items-center">
-					<div class="w-75 h-75" :style="{ backgroundImage: 'url(' + storeLogo + ')' }"></div>
+					<div class="w-75 h-75" :style="{ backgroundImage: 'url(' + (isEmpty(store.logo_url)?emptyPhoto:store.logo_url) + ')' }"></div>
 				</div>
 			</a>
 			<div class="d-flex flex-wrap margin-left-20">

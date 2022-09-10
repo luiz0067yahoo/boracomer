@@ -5,9 +5,9 @@ export const LoginUserErrorComponent={
     //props:['menssageError'],
     data() {
         return {
-            empresaNome:'Bora Comer',
+            store:{nome:'',logo_url:'./assets/img/emptyPhoto.svg'},
             storePath: '',
-            storeLogo: './assets/img/logo.svg',
+            emptyPhoto: './assets/img/emptyPhoto.svg',
             menssageError: 'Login ou senha incorreto!',
         }
     },
@@ -16,11 +16,26 @@ export const LoginUserErrorComponent={
             this.storePath='/empresa/'+this.$route.params.aliasStore;
             this.store= await StoresHelper.findByAliasLocalStorage(this.$route.params.aliasStore);
         }
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
     },
     mounted: function() {
         $('title').html(this.empresaNome+' - Erro de login');
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
     },
     methods:{
+        isEmpty(value){
+            return until.isEmpty(value);
+        },
         goBack(){
             this.$router.go(-1);
         },

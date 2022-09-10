@@ -76,7 +76,7 @@ export const until = {
         return re.test(email);
 	},
 	phoneIsValid(phone){
-		var re = /\([0-9]{2,3}\)\s[0-9]{4,5}-?[0-9]{4}/g;
+		var re = /\([0-9]{2,2}\)\s[0-9]{4,5}-?[0-9]{4}/g;
         return re.test(phone);
 	},
 	zipCodeBrasilianIsValid(phone){

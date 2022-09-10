@@ -11,9 +11,9 @@ export const OrderItemComponent={
     template: '#order-item-template',    
        data() {
             return {
-                store:{nome:'Bora Comer'},
+                store:{nome:'',logo_url:'./assets/img/emptyPhoto.svg'},
                 storePath: '',
-                storeLogo: './assets/img/logo.svg',
+                emptyPhoto: './assets/img/emptyPhoto.svg',
                 product:{descricao:"",descricao_longa:"",preco:0},
                 group:{nome:""},
                 products:[],
@@ -34,6 +34,8 @@ export const OrderItemComponent={
                 itemsGroupAdditionalSelected:[],
                 itemsGroupAdditionalParam:[],
                 amount:1,
+                amountParam:1,
+                note:"",
                 total:0,
                 messageError:"",
             }
@@ -67,20 +69,44 @@ export const OrderItemComponent={
                 this.sizePizzaParam=await SizesPizzaHelper.findByStoreAliasIdLocalStorage(this.$route.params.aliasStore,this.$route.params.idSize);
                 this.changeSize();
             }
-
+            
             if(!until.isEmpty(this.$route.params.IdBorderSize)){
-                this.borderSizePizzaSelected=await BordersPizzaSizeHelper.findByStoreAliasIdLocalStorage(this.$route.params.aliasStore,this.$route.params.IdBorderSize);
-                this.borderSizePizzaParam=await BordersPizzaSizeHelper.findByStoreAliasIdLocalStorage(this.$route.params.aliasStore,this.$route.params.IdBorderSize);
-                this.borderPizzaParam=this.borderSizePizzaSelected.borda;
-                this.borderPizzaSelected=this.borderSizePizzaSelected.borda;
+                var borderSizePizza=await BordersPizzaSizeHelper.findByStoreAliasIdLocalStorage(this.$route.params.aliasStore,this.$route.params.IdBorderSize);
+                this.borderSizePizzaSelected=borderSizePizza;
+                this.borderSizePizzaParam=borderSizePizza;
+                this.bordersPizza.forEach((element, index) => {
+                    if(borderSizePizza.borda.id==element.id){
+                        this.borderPizzaParam=element;
+                        this.borderPizzaSelected=element;
+                    }
+                });
                 this.changeBorder();
             }
-
+            if(!until.isEmpty(this.$route.params.amount)){
+                this.amountParam=this.$route.params.amount;
+                this.amount=this.$route.params.amount;
+            }
+            else{
+                this.loadAmount();
+            }
+            
             this.totalPriceProduct();
+            if(!until.isEmpty(this.store.logo_url)){
+                $("#tabIcon").href=this.store.logo_url;
+            }
+            else{
+                $("#tabIcon").href=this.emptyPhoto;
+            }
         },
         mounted: function() {
             $('title').html(this.store.nome+' - item pedido');
             this.changeAdditional();
+            if(!until.isEmpty(this.store.logo_url)){
+                $("#tabIcon").href=this.store.logo_url;
+            }
+            else{
+                $("#tabIcon").href=this.emptyPhoto;
+            }
         },
         methods:{
             formatMoney(val){
@@ -136,7 +162,6 @@ export const OrderItemComponent={
                     this.totalPriceProduct();
                 }
                 catch(e){
-                    //console.log(e);
                 }
             },
             countFlavorsPizzaSelected(){
@@ -189,7 +214,6 @@ export const OrderItemComponent={
                     this.totalPriceProduct();
                 }
                 catch(e){
-                    //console.log(e);
                 }
             },
             
@@ -286,9 +310,11 @@ export const OrderItemComponent={
             },
             calcitemsGroupAdditional(){
                 var price=0;
-                this.itemsGroupAdditionalSelected.forEach(element => {
-                    price=price+element.valor;
-                });
+                if(this.product.pizza){
+                    this.itemsGroupAdditionalSelected.forEach(element => {
+                        price=price+element.valor;
+                    });
+                }
                 return price;
             },
             itemPizzaEquals(productA,sizeA,flavorsA,borderA,itemsGroupAdditionalA,productB,sizeB,flavorsB,borderB,itemsGroupAdditionalB){
@@ -399,7 +425,7 @@ export const OrderItemComponent={
             saveOrder(order){
                 localStorage.order=JSON.stringify(order);
             },
-            async addItem(){
+            addItem(){
                 try{
                     var order=this.loadOrder();
                     var amount=this.amount;
@@ -413,6 +439,7 @@ export const OrderItemComponent={
                     var borderParam=this.borderSizePizzaParam;
                     var sizeParam=this.sizePizzaParam;
                     var itemsGroupAdditionalParam=this.itemsGroupAdditionalParam;
+                    var note=this.note;
                     
                     var total=this.calcPriceProduct();                   
                     if((product.pizza===false)||this.validPizza(product,size,flavors)){
@@ -425,19 +452,60 @@ export const OrderItemComponent={
                                 order[index].size=size;
                                 order[index].border=border;
                                 order[index].itemsGroupAdditional=itemsGroupAdditional;
+                                order[index].note=note;
                             }
                         }
                         else{
-                            order.push({"amount":amount,"product":product,"size":size,"flavors":flavors,"border":border,"itemsGroupAdditional":itemsGroupAdditional,"total":total})
+                            order.push({"amount":amount,"product":product,"size":size,"flavors":flavors,"border":border,"itemsGroupAdditional":itemsGroupAdditional,"total":total,"note":note})
                         }
                         this.saveOrder(order);
                         this.$router.push({ name: 'items-pedido-store',path:this.storePath+'/items-pedido'});
                     }
                 }
                 catch(e){
-                    console.log(e);
                     this.messageError=e.message;
                 }
+            },
+            removeItem(){
+                var order=this.loadOrder();
+                var index=this.itemIndexOfByParams();
+                if(index!=-1){
+                    order.splice(index, 1);
+                }
+                this.saveOrder(order);
+                this.$router.push({ name: 'items-pedido-store',path:this.storePath+'/items-pedido'});
+            },
+            hasItem(){
+                return (this.itemIndexOfByParams()!=-1);
+            },
+            itemIndexOfByParams(){
+                var index= -1;
+                try{
+                    var order=this.loadOrder();
+                    var product=this.product;
+                    var flavors=this.flavorsPizzaSelected; 
+                    var size=this.sizePizzaSelected;
+                    var flavorsParam=this.flavorsPizzaParam; 
+                    var borderParam=this.borderSizePizzaParam;
+                    var sizeParam=this.sizePizzaParam;
+                    var itemsGroupAdditionalParam=this.itemsGroupAdditionalParam;
+                    if((product.pizza===false)||this.validPizza(product,size,flavors)){
+                        index=this.itemIndexOf(order,product,sizeParam,flavorsParam,borderParam,itemsGroupAdditionalParam);
+                    }
+                    this.messageError="";
+                }
+                catch(e){
+                    this.messageError=e.message;
+                }
+                return index;
+            },
+            loadAmount(){
+                var order=this.loadOrder();
+                var index=this.itemIndexOf(order,this.product,this.sizePizzaSelected,this.flavorsPizzaSelected,this.borderSizePizzaSelected,this.itemsGroupAdditionalSelected);
+                if(index!=-1){
+                    this.amount=order[index].amount;
+                }
+                this.saveOrder(order);
             },
 
         }

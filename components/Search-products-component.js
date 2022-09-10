@@ -6,9 +6,9 @@ export const SearchProductsComponent={
     template: '#search-products-template',
     data() {
         return {
-            store:{nome:'Bora Comer'},
+            store:{nome:'',logo_url:'./assets/img/emptyPhoto.svg'},
             storePath: '',
-            storeLogo: './assets/img/logo.svg',
+            emptyPhoto: './assets/img/emptyPhoto.svg',
             products:[],
             groupsOfProducts:[],
             selectGroupOfProduct:null,
@@ -20,10 +20,22 @@ export const SearchProductsComponent={
             this.storePath='/empresa/'+this.$route.params.aliasStore;
             this.store=StoresHelper.findByAliasLocalStorage(this.$route.params.aliasStore);
         }
-        this.groupsOfProducts= await GroupsOfProductsHelper.findByStoreAliasLocalStorage(this.$route.params.aliasStore);
+        this.groupsOfProducts= await GroupsOfProductsHelper.findByStoreAlias(this.$route.params.aliasStore);
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
     },
     mounted: function() {
         $('title').html('Buscar empresa - Págia Inicial');
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
     },
     methods:{
         async searchProducts(){
@@ -41,6 +53,9 @@ export const SearchProductsComponent={
         goBack(){
             this.$router.go(-1);
             
+        },
+        isEmpty(value){
+            return until.isEmpty(value);
         },
     }
     

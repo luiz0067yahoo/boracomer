@@ -54,14 +54,34 @@ html, boby,#divMain{
 	opacity:75%;
 }
 .button-mini-squared{
-	width: max( -moz-calc(100vw / 1024 * 		64) , -moz-calc(	64px / 3))!important;
-	width: max( -webkit-calc(100vw / 1024 * 	64) , -webkit-calc(	64px / 3))!important;
-	width: max( -o-calc(100vw / 1024 * 			64) , -o-calc(		64px / 3))!important;
-	width: max( calc(100vw / 1024 * 			64) , calc(			64px / 3))!important;
-	height: max( -moz-calc(100vw / 1024 * 		64) , -moz-calc(	64px / 3))!important;
-	height: max( -webkit-calc(100vw / 1024 * 	64) , -webkit-calc(	64px / 3))!important;
-	height: max( -o-calc(100vw / 1024 * 		64) , -o-calc(		64px / 3))!important;
-	height: max( calc(100vw / 1024 * 			64) , calc(			64px / 3))!important;
+	width: -moz-calc(100vw / 1024 * 		64)!important;
+	width: -webkit-calc(100vw / 1024 * 		64)!important;
+	width: -o-calc(100vw / 1024 * 			64)!important;
+	width:  calc(100vw / 1024 * 			64)!important;
+	height:  -moz-calc(100vw / 1024 * 		64)!important;
+	height:  -webkit-calc(100vw / 1024 * 	64)!important;
+	height: -o-calc(100vw / 1024 * 			64)!important;
+	height:  calc(100vw / 1024 * 			64)!important;
+}
+.button-small-squared{
+	min-width: -moz-calc(100vw / 1024 * 		32)!important;
+	min-width:  -webkit-calc(100vw / 1024 * 	32)!important;
+	min-width:  -o-calc(100vw / 1024 * 			32)!important;
+	min-width:  calc(100vw / 1024 * 			32)!important;
+	min-height:  -moz-calc(100vw / 1024 * 		32)!important;
+	min-height:  -webkit-calc(100vw / 1024 * 	32)!important;
+	min-height: -o-calc(100vw / 1024 * 			32)!important;
+	min-height:  calc(100vw / 1024 * 			32)!important;
+}
+.button-ultra-small-squared{
+	min-width: -moz-calc(100vw / 1024 * 		20)!important;
+	min-width:  -webkit-calc(100vw / 1024 * 	20)!important;
+	min-width:  -o-calc(100vw / 1024 * 			20)!important;
+	min-width:  calc(100vw / 1024 * 			20)!important;
+	min-height:  -moz-calc(100vw / 1024 * 		20)!important;
+	min-height:  -webkit-calc(100vw / 1024 * 	20)!important;
+	min-height: -o-calc(100vw / 1024 * 			20)!important;
+	min-height:  calc(100vw / 1024 * 			20)!important;
 }
 .padding-top-5{
 	padding-top: 	-webkit-calc(100vw / 1024 * 	5);
@@ -533,7 +553,6 @@ html, boby,#divMain{
 	display:flex;
 	margin-left:auto;
 	margin-right:auto;
-	
 
 	width: max( -moz-calc(100vw / 1024 * 		410) , -moz-calc(	410px / 3));
 	width: max( -webkit-calc(100vw / 1024 * 	410) , -webkit-calc(410px / 3));
@@ -549,7 +568,6 @@ html, boby,#divMain{
 	margin-left:auto;
 	margin-right:auto;
 	position:relative;
-		
 
 	width: max( -moz-calc(100vw / 1024 * 		410) , -moz-calc(	410px / 3));
 	width: max( -webkit-calc(100vw / 1024 * 	410) , -webkit-calc(410px / 3));
@@ -567,11 +585,8 @@ html, boby,#divMain{
 	height: max( calc(100vw / 1024 * 			60) , calc(		60px / 3));
 }
 
-#login #logo{
-	
+#logo{
 	display:flex;
-	
-
 	padding: 0 0 0 0 ;
 	
 	width: max( -moz-calc(100vw / 1024 * 		200) , -moz-calc(	200px / 3));
@@ -609,7 +624,6 @@ html, boby,#divMain{
 	height: -o-calc(100vw / 1024 * 311);
 	height: calc(100vw / 1024 * 311);
 	
-	
 	background: white url('../img/shrimp with shoio.png')  no-repeat local  left top ;
 	background-size: 100% 100%;
 }
@@ -627,12 +641,10 @@ html, boby,#divMain{
 	height: -o-calc(100vw / 1024 * 67);
 	height: calc(100vw / 1024 * 67);
 	
-	
 	background: white url('../img/hashi.png') no-repeat local left top;
 	background-size: 100% 100%;
 }
 #login #food-right-top{
-	
 	display:flex;
 	
 	margin: 0 0 0 0 ;
@@ -650,7 +662,6 @@ html, boby,#divMain{
 	background-size: 100% 100%;
 }
 #login #food-right-bottom{
-	
 	display:flex;
 	align-self:baseline;
 	
@@ -665,12 +676,10 @@ html, boby,#divMain{
 	height: -o-calc(100vw / 1024 * 319);
 	height: calc(100vw / 1024 * 319);
 	
-	
 	background: white url('../img/sauce.png') no-repeat local left bottom;
 	background-size: 100% 100%;
 }
 #login #food-left-bottom{
-	
 	display:flex;
 	
 	margin: 0 0 0 0 ;
@@ -741,8 +750,7 @@ html, boby,#divMain{
 	border: -o-calc(100vw / 1024 * 5)  #ffc106 solid;
 	border: calc(100vw / 1024 * 5)  #ffc106 solid;
 	
-	background-color:#FBFCC8;	
-	 
+	background-color:#FBFCC8;
  }
  #order_items .list-products{
 	width: -moz-calc(100vw / 1024 * 800);
@@ -829,8 +837,14 @@ html, boby,#divMain{
  .switch {
 	position: relative;
 	display: inline-block;
-	width: 60px;
-	height: 34px;
+	min-width: -moz-calc(100vw / 1024 * 60);
+	min-width: -webkit-calc(100vw / 1024 * 60);
+	min-width: -o-calc(100vw / 1024 * 60);
+	min-width: calc(100vw / 1024 * 60);	
+	height: -moz-calc(100vw / 1024 * 32);
+	height: -webkit-calc(100vw / 1024 * 32);
+	height: -o-calc(100vw / 1024 * 32);
+	height: calc(100vw / 1024 * 32);
   }
   
   .switch input { 
@@ -854,10 +868,22 @@ html, boby,#divMain{
   .slider:before {
 	position: absolute;
 	content: "";
-	height: 26px;
-	width: 26px;
-	left: 4px;
-	bottom: 4px;
+	width: -moz-calc(100vw / 1024 * 26);
+	width: -webkit-calc(100vw / 1024 * 26);
+	width: -o-calc(100vw / 1024 * 26);
+	width: calc(100vw / 1024 * 26);	
+	height: -moz-calc(100vw / 1024 * 26);
+	height: -webkit-calc(100vw / 1024 * 26);
+	height: -o-calc(100vw / 1024 * 26);
+	height: calc(100vw / 1024 * 26);
+	left: -moz-calc(100vw / 1024 * 4);
+	left: -webkit-calc(100vw / 1024 * 4);
+	left: -o-calc(100vw / 1024 * 4);
+	left: calc(100vw / 1024 * 4);	
+	bottom: -moz-calc(100vw / 1024 * 4);
+	bottom: -webkit-calc(100vw / 1024 * 4);
+	bottom: -o-calc(100vw / 1024 * 4);
+	bottom: calc(100vw / 1024 * 4);	
 	background-color: white;
 	-webkit-transition: .4s;
 	transition: .4s;
@@ -872,9 +898,10 @@ html, boby,#divMain{
   }
   
   input:checked + .slider:before {
-	-webkit-transform: translateX(26px);
-	-ms-transform: translateX(26px);
-	transform: translateX(26px);
+	-webkit-transform: translateX(-moz-calc(100vw / 1024 * 26));
+	-ms-transform: translateX(calc(100vw / 1024 * 26));
+	-o-transform: translateX(-o-calc(100vw / 1024 * 26));
+	transform: translateX(calc(100vw / 1024 * 26));
   }
   
   /* Rounded sliders */

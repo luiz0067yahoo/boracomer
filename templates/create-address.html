@@ -12,68 +12,44 @@
 	</div>
 	<div class="position-absolute d-flex justify-content-center flex-wrap h-100">
 		<div class="d-flex align-self-center flex-wrap margin-15 container-block-by">
-			<div class="w-100"><div id="logo" class="mx-auto"  v-bind:style="{ backgroundImage: 'url(' + store_logo + ')' }"></div></div>
+			<div class="w-100"><div id="logo" class="mx-auto"  :style="{ backgroundImage: 'url(' + (isEmpty(store.logo_url)?emptyPhoto:store.logo_url) + ')' }"></div></div>
 		</div>
 			<label id="slogam" class="w-100 text-center  font-size-1 ">
-				<p><b>{{store_text1}}</b></p>
-				<p><b>{{store_text2}}</b></p>
+				<p><b>{{store.nome}}</b></p>
 			</label>
 			<div class="w-100 margin-top-15">
 				<input id="zipCode" name="zipCode" v-model="zipCode" @focusout="setZipCode()" class="d-flex justify-content-center align-items-center text-center big-button-center bg-white rounded-10 font-size-2 hover-opacity-75" placeholder="Digite seu CEP" data-inputmask="'mask': '99999-999'" :class="[(isEmpty(errorZipCode))?null:'border-danger']">
 			</div>
-			<!--
 			<div class="w-100 margin-top-15" >
-				<select v-model="state" name="state"  class="text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">
-					<option disabled value="" class="text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Selecione seu Estado*</option>
-					<option value="AC" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Acre (AC)</option>
-					<option value="AL" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Alagoas (AL)</option>
-					<option value="AP" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Amapá (AL)</option>
-					<option value="AM" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Amazonas (AM)</option>
-					<option value="BA" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Bahia (BA)</option>
-					<option value="CE" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Ceará (CE)</option>
-					<option value="DF" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Distrito Federal (DF)</option>
-					<option value="ES" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Espírito Santo (ES)</option>
-					<option value="GO" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Goiás (GO)</option>
-					<option value="MA" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Maranhão (MA)</option>
-					<option value="MT" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Mato Grosso (MT)</option>
-					<option value="MS" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Mato Grosso do Sul (MS)</option>
-					<option value="MG" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Minas Gerais (MG)</option>
-					<option value="PA" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Pará (PA)</option>
-					<option value="PB" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Paraíba (PB)</option>
-					<option value="PR" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Paraná (PR)</option>
-					<option value="PE" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Pernambuco (PE)</option>
-					<option value="PI" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Piauí (PI)</option>
-					<option value="RJ" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Rio de Janeiro (RJ)</option>
-					<option value="RN" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Rio Grande do Norte (RN)</option>
-					<option value="RS" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Rio Grande do Sul (RS)</option>
-					<option value="RO" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Rondônia (RO)</option>
-					<option value="RR" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Roraima (RR)</option>
-					<option value="SC" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Santa Catarina (SC)</option>
-					<option value="SP" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">São Paulo (SP)</option>
-					<option value="SE" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Sergipe (SE)</option>
-					<option value="TO" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Tocantins (TO)</option>
-				</select>	
-			</div>
-			-->
-			<div class="w-100 margin-top-15" >
-				<select v-model="city" name="city"  class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">
-					<option disabled value="" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Selecione sua Cidade*</option>
+				<select v-model="city" name="city"  class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" :class="[(isEmpty(errorCity))?null:'border-danger']" @focusout="validCity()" >
+					<option  selected  disabled :value="null" class=" text-center big-button-center text-muted bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Selecione sua Cidade*</option>
 					<option  v-for="(item) in cities"  :value="item" :key="item.id">{{item.nome}} - {{item.uf}}</option>
 				</select>
 			</div>
+			<label id="slogam" class="w-100 text-center text-danger font-size-2 ">
+				<p>{{errorCity}}</p>
+			</label>
 			<div class="w-100 margin-top-15" >
-				<input v-model="district" name="district" placeholder="Digite sua Bairro *" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">
+				<input v-model="district" name="district" placeholder="Digite sua Bairro *" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" :class="[(isEmpty(errorDistrict))?null:'border-danger']" @focusout="validDistrict()">
 			</div>
+			<label id="slogam" class="w-100 text-center text-danger font-size-2 ">
+				<p>{{errorDistrict}}</p>
+			</label>
 			<div class="w-100 margin-top-15" >
-				<input v-model="street" name="rua" placeholder="Digite sua Rua *" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">
+				<input v-model="street" name="rua" placeholder="Digite sua Rua *" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" :class="[(isEmpty(errorStreet))?null:'border-danger']" @focusout="validStreet()">
 			</div>
+			<label id="slogam" class="w-100 text-center text-danger font-size-2 ">
+				<p>{{errorStreet}}</p>
+			</label>
 			<div class="w-100 margin-top-15" >
-				<input v-model="houseNumber" name="houseNumber" type="number" placeholder="Digite o Número da Casa*" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">
+				<input v-model="houseNumber" name="houseNumber" type="number" placeholder="Digite o Número da Casa*" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" :class="[(isEmpty(errorHouseNumber))?null:'border-danger']" @focusout="validHouseNumber()">
 			</div>
+			<label id="slogam" class="w-100 text-center text-danger font-size-2 ">
+				<p>{{errorHouseNumber}}</p>
+			</label>
 			<div class="w-100 margin-top-15" >
 				<input v-model="addressComplement" name="complemento" type="text" placeholder="Digite o complemento" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">
 			</div>
-
 			<div class="w-100 margin-top-15" >
 				<button class="big-button-center bg-primary text-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" @click="createAddress">
 					<label class="d-flex align-self-center">Salvar</label>

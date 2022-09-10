@@ -6,9 +6,9 @@ export const ProductsComponent={
     template: '#products-template',    
        data() {
             return {
-                store:{nome:'Bora Comer'},
+                store:{nome:'',logo_url:'./assets/img/emptyPhoto.svg'},
                 storePath: '',
-                storeLogo: './assets/img/logo.svg',
+                emptyPhoto: './assets/img/emptyPhoto.svg',
                 products:[],
                 inputSearch:'',
             }
@@ -25,11 +25,26 @@ export const ProductsComponent={
             {
                 this.products=await ProductsHelper.findByStoreAliasGroupLocalStorage(this.$route.params.aliasStore,this.$route.params.groupName);
             }
+            if(!until.isEmpty(this.store.logo_url)){
+                $("#tabIcon").href=this.store.logo_url;
+            }
+            else{
+                $("#tabIcon").href=this.emptyPhoto;
+            }
         },
         mounted: function() {
             $('title').html(this.store.nome+' - Produtos '+this.$route.params.groupName);
+            if(!until.isEmpty(this.store.logo_url)){
+                $("#tabIcon").href=this.store.logo_url;
+            }
+            else{
+                $("#tabIcon").href=this.emptyPhoto;
+            }
         },
         methods:{
+            isEmpty(value){
+                return until.isEmpty(value);
+            },
             async searchProducts(){
                 this.$router.push({ name: 'buscar-produtos-store',path: this.storePath+'buscar-produtos', });                
             },

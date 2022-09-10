@@ -1,4 +1,6 @@
 import {conect} from '../untils/conect.js'
+import {until} from '../untils/until.js'
+
 export const UsersHelper= {
     url:'users',
     async findAll(){
@@ -10,17 +12,16 @@ export const UsersHelper= {
     },  
     async createNewUser(username,email,password){
         let resultUser;
-        let loginTest= await this.loginTest(username,password);
-        if(!until.isEmpty(resultLogin)){
+        try{
+            let loginTest= await this.loginTest(username,password);
+            throw Error("usuário já exite");
+        }catch(erro){
             try{
                 resultUser = await conect.post(this.url,{"username":username,"email":email,"password":password});
                 return resultUser.data;
             }catch(e){
-                throw Error("Erro ao salvar Usuário");
+                throw Error("Erro ao salvar usuário! "+erro.message);
             }
-        }
-        else{
-            throw Error("A senha atual não confere");
         }
     }, 
     async changePassword(id,username,currentPassword,password){
@@ -29,7 +30,7 @@ export const UsersHelper= {
             resultUser = await conect.put(this.url+"/"+id,{"username":username,"password":password,"currentPassword":currentPassword,});
             return resultUser.data;
         }catch(e){
-            throw Error("Nãofoi possivel trocar a senha");
+            throw Error("Não foi possivel trocar a senha");
         }
     }, 
     async login(username,password){

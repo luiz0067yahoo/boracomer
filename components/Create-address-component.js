@@ -6,11 +6,9 @@ export const CreateAddressComponent={
     template: '#create-address-template',
     data() {
         return {
-            store:{nome:'Bora Comer'},
+            store:{nome:'',logo_url:'./assets/img/emptyPhoto.svg'},
             storePath: '',
-            store_logo: './assets/img/logo.svg',
-            store_text1: 'Bora satisfazer',
-            store_text2: 'seu apetite!',
+            emptyPhoto: './assets/img/emptyPhoto.svg',
 
             zipCode:"",
             errorZipCode:"",
@@ -24,7 +22,10 @@ export const CreateAddressComponent={
             street:"",
             errorStreet:"",
             houseNumber:"",
+            errorHouseNumber:"",
             addressComplement:"",
+
+            menssageError:"",
         }
     },
     async created(){
@@ -34,10 +35,22 @@ export const CreateAddressComponent={
             $('title').html(this.store.nome+' - Págia Inicial');
             this.cities= await CitiesHelpers.findByStoreAlias(this.$route.params.aliasStore);
         }
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
     },
     mounted: function() {
         $('title').html(this.store.nome+' - Págia Inicial');
         $(":input").inputmask();
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
     },
     methods:{
         goBack(){
@@ -49,43 +62,87 @@ export const CreateAddressComponent={
         async setZipCode(){
             var zipCode=$("#zipCode").val()
             this.errorZipCode='';
-            if(!until.zipCodeBrasilianIsValid(zipCode)){
-                this.errorZipCode='não é um cep válido exemplo de cep: "99999-999"';
+            if (!until.isEmpty(zipCode)){
+                if(!until.zipCodeBrasilianIsValid(zipCode)){
+                    this.errorZipCode='não é um cep válido exemplo de cep: "99999-999"';
+                }
+                else{
+                    this.zipCode=zipCode;
+                    let data = await AddressHelper.loadZipCode(zipCode);
+                    //this.state=data.uf;
+                    this.district=data.bairro;
+                    var city=null
+                    this.cities.forEach(element => {
+                        if(
+                            (element.nome==data.localidade.toUpperCase())
+                            &&
+                            (element.uf==data.uf)
+                        )
+                        {
+                            city=element
+                        }
+                    });
+                    this.city=city;
+                    this.street=data.logradouro;
+                }
             }
-            else{
-                this.zipCode=zipCode;
-                let data = await AddressHelper.loadZipCode(zipCode);
-                //this.state=data.uf;
-                this.district=data.bairro;
-                var city=null
-                this.cities.forEach(element => {
-                    if(
-                        (element.nome==data.localidade.toUpperCase())
-                        &&
-                        (element.uf==data.uf)
-                    )
-                    {
-                        city=element
-                    }
-                });
-                this.city=city;
-                this.street=data.logradouro;
+        },
+        validCity(){
+            if(this.city==null){
+                this.errorCity="Por Favor selecione a cidade";
+                return false;
             }
+            this.errorCity="";
+            return true;
+        },
+        validDistrict(){
+            if(until.isEmpty(this.district)){
+                this.errorDistrict="Por Favor preencha o seu bairro";
+                return false;
+            }
+            this.errorDistrict="";
+            return true;
+        },
+        validStreet(){
+            if(until.isEmpty(this.street)){
+                this.errorStreet="Por Favor preencha o sua rua";
+                return false;
+            }
+            this.errorStreet="";
+            return true;
+        },
+        validHouseNumber(){
+            if(until.isEmpty(this.houseNumber)){
+                this.errorHouseNumber="Por Favor preencha o seu número";
+                return false;
+            }
+            this.errorHouseNumber="";
+            return true;
         },
         async createAddress(){
             var acc_user=JSON.parse(localStorage.createUser);
             var user={"id":acc_user.id};
             if(!until.isEmpty(this.city)){
                 try{
-                    var houseNumber=null;
-                    var address=null
-                    if(until.isInt(this.houseNumber)){
-                        houseNumber=parseInt(this.houseNumber,10);
+                    if(
+                        this.validCity()
+                        && this.validDistrict() 
+                        && this.validStreet() 
+                        && this.validHouseNumber() 
+                    ){
+                        var houseNumber=null;
+                        var address=null
+                        if(until.isInt(this.houseNumber)){
+                            houseNumber=parseInt(this.houseNumber,10);
+                        }
+                        address=AddressHelper.create(this.zipCode,this.city.id,this.district,this.street,houseNumber,this.addressComplement,user.id);
+                        localStorage.address=JSON.stringify(address);
+                        if(!until.isEmpty(address)){
+                            this.$router.push({ name: 'create-user-success-store',path: this.storePath+'/create-user-success'});
+                        }
                     }
-                    address=AddressHelper.create(this.zipCode,this.city.id,this.district,this.street,houseNumber,this.addressComplement,user.id);
-                    localStorage.address=JSON.stringify(address);
-                    if(!until.isEmpty(address)){
-                        this.$router.push({ name: 'create-user-success-store',path: this.storePath+'/create-user-success'});
+                    else{
+                        this.menssageError="Error ao validar campos";
                     }
                 }
                 catch(e){

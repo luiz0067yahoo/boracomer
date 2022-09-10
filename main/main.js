@@ -32,7 +32,6 @@ function startRouterVue(){
         localStorage.user=null;
         localStorage.createUser=null;
         localStorage.createAddress=null;
-        localStorage.addressDelivery=null;
         localStorage.addressList=null;
         localStorage.store=null;
         localStorage.stores=null;
@@ -46,6 +45,13 @@ function startRouterVue(){
         localStorage.bordersPizzaSize=null;
         localStorage.order=null;
 
+        localStorage.name="";
+        localStorage.phone="";
+        localStorage.note="";
+        localStorage.typeDelivery="RETIRAR_BALCAO";
+        localStorage.cashback=0;
+        localStorage.addressDelivery=null;
+        
         app.use(router);
         app.mount('#divMain');  
     }

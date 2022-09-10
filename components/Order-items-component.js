@@ -2,23 +2,26 @@ import {until} from '../untils/until.js'
 import {ProductsHelper} from '../helpers/Products-helper.js'
 import {StoresHelper} from '../helpers/Stores-helper.js'
 import { OrdersHelper } from '../helpers/Orders-helper.js'
+import { OrdersItemHelper } from '../helpers/Orders-item-helper.js'
+import { OrdersItemFlavorsHelper } from '../helpers/Orders-item-flavors-helper.js'
 export const OrderItemsComponent={
     template: '#order-items-template',
        data() {
             return {
-                store:{nome:'Bora Comer'},
+                store:{nome:'',logo_url:'./assets/img/emptyPhoto.svg'},
+                emptyPhoto: './assets/img/logo.svg',
                 storePath: '',
-                storeLogo: './assets/img/logo.svg',
                 order:[],
-                address:{},
+                address:null,
                 phone:"",
                 errorPhone:null,
                 name:"",
                 errorName:"",
                 note:"",
-                typeDelivery:"",
-                cashback:null,
+                typeDelivery:"RETIRAR_BALCAO",
+                cashback:0,
                 total:0,
+                menssageError:"",
             }
         },
         async created(){
@@ -27,10 +30,46 @@ export const OrderItemsComponent={
                 this.store=await StoresHelper.findByAliasLocalStorage(this.$route.params.aliasStore);
             }
             this.order=JSON.parse(localStorage.order);
+            this.address=JSON.parse(localStorage.addressDelivery);
+            if(localStorage.name==null){
+                localStorage.name='';
+            }
+            this.name= localStorage.name;
+            this.phone=localStorage.phone;
+            if(localStorage.note==null){
+                localStorage.note='';
+            }
+            this.note=localStorage.note;
+
+            if(localStorage.typeDelivery!="ENTREGAR"){
+                localStorage.typeDelivery="RETIRAR_BALCAO";
+                this.typeDelivery="RETIRAR_BALCAO"
+                $("#typeDelivery").prop('checked', false);
+            }
+            else{
+                localStorage.typeDelivery="ENTREGAR";
+                this.typeDelivery="ENTREGAR";
+                $("#typeDelivery").prop('checked', true);
+            }
+            this.typeDelivery=localStorage.typeDelivery;
+            this.cashback=localStorage.cashback;
+            if(!until.isEmpty(this.store.logo_url)){
+                $("#tabIcon").href=this.store.logo_url;
+            }
+            else{
+                $("#tabIcon").href=this.emptyPhoto;
+            }
         },
         mounted: function() {
             $('title').html(this.store.nome+' Pedido ');
             $(":input").inputmask();
+            $("#phone").val(localStorage.phone);
+            if(!until.isEmpty(this.store.logo_url)){
+                $("#tabIcon").href=this.store.logo_url;
+            }
+            else{
+                $("#tabIcon").href=this.emptyPhoto;
+            }
         },
         methods:{
             formatMoney(val){
@@ -39,13 +78,12 @@ export const OrderItemsComponent={
             isEmpty(val){
                 return until.isEmpty(val);
             },
-            toggleTypeDelivery(){
-                if(this.typeDelivery=='ENTREGA'){
-                    this.typeDelivery=null;
-                }
-                else{
-                    this.typeDelivery='ENTREGA';
-                }
+            goBack(){
+                this.$router.go(-1);
+            },
+
+            setName(){
+                localStorage.name=this.name;
             },
             setPhone(){
                 var phone=$("#phone").val()
@@ -56,35 +94,52 @@ export const OrderItemsComponent={
                 }
                 else{
                     this.phone=phone;
+                    localStorage.phone=this.phone;
                 }
-                console.log(this.errorPhone);
+            },
+            setNote(){
+                localStorage.note=this.note;
+            },
+            setCashback(){
+                localStorage.cashback=this.cashback;
+                /**/            
+            },
+            setTypeDelivery(){
+                if($("#typeDelivery").prop("checked")){
+                    this.typeDelivery="ENTREGAR";
+                    localStorage.typeDelivery="ENTREGAR";
+                }
+                else{
+                    this.typeDelivery="RETIRAR_BALCAO";
+                    localStorage.typeDelivery="RETIRAR_BALCAO";
+                }
             },
             editItem(item){
                 try{
                     if(item.itemsGroupAdditional.length>0){
                         if(item.product.pizza===true){
                             if(!until.isEmpty(item.border)){
-                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/borda/'+item.border.id+'/adicionais/'+this.getIdsItemsGroupAdditional(item.itemsGroupAdditional).join(",")});
+                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/borda/'+item.border.id+'/adicionais/'+this.getIdsItemsGroupAdditional(item.itemsGroupAdditional).join(",")+'/quantidade/'+item.amount});
                             }
                             else{
-                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/adicionais/'+this.getIdsItemsGroupAdditional(item.itemsGroupAdditional).join(",")});
+                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/adicionais/'+this.getIdsItemsGroupAdditional(item.itemsGroupAdditional).join(",")+'/quantidade/'+item.amount});
                             }    
                         }
                         else{
-                            this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/adicionais/'+this.getIdsItemsGroupAdditional(item.itemsGroupAdditional).join(",")});
+                            this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/adicionais/'+this.getIdsItemsGroupAdditional(item.itemsGroupAdditional).join(",")+'/quantidade/'+item.amount});
                         }
                     }
                     else{
                         if(item.product.pizza===true){
                             if(!until.isEmpty(item.border)){
-                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/borda/'+item.border.id});
+                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/borda/'+item.border.id+'/quantidade/'+item.amount});
                             }
                             else{
-                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")});
+                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/quantidade/'+item.amount});
                             }    
                         }
                         else{
-                            this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id});
+                            this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/quantidade/'+item.amount});
                         }
                     }
                 }
@@ -95,31 +150,30 @@ export const OrderItemsComponent={
             addItem(){
                 this.$router.push({ path: this.storePath+'/buscar-produtos/'});
             },
-            goBack(){
-                this.$router.go(-1);
-            },
+          
 
             calcPriceItem(item){
                 var price=0;
                 if(item.product.pizza===true){
-                    price= this.calcPriceProduct(item.product,item.size,item.flavors,item.border)*item.amount;
+                    price= this.calcPriceProduct(item.product,item.size,item.flavors,item.border,item.itemsGroupAdditional)*item.amount;
                 }
                 else{
                     price=item.product.preco*item.amount;;
                 }
                 return price;
             },
-            calcitemsGroupAdditional(itemsGroupAdditionalSelected){
+            calcitemsGroupAdditional(itemsGroupAdditional){
                 var price=0;
-                itemsGroupAdditionalSelected.forEach(element => {
+                console.itemsGroupAdditional
+                itemsGroupAdditional.forEach(element => {
                     price=price+element.valor;
                 });
                 return price;
             },
-            calcPriceProduct(product,size,flavors,border,itemsGroupAdditionalSelected){
+            calcPriceProduct(product,size,flavors,border,itemsGroupAdditional){
                 var price=0;
                 if(product.pizza===true){
-                    price=this.calcPriceSizePizza(size)+this.sumPriceFlavorsPizza(flavors)+this.calcPriceBorderPizza(border)+this.calcitemsGroupAdditional(itemsGroupAdditionalSelected);
+                    price=this.calcPriceSizePizza(size)+this.sumPriceFlavorsPizza(flavors)+this.calcPriceBorderPizza(border)+this.calcitemsGroupAdditional(itemsGroupAdditional);
                 }
                 else{
                     price=product.preco;
@@ -145,7 +199,7 @@ export const OrderItemsComponent={
             calcPriceBorderPizza(border){
                 var price=0;
                 if(!until.isEmpty(border)){
-                    price=this.border.valor_borda;
+                    price=border.valor_borda;
                 }
                 return price;
             },
@@ -161,10 +215,19 @@ export const OrderItemsComponent={
                 }
                 return total;
             },
-            cancelOrder(){
+            clearOrder(){
                 this.total=0;
                 this.order=[];
                 localStorage.order=null;
+                localStorage.name="";
+                localStorage.phone="";
+                localStorage.note="";
+                localStorage.typeDelivery="";
+                localStorage.addressDelivery=null;
+                localStorage.cashback=0;
+            },
+            cancelOrder(){
+                this.clearOrder();
                 this.$router.push({ name: 'panel-store',path: this.storePath+'panel', }); 
             },
             getIdsFlavorsPizza(flavorsPizza){
@@ -199,81 +262,115 @@ export const OrderItemsComponent={
                 }
                 return descriptions;
             },
-            async confirmOrder(){
-                var order=[];
-                var userId=null;
-                var itens=[];
-                if (!until.isEmpty(localStorage.user)){
-                    userId=localStorage.user.id;
-                }
-                if (!until.isEmpty(this.order)){
-                    this.order.forEach(element => {
-                        if(product.pizza===true){
-                        }
-                        else{
-                        }
-                    });     
-                    OrdersHelper.sendOrder(
-                        this.$route.params.aliasStore,
-                        this.address,
-                        userId,
-                        this.name,
-                        this.phone,
-                        this.note,
-                        this.typeDelivery,
-                        this.cashback,
-                        this.order.total,
-                        itens
-                    );
-                }
-                console.log(order);
+            async login(){
+                this.$router.push({ name: 'check-login-store',path: this.storePath+'check-login', });          
             },
+            getUserName(){
+                var user = JSON.parse(localStorage.user);
+                var result="";
+                if(!until.isEmpty(user)){
+                    result=user.username;
+                }
+                return result;
+            },
+            getUserID(){
+                var user = JSON.parse(localStorage.user);
+                var result=null;
+                if(!until.isEmpty(user)){
+                    result=user.id;
+                }
+                return result;
+            },
+            isLoged(){
+                var user = JSON.parse(localStorage.user);
+                return (!until.isEmpty(user));
+            },
+
+            async createOrder(){
+                let resultOrder=null;
+                try{
+                    if (!until.isEmpty(this.order)){
+                        resultOrder=await OrdersHelper.sendOrder(
+                            this.store.apelido,
+                            this.store.id,
+                            until.uuid(),
+                            this.getUserID(),
+                            this.name,
+                            this.phone,
+                            this.address,
+                            this.note,
+                            this.typeDelivery,
+                            this.cashback,
+                            this.calcTotal()
+                        );
+                    }
+                }catch(e){
+                    this.menssageError=e.message;
+                    console.log(e);
+                }
+                return resultOrder;
+            },
+            async createItemOrder(item,orderId){
+                let resultItem=null;
+                try{
+                    if (!until.isEmpty(this.order)){
+                        var border_id=null;
+                        if(!until.isEmpty(item.border) && !until.isEmpty(item.border.id)){
+                            border_id=item.border.id;
+                        }
+                        resultItem= await OrdersItemHelper.sendItemOrder(
+                            this.store.apelido,
+                            this.store.id,
+                            until.uuid(),
+                            orderId,
+                            item.product.id,
+                            border_id,
+                            item.size.id,
+                            item.note,
+                            item.total,
+                            item.amount,
+                            item.total*item.amount
+                        );
+                        var itemId=resultItem.id;
+                        if(item.product.pizza==true){
+                            this.createItemFlavorOrder(this.store.id,item.flavors,itemId)
+                        }
+                    }
+                }catch(e){
+                    this.menssageError=e.message;
+                    console.log(e);
+                }
+                return resultItem;
+            },
+            async createItemFlavorOrder(storeId,flavors,itemId){
+                let resultFlavorItem=null;
+                try{
+                    if (!until.isEmpty(flavors)){
+                        resultFlavorItem =await OrdersItemFlavorsHelper.sendItemsFlavorsOrder(
+                            storeId,
+                            flavors,
+                            itemId,
+                        )
+                    }
+                }catch(e){
+                    this.menssageError=e.message;
+                    console.log(e);
+                }
+                return resultFlavorItem;
+            },
+            async confirmOrder(){
+                let resultOrder= await this.createOrder();
+                let createItemOrder=this.createItemOrder;
+                if (!until.isEmpty(resultOrder) && !until.isEmpty(resultOrder.id)){
+                    var orderId=resultOrder.id;
+                    this.order.forEach((item, index) => {
+                        createItemOrder(item,orderId);
+                    });
+                    this.clearOrder();
+                    this.$router.push({ name: 'create-order-success-store',path:this.storePath+'/create-order-success/'+resultOrder.id, params: { id: resultOrder.id}},);
+                }
+            },
+            
         }
     
     }
-    /*
-    {
-        "id": 888,
-        "uuid": "83f0152c-83e3-4f87-8d29-2bb149f18b5f",
-        "empresa": {
-            "id": 1
-        },
-        "municipio": {
-            "id": 1
-        },
-        "bairro": "JD GISELA",
-        "endereco": "R WALDEMAR ROSSONI",
-        "numero": "298",
-        "complemento": null,
-        "nome": "ALEXANDRO",
-        "telefone": "45999225548",
-        "usuario": {
-            "id": 1
-        },
-        "observacao": "ENTREGAR AS 19H",
-        "tipo_entrega": "ENTREGAR",
-        "troco": null,
-        "valor_total": 100,
-        "itempedidos": [
-            {
-                "id": 3
-            }
-        ]
-    }
-
- {
-    "uuid": "5e004d4a-8f24-4d9d-9d74-26491ac4becb",
-    "empresa": 1,
-    "bordatamanho": 1,
-    "produto": 3,
-    "observacao": null,
-    "preco": 100,
-    "quantidade": 1,
-    "tamanho": 2,
-    "valor_total_item": 100,
-    "pedido": 888
-}
-sabor
-adicionais
-tipo de borda    
-    */

@@ -1,15 +1,17 @@
 import {until} from '../untils/until.js'
 import {StoresHelper} from '../helpers/Stores-helper.js'
-export const UpdateAddressSuccessComponent={
-    template: '#update-address-success-template',
+export const CreateOrderSuccessComponent={
+    template: '#create-order-success-template',
     data() {
         return {
             store:{nome:'',logo_url:'./assets/img/emptyPhoto.svg'},
             storePath: '',
             emptyPhoto: './assets/img/emptyPhoto.svg',
+            id:0,
         }
     },
     async created(){
+        this.id= this.$route.params.id;
         if(!until.isEmpty(this.$route.params.aliasStore)){
             this.storePath='/empresa/'+this.$route.params.aliasStore;
             this.store= await StoresHelper.findByAliasLocalStorage(this.$route.params.aliasStore);
@@ -22,7 +24,7 @@ export const UpdateAddressSuccessComponent={
         }
     },
     mounted: function() {
-        $('title').html(this.empresaNome+' - Págia Inicial');
+        $('title').html(this.store.nome+' - pedido Finalizado');
         if(!until.isEmpty(this.store.logo_url)){
             $("#tabIcon").href=this.store.logo_url;
         }
@@ -38,5 +40,4 @@ export const UpdateAddressSuccessComponent={
             return until.isEmpty(value);
         },
     }
-
 }

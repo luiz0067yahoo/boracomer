@@ -4,9 +4,9 @@ export const LoginComponent={
     template: '#login-template',
     data() {
         return {
-            store:{nome:'Bora Comer'},
+            store:{nome:'',logo_url:'./assets/img/emptyPhoto.svg'},
             storePath: '',
-            storeLogo: './assets/img/logo.svg',
+            emptyPhoto: './assets/img/emptyPhoto.svg',
             storeText1: 'Bora satisfazer',
             storeText2: 'seu apetite!',
         }
@@ -16,13 +16,28 @@ export const LoginComponent={
             this.storePath='/empresa/'+this.$route.params.aliasStore;
             this.store= await StoresHelper.findByAliasLocalStorage(this.$route.params.aliasStore);
         }
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
     },
     mounted: function() {
         $('title').html(this.store_name+' - Login');
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
     },
     methods:{
         goBack(){
             this.$router.go(-1);
+        },
+        isEmpty(value){
+            return until.isEmpty(value);
         },
     }
 

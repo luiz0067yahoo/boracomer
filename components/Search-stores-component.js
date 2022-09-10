@@ -7,13 +7,14 @@ export const SearchStoresComponent={
         return {
             stores:[],
             storePath: '',
-            storeLogo: './assets/img/logo.svg',
+            emptyPhoto: './assets/img/emptyPhoto.svg',
             inputSearch:'',
         }
     },
     async created(){
         let resultStores=await StoresHelper.all();
         this.stores=JSON.parse(localStorage.getItem('stores'));
+        
     },
     mounted: function() {
         $('title').html('Buscar empresa - Págia Inicial');
@@ -21,6 +22,9 @@ export const SearchStoresComponent={
     methods:{
         goBack(){
             this.$router.go(-1);
+        },
+        isEmpty(val){
+            return until.isEmpty(val);
         },
         async searchStores(){
             this.stores=await StoresHelper.findByNameStorage(this.inputSearch);

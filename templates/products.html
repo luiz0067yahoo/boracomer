@@ -13,7 +13,7 @@
 						<label class="font-size-3 m-0 text-muted w-100">{{product.descricao_longa}}</label>
 						<label class="font-size-3 m-0 align-self-end w-100">R$ {{parseFloat(product.preco).toFixed(2).replace('.',',')}}</label>
 					</div>
-					<div class="product-mini-image rounded-10 " v-bind:style="{ backgroundImage: (product.image_url==null)?'transparent':'url(' + product.image_url + ')' }"></div>
+					<div class="product-mini-image rounded-10 " v-bind:style="{ backgroundImage: 'url('+(isEmpty(product.image_url)?emptyPhoto:product.image_url)+')',backgroundSize:'cover'}"> </div>
 				</div>
 			</a>
 			<hr class=" w-100 margin-15"/>

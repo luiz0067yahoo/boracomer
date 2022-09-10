@@ -5,11 +5,9 @@ export const HomeComponent={
     template: '#home-template',
     data() {
         return {
-            store:{nome:'Bora Comer'},
+            store:{nome:'',logo_url:'./assets/img/emptyPhoto.svg'},
             storePath: '',
-            storeLogo: './assets/img/logo.svg',
-            storeText1: 'Bora satisfazer',
-            storeText2: 'seu apetite!',
+            emptyPhoto: './assets/img/emptyPhoto.svg',
             userName: '',
             userPassword: '',
         }
@@ -19,25 +17,37 @@ export const HomeComponent={
             this.storePath='/empresa/'+this.$route.params.aliasStore;
             this.store= await StoresHelper.findByAliasLocalStorage(this.$route.params.aliasStore);
             $('title').html(this.store.nome+' - Págia Inicial');
+            if(!until.isEmpty(this.store.logo_url)){
+                $("#tabIcon").href=this.store.logo_url;
+            }
+            else{
+                $("#tabIcon").href=this.emptyPhoto;
+            }
         }
     },
     mounted: function() {
         $('title').html(this.store.nome+' - Págia Inicial');
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
     },
     methods:{
         goBack(){
             this.$router.go(-1);
+        },
+        isEmpty(value){
+            return until.isEmpty(value);
         },
         async login(){
             let resultLogin;
             try{
                 resultLogin=await UsersHelper.login(this.userName,this.userPassword);
                 if(!until.isEmpty(resultLogin)){
-                    localStorage.token=null;
-                    localStorage.user=null;
                     localStorage.createUser=null;
                     localStorage.createAddress=null;
-                    localStorage.addressDelivery=null;
                     localStorage.addressList=null;
                     localStorage.store=null;
                     localStorage.stores=null;
@@ -50,7 +60,12 @@ export const HomeComponent={
                     localStorage.bordersPizza=null;
                     localStorage.bordersPizzaSize=null;
                     localStorage.order=null;
-
+                    localStorage.name="";
+                    localStorage.phone="";
+                    localStorage.note="";
+                    localStorage.typeDelivery=null;
+                    localStorage.cashback=0;
+                    localStorage.addressDelivery=null;
                     this.$router.push({ name: 'panel-store',path: this.storePath+'panel', });          
                 }
                 else{
@@ -79,6 +94,12 @@ export const HomeComponent={
             localStorage.bordersPizza=null;
             localStorage.bordersPizzaSize=null;
             localStorage.order=null;
+            localStorage.name='';
+            localStorage.phone='';
+            localStorage.note='';
+            localStorage.typeDelivery='RETIRAR_BALCAO';
+            localStorage.cashback=0;
+    
             this.$router.push({ name: 'panel-store',path: this.storePath+'panel', });  
         },
     }

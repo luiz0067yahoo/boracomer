@@ -6,11 +6,9 @@ export const UpdateAddressComponent={
     template: '#update-address-template',
     data() {
         return {
-            store:{nome:'Bora Comer'},
+            store:{nome:'',logo_url:'./assets/img/emptyPhoto.svg'},
             storePath: '',
-            store_logo: './assets/img/logo.svg',
-            store_text1: 'Bora satisfazer',
-            store_text2: 'seu apetite!',
+            emptyPhoto: './assets/img/emptyPhoto.svg',
             uuid:"",
             id:null,
             zipCode:"",
@@ -60,10 +58,23 @@ export const UpdateAddressComponent={
                 this.addressComplement=this.currentAddress.complemento;
             }
         }
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
+        
     },
     mounted: function() {
         $('title').html(this.store.nome+' - Págia Inicial');
         $(":input").inputmask();
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
     },
     methods:{
         goBack(){
@@ -81,20 +92,22 @@ export const UpdateAddressComponent={
             else{
                 this.zipCode=zipCode;
                 let data = await AddressHelper.loadZipCode(zipCode);
-                this.district=data.bairro;
-                var city=null
-                this.cities.forEach(element => {
-                    if(
-                        (element.nome==data.localidade.toUpperCase())
-                        &&
-                        (element.uf==data.uf)
-                    )
-                    {
-                        city=element
-                    }
-                });
-                this.city=city;
-                this.street=data.logradouro;
+                if (!until.isEmpty(data) && !until.isEmpty(data.localidade)){
+                    this.district=data.bairro;
+                    var city=null
+                    this.cities.forEach(element => {
+                        if(
+                            (element.nome==data.localidade.toUpperCase())
+                            &&
+                            (element.uf==data.uf)
+                        )
+                        {
+                            city=element
+                        }
+                    });
+                    this.city=city;
+                    this.street=data.logradouro;
+                }
             }
         },
         async updateAddress(){

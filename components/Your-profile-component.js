@@ -6,9 +6,9 @@ export const YourProfileComponent={
     template: '#your-profile-template',
     data() {
         return {
-            empresaNome:'Bora Comer',
+            store:{nome:'',logo_url:'./assets/img/emptyPhoto.svg'},
             storePath: '',
-            storeLogo: './assets/img/logo.svg',
+            emptyPhoto: './assets/img/emptyPhoto.svg',
             menssageError: '',
             currentUser:{},
             AddressListcurrentUser:{},
@@ -22,10 +22,23 @@ export const YourProfileComponent={
                 this.currentUser=JSON.parse(localStorage.getItem('user'));
                 this.AddressListcurrentUser= await AddressHelper.findByStoreAliasUserID(this.currentUser.id);
             }
+
+        }
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
         }
     },
     mounted: function() {
         $('title').html('Buscar empresa - Págia Inicial');
+        if(!until.isEmpty(this.store.logo_url)){
+            $("#tabIcon").href=this.store.logo_url;
+        }
+        else{
+            $("#tabIcon").href=this.emptyPhoto;
+        }
     },
     methods:{
         isEmpty(val){

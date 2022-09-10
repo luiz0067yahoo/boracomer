@@ -12,31 +12,45 @@
 	</div>
 	<div class="position-absolute d-flex justify-content-center flex-wrap h-100">
 		<div class="d-flex align-self-center flex-wrap margin-15 container-block-by">
-			<div class="w-100"><div id="logo" class="mx-auto"  v-bind:style="{ backgroundImage: 'url(' + store_logo + ')' }"></div></div>
+			<div class="w-100"><div id="logo" class="mx-auto"  :style="{ backgroundImage: 'url(' + (isEmpty(store.logo_url)?emptyPhoto:store.logo_url) + ')' }"></div></div>
 		</div>
 			<label id="slogam" class="w-100 text-center  font-size-1 ">
-				<p><b>{{store_text1}}</b></p>
-				<p><b>{{store_text2}}</b></p>
+				<p><b>{{store.nome}}</b></p>
 			</label>
 			<div class="w-100 margin-top-15">
 				<input id="zipCode" name="zipCode" v-model="zipCode" @focusout="setZipCode()" class="d-flex justify-content-center align-items-center text-center big-button-center bg-white rounded-10 font-size-2 hover-opacity-75" placeholder="Digite seu CEP" data-inputmask="'mask': '99999-999'" :class="[(isEmpty(errorZipCode))?null:'border-danger']">
 			</div>
 			
+			<div class="w-100 margin-top-15">
+				<input id="zipCode" name="zipCode" v-model="zipCode" @focusout="setZipCode()" class="d-flex justify-content-center align-items-center text-center big-button-center bg-white rounded-10 font-size-2 hover-opacity-75" placeholder="Digite seu CEP" data-inputmask="'mask': '99999-999'" :class="[(isEmpty(errorZipCode))?null:'border-danger']">
+			</div>
 			<div class="w-100 margin-top-15" >
-				<select v-model="city" name="city"  class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">
-					<option disabled value="" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Selecione sua Cidade*</option>
+				<select v-model="city" name="city"  class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" :class="[(isEmpty(errorCity))?null:'border-danger']" @focusout="validCity()" >
+					<option  selected  disabled :value="null" class=" text-center big-button-center text-muted bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">Selecione sua Cidade*</option>
 					<option  v-for="(item) in cities"  :value="item" :key="item.id">{{item.nome}} - {{item.uf}}</option>
 				</select>
 			</div>
+			<label id="slogam" class="w-100 text-center text-danger font-size-2 ">
+				<p>{{errorCity}}</p>
+			</label>
 			<div class="w-100 margin-top-15" >
-				<input v-model="district" name="district" placeholder="Digite sua Bairro *" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">
+				<input v-model="district" name="district" placeholder="Digite sua Bairro *" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" :class="[(isEmpty(errorDistrict))?null:'border-danger']" @focusout="validDistrict()">
 			</div>
+			<label id="slogam" class="w-100 text-center text-danger font-size-2 ">
+				<p>{{errorDistrict}}</p>
+			</label>
 			<div class="w-100 margin-top-15" >
-				<input v-model="street" name="rua" placeholder="Digite sua Rua *" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">
+				<input v-model="street" name="rua" placeholder="Digite sua Rua *" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" :class="[(isEmpty(errorStreet))?null:'border-danger']" @focusout="validStreet()">
 			</div>
+			<label id="slogam" class="w-100 text-center text-danger font-size-2 ">
+				<p>{{errorStreet}}</p>
+			</label>
 			<div class="w-100 margin-top-15" >
-				<input v-model="houseNumber" name="houseNumber" type="number" placeholder="Digite o Número da Casa*" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">
+				<input v-model="houseNumber" name="houseNumber" type="number" placeholder="Digite o Número da Casa*" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center" :class="[(isEmpty(errorHouseNumber))?null:'border-danger']" @focusout="validHouseNumber()">
 			</div>
+			<label id="slogam" class="w-100 text-center text-danger font-size-2 ">
+				<p>{{errorHouseNumber}}</p>
+			</label>
 			<div class="w-100 margin-top-15" >
 				<input v-model="addressComplement" name="complemento" type="text" placeholder="Digite o complemento" class=" text-center big-button-center bg-white rounded-10  font-size-2 hover-opacity-75 d-flex justify-content-center  align-items-center">
 			</div>
