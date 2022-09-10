@@ -33,7 +33,8 @@ jobs:
           host: ${{ secrets.AWS_INSTANCE_IP }}
           username: ${{ secrets.AWS_INSTANCE_USER }}
           #passphrase: ${{ secrets.PASSPHRASE }}
-          privateKey: ${{ secrets.AWS_SSH_KEY_PPK}}          
+          #privateKey: ${{ secrets.AWS_SSH_KEY_PPK}}   
+          privateKey: ${{ secrets.AWS_SSH_KEY_PEM}}
 #mkdir -p ~/server/
 #cd ~/server/
 #sudo rm Dockerfile
