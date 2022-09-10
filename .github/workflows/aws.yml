@@ -1,38 +1,26 @@
-name: Provision t3.micro EC2
+name: startMagent2DevEC2
+# Controls when the action will run. 
+# This code is set up only to run when you click action in the repository, If you require to run on a push or cron edit below
 on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  # push:
+  #  branches: [ main ]
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-    inputs:
-      ec2-name:
-        description: EC2 name
-        required: true
-        default: 'App Server'
-        type: string
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  provision-ec2:
+  # This workflow contains a single job called "build"
+  build:
+# The type of runner that the job will run on
     runs-on: ubuntu-latest
+# Below this are each of the steps that are run
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: '${{ secrets.AWS_ACCESS_KEY_ID }}'
-          aws-secret-access-key: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
-          #aws-region: '${{ secrets.AWS_REGION }}'
-          aws-region: 'us-east-1c'
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_wrapper: false
-      - name: Terraform Apply
-        id:   apply
-        env:
-          TF_VAR_ec2_name:  "${{ github.event.inputs.ec2-name }}"
+# Name of step
+      - name: Start AWS EC2
+        # Run AWS Command on the GitHub Hosted runner which starts the instance using AWS authentication stored in GitHub Secrets (see below how to add)
         run: |
-          cd tf-example/
-          terraform init
-          terraform validate
-          terraform plan 
-          terraform apply -auto-approve
+          aws ec2 start-instances --instance-ids ${{secrets.AWS_INSTANCE_ID }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
