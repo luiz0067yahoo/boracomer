@@ -31,6 +31,7 @@ jobs:
             script: | 
               sudo rm -rf ~/${{ github.event.repository.name }}
               mkdir -p ~/${{ github.event.repository.name }}
+              sudo chmod 7777 ~/${{ github.event.repository.name }}
               cd ~/${{ github.event.repository.name }}
               sudo wget https://raw.githubusercontent.com/luiz0067yahoo/boracomer/main/Dockerfile
               sudo docker build -t ${{ github.event.repository.name }} .
