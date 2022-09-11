@@ -6,8 +6,9 @@ RUN apt-get update && \
 
 # Install apache and write hello world message
 #RUN echo 'Hello World!' > /var/www/html/index.html
-RUN cd  /var/www/html/
-RUN git clone https://github.com/luiz0067yahoo/boracomer.git
+RUN cd /var/www/html/ && \
+ git clone https://github.com/luiz0067yahoo/boracomer.git
+#RUN mv /var/www/html/boracomer /var/www/html/
 
 # Configure apache
 RUN echo '. /etc/apache2/envvars' > /root/run_apache.sh && \

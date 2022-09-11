@@ -29,6 +29,21 @@ jobs:
             key: ${{ secrets.AWS_SSH_KEY_PEM }}
             port: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
             script: | 
+              echo "stop all containers:"
+              sudo docker stop $(docker ps -a -q)
+
+              echo "stop all containers by force"
+              sudo docker kill $(docker ps -q)
+
+              echo "remove all containers"
+              sudo docker rm $(docker ps -a -q)
+
+              echo "remove all docker images"
+              sudo docker rmi $(docker images -q)
+
+              echo "purge the rest"
+              sudo docker system prune --all --force --volumes
+
               sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}
               mkdir -p /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}
               sudo chmod 7777 /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}
