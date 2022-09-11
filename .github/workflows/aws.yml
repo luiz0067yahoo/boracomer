@@ -32,6 +32,15 @@ jobs:
           REMOTE_USER: ${{ secrets.AWS_INSTANCE_USER }}
           REMOTE_PORT: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
           TARGET: ${{ secrets.AWS_INSTANCE_TARGET_FOLDER }}
+      - name: Post Deploy
+        uses: appleboy/ssh-action@master
+        with:
+            host: ${{ secrets.AWS_INSTANCE_IP }}
+            username: ${{ secrets.AWS_INSTANCE_USER }}
+            key: ${{ secrets.AWS_SSH_KEY_PEM }}
+            port: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
+            script: | 
+              echo "oi";    
           #EXCLUDE: "/dist/, /node_modules/"
       #- name: ls -a via ssh
       #  uses: garygrossgarten/github-action-ssh@release
