@@ -29,10 +29,10 @@ jobs:
             key: ${{ secrets.AWS_SSH_KEY_PEM }}
             port: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
             script: | 
-              sudo rm -rf ~/${{ github.event.repository.name }}
-              mkdir -p ~/${{ github.event.repository.name }}
-              sudo chmod 7777 ~/${{ github.event.repository.name }}
-              cd ~/${{ github.event.repository.name }}
+              sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}
+              mkdir -p /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}
+              sudo chmod 7777 /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}
+              cd /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}
               sudo rm -rf Dockerfile
               wget https://raw.githubusercontent.com/luiz0067yahoo/boracomer/main/Dockerfile
               sudo docker build -t ${{ github.event.repository.name }} .
