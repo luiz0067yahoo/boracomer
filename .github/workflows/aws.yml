@@ -36,11 +36,10 @@ jobs:
               sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}/Dockerfile
               sudo wget https://raw.githubusercontent.com/luiz0067yahoo/boracomer/main/Dockerfile /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}/Dockerfile
 
-              echo "stop all containers:"
-              sudo docker stop $(docker ps -a -q)
-
-              echo "stop all containers by force"
-              sudo docker kill $(docker ps -q)
+              #echo "stop all containers:"
+              #sudo docker stop $(docker ps -a -q)
+              #echo "stop all containers by force"
+              #sudo docker kill $(docker ps -q)
 
               #echo "remove all containers"
               #sudo docker rm $(docker ps -a -q)
@@ -51,6 +50,8 @@ jobs:
               #echo "purge the rest"
               #sudo docker system prune --all --force --volumes
 
+              docker container stop ${{ github.event.repository.name }} 
+              docker kill  ${{ github.event.repository.name }} 
 
               sudo docker build -t ${{ github.event.repository.name }} .
               sudo docker run -d -p 80:80 ${{ github.event.repository.name }}
