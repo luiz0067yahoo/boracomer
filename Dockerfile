@@ -10,7 +10,6 @@ RUN  git clone https://github.com/luiz0067yahoo/boracomer.git /var/www/html/bora
 RUN ls /var/www/html/boracomer/
 RUN chmod -R 755 /var/www/html/boracomer/
 RUN rm -rf /var/www/html/boracomer/main/components/Check-login-component.js
-RUN wget https://raw.githubusercontent.com/luiz0067yahoo/boracomer/main/components/Check-login-component.js /var/www/html/boracomer/main/components/Check-login-component.js
 #RUN mv /var/www/html/boracomer /var/www/html/
 
 # Configure apache
