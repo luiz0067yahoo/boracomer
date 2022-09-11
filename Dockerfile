@@ -6,9 +6,9 @@ RUN apt-get update && \
 
 # Install apache and write hello world message
 #RUN echo 'Hello World!' > /var/www/html/index.html
-RUN cd /var/www/html/ && \
- git clone https://github.com/luiz0067yahoo/boracomer.git && \
- chmod -R 777 /var/www/html/boracomer/
+RUN  git clone https://github.com/luiz0067yahoo/boracomer.git /var/www/html/boracomer/
+RUN ls /var/www/html/boracomer/
+RUN chmod -R 755 /var/www/html/boracomer/
 #RUN mv /var/www/html/boracomer /var/www/html/
 
 # Configure apache
