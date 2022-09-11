@@ -57,6 +57,6 @@ export const CheckLoginComponent={
             catch(e){
                 this.menssageError=e.message;
             }
-        },
+        }
     }
 }
