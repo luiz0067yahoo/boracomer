@@ -34,7 +34,7 @@ jobs:
               sudo chmod 7777 /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}
               cd /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}
               sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}/Dockerfile
-              wget https://raw.githubusercontent.com/luiz0067yahoo/boracomer/main/Dockerfile
+              sudo wget https://raw.githubusercontent.com/luiz0067yahoo/boracomer/main/Dockerfile /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}/Dockerfile
 
               echo "stop all containers:"
               sudo docker stop $(docker ps -a -q)
