@@ -20,19 +20,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-          
-      - name: SSH Connect
-        uses: easingthemes/ssh-deploy@main
-        env:
-          #SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY_PPK }}
-          SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY_PEM }}
-          ARGS: "-rltgoDzvO"
-          #SOURCE: "dist/"
-          REMOTE_HOST: ${{ secrets.AWS_INSTANCE_IP }}
-          REMOTE_USER: ${{ secrets.AWS_INSTANCE_USER }}
-          REMOTE_PORT: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
-          TARGET: ${{ secrets.AWS_INSTANCE_TARGET_FOLDER }}
-      - name: Post Deploy
+
+      - name: SSH connect
         uses: appleboy/ssh-action@master
         with:
             host: ${{ secrets.AWS_INSTANCE_IP }}
