@@ -18,7 +18,7 @@ import { UpdateAddressComponent } from '../components/Update-address-component.j
 import { UpdateAddressSuccessComponent } from '../components/Update-address-success-component.js'
 import { AddNewAddressComponent } from '../components/Add-new-address-component.js'
 import { SelectListAdrressComponent } from '../components/Select-list-address-component.js'
-import { CheckLoginComponent } from '../components/check-login-component.js'
+import { CheckLoginComponent } from '../components/Check-login-component.js'
 import {CreateOrderSuccessComponent} from '../components/Create-order-success-component.js'
 import {OrderDetailComponent} from '../components/Order-detail-component.js'
 
