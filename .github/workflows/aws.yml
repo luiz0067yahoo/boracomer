@@ -36,13 +36,14 @@ jobs:
               sudo rm -rf /etc/docker/daemon.json
               echo "config docker"
               sudo touch /etc/docker/daemon.json
-              echo '{' >> /etc/docker/daemon.json
-              echo '"metrics-addr" : "0.0.0.0:9323",' >> /etc/docker/daemon.json
-              echo '"experimental" : true' >> /etc/docker/daemon.json
-              echo '}' >> /etc/docker/daemon.json
+              sudo echo '{' >> /etc/docker/daemon.json
+              sudo echo '"metrics-addr" : "0.0.0.0:9323",' >> /etc/docker/daemon.json
+              sudo echo '"experimental" : true' >> /etc/docker/daemon.json
+              sudo echo '}' >> /etc/docker/daemon.json
               echo "edit file config docker"
               service docker restart
               echo "restart docker"
+              #sudo dockerd
 
               netstat -nl | grep 9323
               groupadd --system prometheus
@@ -144,7 +145,7 @@ jobs:
 
               sudo docker build -t ${{ github.event.repository.name }} .
               echo "build container"
-              sudo docker run -d -p 80:80 ${{ github.event.repository.name }}
+              sudo docker run --name ${{ github.event.repository.name }}_run -d -p 80:80 ${{ github.event.repository.name }}
               echo "run container"
 
               #echo "stop all containers:"
@@ -160,4 +161,5 @@ jobs:
 
               #echo "purge the rest"
               #sudo docker system prune --all --force --volumes
+              #sudo docker exec –it boracomer /bin/bash
 
