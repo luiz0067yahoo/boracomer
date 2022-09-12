@@ -88,7 +88,7 @@ const routes = [
     {name: 'edit-item-pizza-pedido-less-aditionais-less-border-store',      path: '/empresa/:aliasStore/item-pedido/:id/tamanho/:idSize/sabores/:idsFlavors/quantidade/:amount' , component:OrderItemComponent,},
     {name: 'items-pedido-store',                                            path: '/empresa/:aliasStore/items-pedido' , component:OrderItemsComponent,},
     {name: 'create-order-success-store',                                    path: '/empresa/:aliasStore/create-order-success/:id' , component:CreateOrderSuccessComponent},
-    {name: 'order-detail-store',                                            path: '/empresa/:aliasStore/order-detail/:id' , component:OrderDetailComponent},
+    {name: 'order-detail-store',                                            path: '/empresa/:aliasStore/order-detail/:idOrder' , component:OrderDetailComponent},
 ];
 
 export const router = VueRouter.createRouter({

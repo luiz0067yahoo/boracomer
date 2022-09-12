@@ -20,11 +20,13 @@
 					</label>
 					<label class="font-size-3 m-0  ">{{formatMoney(calcPriceItem(item))}}</label>
 				</div>
-				<div v-if="item.pizza==true"  class="d-flex  w-100 ">
+				<div v-if="item.product.pizza==true"  class="d-flex  w-100 ">
 					<label class="font-size-4 m-0 ">
-						{{(isEmpty(item.size))?"":"TAMANHO:  "+item.size.descricao}}
-						{{(isEmpty(item.flavors))?"":"SABORES: "+getDesriptionFlavorsPizza(item.flavors).join(", ")}}
-						{{(isEmpty(item.border))?"":" BORDA: "+item.border.descricao}}
+						{{(isEmpty(item.size))?"":"TAMANHO:  "+item.size.descricao+" "+formatMoney(item.size.valor_tamanho)}}
+						{{(isEmpty(item.flavors))?"":"SABORES: "+getDesriptionFlavorsPizzaAndPrice(item.flavors).join(", ")}}
+						{{
+							(isEmpty(item.border))?"":"BORDA: "+item.border.borda.descricao+" "+((item.border.valor_borda>0)?formatMoney(item.border.valor_borda):"")
+						}}
 					</label>
 				</div>
 			</div>

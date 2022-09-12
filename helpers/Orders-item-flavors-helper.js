@@ -46,5 +46,12 @@ export const OrdersItemFlavorsHelper= {
         }
         return resultItems;
     },
+    async findByStoreAliasOrderItemId(storeAlias,storeId,orderId,orderitemId){
+        let resultOrderItems;
+        try{
+            resultOrderItems= await conect.get(this.url,{"empresa.apelido":storeAlias,"empresa.id":storeId,"itempedido.pedido":orderId,"itempedido.id":orderitemId});
+            return resultOrderItems.data
+        }catch(e){throw Error("Erro ao buscar items de pedido");}
+    }, 
     
 }

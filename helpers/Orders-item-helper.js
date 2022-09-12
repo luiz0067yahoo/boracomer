@@ -29,6 +29,12 @@ export const OrdersItemHelper= {
             throw Error("Erro ao enviar item o pedido");
         }
     },
-    
+    async findByStoreAliasOrderId(storeAlias,storeId,userId,OrderId){
+        let resultOrderItems;
+        try{
+            resultOrderItems= await conect.get(this.url,{"empresa.apelido":storeAlias,"empresa.id":storeId,"pedido.usuario":userId,"pedido.id":OrderId});
+            return resultOrderItems.data
+        }catch(e){throw Error("Erro ao buscar items de pedido");}
+    }, 
     
 }

@@ -6,8 +6,131 @@
 		</label>
 	</div>
 	
-	<label class="w-100  p-0 font-size-2 margin-y-10">
+	<label class="w-100  p-0 font-size-2 margin-y-10" v-if="!isEmpty(order)">
 		<hr class="w-100">
-		<p>Pedido: <b>{{id}}</b> De: <b>{{}}</b>Data: <b>{{getDateOrderFormat()}}</b> Hora:<b>{{getHourOrderFormat()}} </b></p>
+		<p class="w-100 d-flex justify-content-between">
+			<label>
+				<b>
+					Pedido: 
+				</b> 
+				{{id}}
+			</label>
+			<label>
+				<b>
+					Telefone: 
+				</b> 
+				{{getPHoneOderFormat()}}
+			</label>
+			<label>
+				&nbsp;
+				<b>
+					Data: 
+				</b> 
+				{{getDateOrderFormat()}}
+				<b>
+					Hora:
+				</b>
+				{{getHourOrderFormat()}} 
+			</label>
+		</p>
+		<p class="w-100 d-flex justify-content-between">
+			<label>
+				Tipo de Entrega: <b>{{order.tipo_entrega}}</b> 
+			</label>
+			<label>
+				<b>
+					Troco: 
+				</b> 
+				{{getCashbackOderFormat()}}
+			</label>
+			<label>
+				&nbsp;
+				<b>
+					Total: 
+				</b> 
+				{{getTotalOderFormat()}}
+			</label>
+		</p>
+		<p class="w-100 " v-if="order.tipo_entrega=='ENTREGAR'">
+			<hr class="w-100">
+			<label>
+				<b>
+					Endereço de Entrega:<br>
+				</b>
+					&nbsp;
+					{{order.endereco}}, 
+					{{order.numero}} 
+					{{order.bairro}} 
+					{{order.municipio.nome}} - {{order.municipio.uf}}
+					{{order.complemento}}
+			</label>
+		</p>
+		<hr class="w-100">
+		<p class="w-100 d-flex justify-content-between">
+			<label>
+				<b>
+					De: 
+				</b> 
+					{{order.nome}}
+			</label>
+		</p>
+		<p class="w-100 d-flex justify-content-between">
+			<label>
+				<b>
+					Usuário: 
+				</b> 
+				{{getUserNameOrder()}}
+			</label>
+			<label>
+				<b>
+					E-mail: 
+				</b> 
+				{{getEmailOrder()}}
+			</label>
+		</p>
+		<hr class="w-100">
+		<p class="w-100 d-flex justify-content-between">
+
+
+			
+
+
+			<div class="w-100"  v-for="(item, index) in orderItems">
+				<div class="d-flex justify-content-between align-items-end w-100 ">
+					<label class="font-size-2 m-0  ">
+						<b>{{item.quantidade}}x {{(isEmpty(item.produto))?"":item.produto.descricao}}</b>
+					</label>
+					<label class="font-size-3 m-0  ">{{formatMoney(item.valor_total_item)}}</label>
+				</div>
+				<div v-if="item.produto.pizza==true"  class="d-flex  w-100 ">
+					<label class="font-size-4 m-0 ">
+						{{(isEmpty(item.tamanho))?"":"TAMANHO:  "+item.tamanho.descricao+" "+formatMoney(item.tamanho.valor_tamanho)}}
+						{{(arrayAllElementsIsEmpy(orderItemsFlavors))?"":"SABORES: "+getDesriptionFlavorsPizzaAndPrice(index).join(", ")}}
+						{{
+							(isEmpty(item.bordatamanho))?"":" BORDA: "+desciptionBorderById(item.bordatamanho.borda)+" "+((item.bordatamanho.valor_borda>0)?formatMoney(item.bordatamanho.valor_borda):"")
+						}}
+					</label>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+		</p>
+		<hr class="w-100">
+		<p class="w-100 d-flex justify-content-between">
+			<label>
+				<b>
+					Observação:
+				</b> 
+				{{order.observacao}}
+			</label>
+		</p>
 	</label>
 </div>

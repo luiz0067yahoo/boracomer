@@ -440,7 +440,6 @@ export const OrderItemComponent={
                     var sizeParam=this.sizePizzaParam;
                     var itemsGroupAdditionalParam=this.itemsGroupAdditionalParam;
                     var note=this.note;
-                    
                     var total=this.calcPriceProduct();                   
                     if((product.pizza===false)||this.validPizza(product,size,flavors)){
                         var index=this.itemIndexOf(order,product,sizeParam,flavorsParam,borderParam,itemsGroupAdditionalParam);

@@ -34,4 +34,26 @@ export const BordersPizzaHelper = {
             throw Error("Erro ao buscar borda da pizza");
         }
     },
+    findByStoreAliasIdOnlyLocalStorage(id){
+        var accumulatorBorderPizza=null;
+        try{
+            JSON.parse(localStorage.getItem('bordersPizza')).forEach(element => {
+                if(element.id==id){
+                    accumulatorBorderPizza=element;
+                }
+            });
+            return accumulatorBorderPizza;
+        }
+        catch(e){
+            throw Error("Erro ao buscar borda da pizza");
+        }
+    },
+    async findByStoreAliasId(storeAlias,id){
+        let resultBordersPizza;
+        try{
+            resultBordersPizza= await conect.get(this.url,{"empresa.apelido":storeAlias,ativo:true,"borda.id":id});
+            localStorage.bordersPizza=JSON.stringify(resultBordersPizza.data);
+            return resultBordersPizza.data
+        }catch(e){throw Error("Erro ao buscar borda da pizza");}
+    },
 }

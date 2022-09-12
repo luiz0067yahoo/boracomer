@@ -248,6 +248,28 @@ export const OrderItemsComponent={
                 });
                 return ids;
             },
+            getDesriptionFlavorsPizzaAndPrice(flavorsPizza){
+                try{
+                    var descriptions=[];
+                    flavorsPizza.forEach(element => {
+                        if(!until.isEmpty(element)&& (typeof  element.descricao === 'string')){
+                            if(
+                                !until.isEmpty(element.valor) 
+                                && element.valor>0
+                            ){
+                                descriptions.push(element.descricao+" "+this.formatMoney(element.valor));
+                            }
+                            else{
+                                descriptions.push(element.descricao);
+                            }
+                        }
+                    });
+                }
+                catch(e){
+                    //console.log(e);
+                }
+                return descriptions;
+            },
             getDesriptionFlavorsPizza(flavorsPizza){
                 try{
                     var descriptions=[];

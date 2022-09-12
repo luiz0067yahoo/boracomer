@@ -79,6 +79,20 @@ export const until = {
 		var re = /\([0-9]{2,2}\)\s[0-9]{4,5}-?[0-9]{4}/g;
         return re.test(phone);
 	},
+	formatPhoneNumber(phoneNumberString) {
+		var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
+		var match = [];
+		if(cleaned.length==10){
+			match=cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+		}
+		else if(cleaned.length==11){
+			match=cleaned.match(/^(\d{3})(\d{4})(\d{4})$/)
+		}
+		if (match) {
+		  return '(' + match[1] + ') ' + match[2] + '-' + match[3]
+		}
+		return null
+	},	  
 	zipCodeBrasilianIsValid(phone){
 		var re = /[0-9]{5}-?[0-9]{3}/g;
         return re.test(phone);

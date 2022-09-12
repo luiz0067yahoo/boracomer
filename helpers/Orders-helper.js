@@ -67,29 +67,30 @@ export const OrdersHelper= {
         }
     },
    
-    async lastOrdes(storeAlias,userId){
+    async lastOrdes(storeAlias,storeId,userId){
 		let resultOrder;
         try{
-            resultOrder= await conect.get(this.url,{"empresa.apelido":storeAlias,"usuario.id":userId});
+            resultOrder= await conect.get(this.url,{"empresa.apelido":storeAlias,"empresa.id":storeId,"usuario.id":userId});
             return resultOrder.data
         }catch(e){throw Error("Erro ao buscar pedidos");}
     },
     
-    async OrdeById(storeAlias,userId,OrderId){
-        var result=null;
+    async findByStoreAliasOrderId(storeAlias,storeId,userId,OrderId){
+        let resultOrder=null;
+        let order=null;
         try{
-            let resultOrder= await this.lastOrdes(storeAlias,userId)
-            resultOrder.forEach(element => {
-                if(
-                    (element.id==OrderId)
-                ){
-                    result=element;
-                }
-            });
-            return result;
-        }
-        catch(e){
-            throw Error("Erro ao buscar pedido");
+            resultOrder= await conect.get(this.url,{"empresa.apelido":storeAlias,"empresa.id":storeId,"usuario.id":userId,"id":OrderId});
+            if (
+                (!until.isEmpty(resultOrder.data))
+                &&(resultOrder.data.length>0)
+                &&(!until.arrayAllElementsIsEmpy(resultOrder.data))
+            )
+            {
+                order=resultOrder.data[0];
+            }
+            return order
+        }catch(e){
+            throw Error("Erro ao buscar pedidos");
         }
     }, 
 }
