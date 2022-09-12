@@ -83,10 +83,10 @@ export const until = {
 		var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
 		var match = [];
 		if(cleaned.length==10){
-			match=cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+			match=cleaned.match(/^(\d{2})(\d{4})(\d{4})$/)
 		}
 		else if(cleaned.length==11){
-			match=cleaned.match(/^(\d{3})(\d{4})(\d{4})$/)
+			match=cleaned.match(/^(\d{2})(\d{5})(\d{4})$/)
 		}
 		if (match) {
 		  return '(' + match[1] + ') ' + match[2] + '-' + match[3]
