@@ -26,7 +26,6 @@ export const OrderDetailComponent={
         if(!until.isEmpty(this.$route.params.idOrder)){
             this.id= this.$route.params.idOrder;
             var userId=this.getUserID();
-            userId=6;//###########
             this.order = await OrdersHelper.findByStoreAliasOrderId(this.store.apelido,this.store.id,userId,this.id);
             var orderId=this.order.id;
             if(!until.isEmpty(this.order)){
