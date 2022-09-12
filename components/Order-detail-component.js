@@ -56,9 +56,9 @@ export const OrderDetailComponent={
         else{
             $("#tabIcon").href=this.emptyPhoto;
         }
+        $('title').html(this.store.nome+' - detalhes do pedido '+this.$route.params.idOrder);
     },
     mounted: function() {
-        $('title').html(this.store.nome+' - detalhes do pedido '+this.id);
         if(!until.isEmpty(this.store.logo_url)){
             $("#tabIcon").href=this.store.logo_url;
         }
