@@ -29,7 +29,6 @@ jobs:
             key: ${{ secrets.AWS_SSH_KEY_PEM }}
             port: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
             script: | 
-              apt-get update
               sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}
               echo "remove folder"
               mkdir -p /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}
