@@ -122,7 +122,7 @@ jobs:
               systemctl daemon-reload
               systemctl start prometheus
               echo "http://34.216.84.149:9090"
-
+              sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/prometheus*
 
 
               sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}
