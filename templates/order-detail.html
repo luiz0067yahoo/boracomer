@@ -105,12 +105,17 @@
 				<div v-if="item.produto.pizza==true"  class="d-flex  w-100 ">
 					<label class="font-size-4 m-0 ">
 						{{(isEmpty(item.tamanho))?"":"TAMANHO:  "+item.tamanho.descricao+" "+formatMoney(item.tamanho.valor_tamanho)}}
-						{{(arrayAllElementsIsEmpy(orderItemsFlavors))?"":"SABORES: "+getDesriptionFlavorsPizzaAndPrice(index).join(", ")}}
-						{{
-							(isEmpty(item.bordatamanho))?"":" BORDA: "+desciptionBorderById(item.bordatamanho.borda)+" "+((item.bordatamanho.valor_borda>0)?formatMoney(item.bordatamanho.valor_borda):"")
-						}}
+						{{(arrayAllElementsIsEmpy(orderItemsFlavors))?"":" SABORES: "+getDesriptionFlavorsPizzaAndPrice(index).join(", ")}}
+						{{(arrayAllElementsIsEmpy(orderItemsProductAdditional))?"":" ADICIONAIS: "+getDesriptionProductAdditionalAndPrice(index).join(", ")}}
+						{{(isEmpty(item.bordatamanho))?"":" BORDA: "+desciptionBorderById(item.bordatamanho.borda)+" "+((item.bordatamanho.valor_borda>0)?formatMoney(item.bordatamanho.valor_borda):"")}}
 					</label>
 				</div>
+				<div  class="d-flex  w-100 ">
+					<label class="font-size-4 m-0 ">
+						{{(isEmpty(item.observacao))?"":" OBSERVAÇÃO:  "+item.observacao}}
+					</label>
+				</div>
+
 			</div>
 
 

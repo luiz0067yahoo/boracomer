@@ -22,11 +22,15 @@
 				</div>
 				<div v-if="item.product.pizza==true"  class="d-flex  w-100 ">
 					<label class="font-size-4 m-0 ">
-						{{(isEmpty(item.size))?"":"TAMANHO:  "+item.size.descricao+" "+formatMoney(item.size.valor_tamanho)}}
-						{{(isEmpty(item.flavors))?"":"SABORES: "+getDesriptionFlavorsPizzaAndPrice(item.flavors).join(", ")}}
-						{{
-							(isEmpty(item.border))?"":"BORDA: "+item.border.borda.descricao+" "+((item.border.valor_borda>0)?formatMoney(item.border.valor_borda):"")
-						}}
+						{{(isEmpty(item.size))?"":" TAMANHO:  "+item.size.descricao+" "+formatMoney(item.size.valor_tamanho)}}
+						{{(isEmpty(item.flavors))?"":" SABORES: "+getDesriptionFlavorsPizzaAndPrice(item.flavors).join(", ")}}
+						{{(isEmpty(item.itemsGroupAdditional))?"":" ADICIONAIS: "+getDesriptionProductAdditionalAndPrice(item.itemsGroupAdditional).join(", ")}}
+						{{(isEmpty(item.border))?"":" BORDA: "+item.border.borda.descricao+" "+((item.border.valor_borda>0)?formatMoney(item.border.valor_borda):"")}}
+					</label>
+				</div>
+				<div  class="d-flex  w-100 ">
+					<label class="font-size-4 m-0 ">
+						{{(isEmpty(item.note))?"":" OBSERVAÇÃO:  "+item.note}}
 					</label>
 				</div>
 			</div>

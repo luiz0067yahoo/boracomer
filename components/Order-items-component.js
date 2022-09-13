@@ -4,6 +4,7 @@ import {StoresHelper} from '../helpers/Stores-helper.js'
 import { OrdersHelper } from '../helpers/Orders-helper.js'
 import { OrdersItemHelper } from '../helpers/Orders-item-helper.js'
 import { OrdersItemFlavorsHelper } from '../helpers/Orders-item-flavors-helper.js'
+import { OrdersItemProductAdditionalHelper } from '../helpers/Orders-item-product-additional-helper.js'
 export const OrderItemsComponent={
     template: '#order-items-template',
        data() {
@@ -270,6 +271,28 @@ export const OrderItemsComponent={
                 }
                 return descriptions;
             },
+            getDesriptionProductAdditionalAndPrice(itemsGroupAdditional){
+                try{
+                    var descriptions=[];
+                    itemsGroupAdditional.forEach(element => {
+                        if(!until.isEmpty(element)&& !until.isEmpty(element.produto)&& (typeof  element.produto.descricao === 'string')){
+                            if(
+                                !until.isEmpty(element.valor) 
+                                && element.valor>0
+                            ){
+                                descriptions.push(element.produto.descricao+" "+this.formatMoney(element.valor));
+                            }
+                            else{
+                                descriptions.push(element.produto.descricao);
+                            }
+                        }
+                    });
+                }
+                catch(e){
+                    //console.log(e);
+                }
+                return descriptions;
+            },
             getDesriptionFlavorsPizza(flavorsPizza){
                 try{
                     var descriptions=[];
@@ -355,7 +378,8 @@ export const OrderItemsComponent={
                         );
                         var itemId=resultItem.id;
                         if(item.product.pizza==true){
-                            this.createItemFlavorOrder(this.store.id,item.flavors,itemId)
+                            this.createItemFlavorOrder(this.store.apelido,this.store.id,itemId,item.flavors)
+                            this.createItemProductAdditional(this.store.apelido,this.store.id,itemId,item.itemsGroupAdditional)
                         }
                     }
                 }catch(e){
@@ -364,14 +388,32 @@ export const OrderItemsComponent={
                 }
                 return resultItem;
             },
-            async createItemFlavorOrder(storeId,flavors,itemId){
+            async createItemFlavorOrder(storeAlias,storeId,itemId,flavors){
                 let resultFlavorItem=null;
                 try{
                     if (!until.isEmpty(flavors)){
                         resultFlavorItem =await OrdersItemFlavorsHelper.sendItemsFlavorsOrder(
+                            storeAlias,
                             storeId,
-                            flavors,
                             itemId,
+                            flavors,
+                        )
+                    }
+                }catch(e){
+                    this.menssageError=e.message;
+                    console.log(e);
+                }
+                return resultFlavorItem;
+            },
+            async createItemProductAdditional(storeAlias,storeId,itemId,productAdditionals){
+                let resultFlavorItem=null;
+                try{
+                    if (!until.isEmpty(productAdditionals)){
+                        resultFlavorItem =await OrdersItemProductAdditionalHelper.sendItemsProductAdditionalOrder(
+                            storeAlias,
+                            storeId,
+                            itemId,
+                            productAdditionals,
                         )
                     }
                 }catch(e){

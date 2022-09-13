@@ -4,9 +4,8 @@ import {until} from '../untils/until.js'
 export const OrdersItemFlavorsHelper= {
     url:'itempedidosabors',
    
-    async sendItemFlavorOrder(storeId,flavor,itemId){
+    async sendItemFlavorOrder(storeAlias,storeId,itemId,flavor){
         try{
-            console.log(itemId);
             var params={
                 "uuid": until.uuid(),
                 "itempedido": {
@@ -20,9 +19,8 @@ export const OrdersItemFlavorsHelper= {
                     "id": storeId,
                 }
             }
-            console.log(params);
             let resultItemOrder= await conect.post(
-                this.url,
+                this.url+"?"+(new URLSearchParams({"empresa.apelido":storeAlias})).toString(),
                 params
             );
             return resultItemOrder.data;
@@ -32,11 +30,11 @@ export const OrdersItemFlavorsHelper= {
             throw Error("Erro ao enviar item o pedido");
         }
     },
-    async sendItemsFlavorsOrder(storeId,flavors,itemId){
+    async sendItemsFlavorsOrder(storeAlias,storeId,itemId,flavors){
         var resultItems=[];
         try{
             flavors.forEach(flavor=> {
-                var resultItem=this.sendItemFlavorOrder(storeId,flavor,itemId);
+                var resultItem=this.sendItemFlavorOrder(storeAlias,storeId,itemId,flavor);
                 resultItems.push(resultItem.data);
             });
         }

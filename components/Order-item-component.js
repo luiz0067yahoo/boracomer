@@ -9,7 +9,7 @@ import { GroupsAdditionalHelpers } from '../helpers/Groups-additional-helper.js'
 import { ItemsGroupsAdditionalHelpers } from '../helpers/Items-groups-additional-helper.js'
 export const OrderItemComponent={
     template: '#order-item-template',    
-       data() {
+        data() {
             return {
                 store:{nome:'',logo_url:'./assets/img/emptyPhoto.svg'},
                 storePath: '',
@@ -97,9 +97,9 @@ export const OrderItemComponent={
             else{
                 $("#tabIcon").href=this.emptyPhoto;
             }
+            $('title').html(this.store.nome+' - item pedido');
         },
         mounted: function() {
-            $('title').html(this.store.nome+' - item pedido');
             this.changeAdditional();
             if(!until.isEmpty(this.store.logo_url)){
                 $("#tabIcon").href=this.store.logo_url;
@@ -114,8 +114,7 @@ export const OrderItemComponent={
             },
             isEmpty(val){
                 return until.isEmpty(val);
-            },
-            
+            },            
             minusAmountitem(){
                 if(this.amount>1)
                     this.amount--;
@@ -215,8 +214,7 @@ export const OrderItemComponent={
                 }
                 catch(e){
                 }
-            },
-            
+            },            
             addAmountitem(){
                 this.amount++;
                 this.totalPriceProduct();
@@ -245,8 +243,7 @@ export const OrderItemComponent={
             async totalPriceProduct(){
                 this.total=this.amount*this.calcPriceProduct();
                 return this.total;
-            },
-           
+            },           
             calcPriceProduct(){
                 var price=0;
                 if(this.product.pizza===true){
@@ -434,7 +431,6 @@ export const OrderItemComponent={
                     var border=this.borderSizePizzaSelected;
                     var size=this.sizePizzaSelected;
                     var itemsGroupAdditional=this.itemsGroupAdditionalSelected;
-
                     var flavorsParam=this.flavorsPizzaParam; 
                     var borderParam=this.borderSizePizzaParam;
                     var sizeParam=this.sizePizzaParam;
@@ -506,7 +502,6 @@ export const OrderItemComponent={
                 }
                 this.saveOrder(order);
             },
-
         }
     
     }
