@@ -1,1 +1,108 @@
 
+
+name: installPrometheusAwsEC2
+
+on:
+
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Start AWS EC2
+
+        run: |
+          aws ec2 start-instances --instance-ids ${{secrets.AWS_INSTANCE_ID }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: SSH connect
+        uses: appleboy/ssh-action@master
+        with:
+            host: ${{ secrets.AWS_INSTANCE_IP }}
+            username: ${{ secrets.AWS_INSTANCE_USER }}
+            key: ${{ secrets.AWS_SSH_KEY_PEM }}
+            port: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
+            script: | 
+              apt-get update
+              echo "update system"
+              netstat -nl | grep 9323
+              groupadd --system prometheus
+              echo "test port prometheus docker"
+              useradd -s /bin/false -r -g prometheus prometheus
+              echo "add group sudo user prometheus"
+              mkdir -p /etc/prometheus
+              mkdir -p /var/lib/prometheus
+              echo "create folder prometheus"
+              sudo mkdir /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}/downloads/prometheus -p
+              echo "create folder download"
+              cd /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}/downloads/prometheus -p
+              echo "open folder download"
+              wget https://github.com/prometheus/prometheus/releases/download/v2.8.0/prometheus-2.8.0.linux-amd64.tar.gz
+              echo "prometheus download"
+              tar -zxvf prometheus-2.8.0.linux-amd64.tar.gz
+              echo "extract download"
+              cd prometheus-2.8.0.linux-amd64/
+              echo "open download"
+              install prometheus /usr/local/bin/
+              echo "install prometheus"
+              install promtool /usr/local/bin/
+              echo "install promtool"
+              mv consoles /etc/prometheus/
+              echo "move folder"
+              mv console_libraries /etc/prometheus/
+              echo "move folder"
+              cd /etc/prometheus
+              echo "open prometheus folder"
+              sudo rm -rf /etc/prometheus/prometheus.yml
+              echo "config prometheus"
+              sudo touch /etc/prometheus/prometheus.yml
+              echo "global:" >> /etc/prometheus/prometheus.yml
+              echo "  scrape_interval: 15s" >> /etc/prometheus/prometheus.yml
+              echo 'scrape_configs:' >> /etc/prometheus/prometheus.yml
+              echo "  - job_name: 'prometheus'" >> /etc/prometheus/prometheus.yml
+              echo "    scrape_interval: 5s" >> /etc/prometheus/prometheus.yml
+              echo "    static_configs:" >> /etc/prometheus/prometheus.yml
+              echo "      - targets: ['localhost:9090']" >> /etc/prometheus/prometheus.yml
+              echo "  - job_name: 'docker'" >> /etc/prometheus/prometheus.yml
+              echo "    static_configs:" >> /etc/prometheus/prometheus.yml
+              echo "      - targets: ['${{ secrets.AWS_INSTANCE_IP }}']" >> /etc/prometheus/prometheus.yml
+              echo "edit file config prometheus"
+              prometheus --config.file /etc/prometheus/prometheus.yml --storage.tsdb.path /var/lib/prometheus/ --web.console.templates=/etc/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries
+              echo "active file config prometheus"
+              chown prometheus:prometheus /usr/local/bin/prometheus
+              chown prometheus:prometheus /usr/local/bin/promtool
+              chown prometheus:prometheus /var/lib/prometheus -R
+              chown prometheus:prometheus /var/lib/prometheus -R
+              chmod -R 775 /etc/prometheus/ /var/lib/prometheus/
+              sudo rm -rf /etc/systemd/system/prometheus.service
+              sudo touch /etc/systemd/system/prometheus.service
+              echo "[Unit]" >> /etc/systemd/system/prometheus.service
+              echo "Description=Prometheus" >> /etc/systemd/system/prometheus.service
+              echo "Wants=network-online.target" >> /etc/systemd/system/prometheus.service
+              echo "After=network-online.target" >> /etc/systemd/system/prometheus.service
+              echo "" >> /etc/systemd/system/prometheus.service
+              echo "[Service]" >> /etc/systemd/system/prometheus.service
+              echo "User=prometheus" >> /etc/systemd/system/prometheus.service
+              echo "Group=prometheus" >> /etc/systemd/system/prometheus.service
+              echo "Type=simple" >> /etc/systemd/system/prometheus.service
+              echo "ExecStart=/usr/local/bin/prometheus --config.file /etc/prometheus/prometheus.yml --storage.tsdb.path /var/lib/prometheus/ --web.console.templates=/etc/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries" >> /etc/systemd/system/prometheus.service
+              echo "" >> /etc/systemd/system/prometheus.service
+              echo "[Install]" >> /etc/systemd/system/prometheus.service
+              echo "WantedBy=multi-user.target" >> /etc/systemd/system/prometheus.service
+              echo "SyslogIdentifier=prometheus" >> /etc/systemd/system/prometheus.service
+              echo "Restart=always" >> /etc/systemd/system/prometheus.service
+              chown prometheus:prometheus /var/lib/prometheus -R
+              chmod 775 /var/lib/prometheus -R
+              systemctl daemon-reload
+              systemctl daemon-reload
+              systemctl start prometheus
+              echo "http://34.216.84.149:9090"
+              sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/prometheus*
