@@ -52,18 +52,5 @@ jobs:
               sudo docker run -d -p 80:80 ${{ github.event.repository.name }}
               echo "run container"
 
-              #echo "stop all containers:"
-              #sudo docker stop $(docker ps -a -q)
-              #echo "stop all containers by force"
-              #sudo docker kill $(docker ps -q)
-
-              #echo "remove all containers"
-              #sudo docker rm $(docker ps -a -q)
-
-              #echo "remove all docker images"
-              #sudo docker rmi $(docker images -q)
-
-              #echo "purge the rest"
-              #sudo docker system prune --all --force --volumes
               #sudo docker exec –it boracomer /bin/bash
 
