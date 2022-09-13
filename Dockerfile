@@ -8,6 +8,7 @@ RUN apt-get update && \
 #RUN echo 'Hello World!' > /var/www/html/index.html
 RUN  git clone https://github.com/luiz0067yahoo/boracomer.git ~/boracomer/
 RUN chmod -R 755 /var/www/html/
+RUN sudo su
 RUN mv ~/boracomer/ /var/www/html/
 
 
