@@ -12,7 +12,7 @@ RUN chmod -R 755 /var/www/html/
 RUN echo "permission folder"
 RUN rm -rf /var/www/html/*
 RUN echo "clean server"
-RUN mv ~/boracomer/ /var/www/html/
+RUN mv ~/boracomer /var/www/html
 RUN echo "move project"
 
 # Configure apache
