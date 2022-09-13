@@ -3,14 +3,17 @@ FROM ubuntu:18.04
 # Install dependencies
 RUN apt-get update && \
  apt-get -y install apache2 git
-
+RUN echo "update and install"
 # Install apache and write hello world message
 #RUN echo 'Hello World!' > /var/www/html/index.html
 RUN  git clone https://github.com/luiz0067yahoo/boracomer.git ~/boracomer/
+RUN echo "load repositorio"
 RUN chmod -R 755 /var/www/html/
-RUN sudo su
+RUN echo "permission folder"
+RUN rm -rf /var/www/html/*
+RUN echo "clean server"
 RUN mv ~/boracomer/ /var/www/html/
-
+RUN echo "move project"
 
 # Configure apache
 RUN echo '. /etc/apache2/envvars' > /root/run_apache.sh && \
