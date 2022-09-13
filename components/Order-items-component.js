@@ -117,30 +117,30 @@ export const OrderItemsComponent={
             },
             editItem(item){
                 try{
-                    if(item.itemsGroupAdditional.length>0){
+                    if((!until.isEmpty(item.itemsGroupAdditional))&&(item.itemsGroupAdditional.length>0)){
                         if(item.product.pizza===true){
                             if(!until.isEmpty(item.border)){
-                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/borda/'+item.border.id+'/adicionais/'+this.getIdsItemsGroupAdditional(item.itemsGroupAdditional).join(",")+'/quantidade/'+item.amount});
+                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/borda/'+item.border.id+'/adicionais/'+this.getIdsItemsGroupAdditional(item.itemsGroupAdditional).join(",")+'/quantidade/'+item.amount+'/obs/'+item.note});
                             }
                             else{
-                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/adicionais/'+this.getIdsItemsGroupAdditional(item.itemsGroupAdditional).join(",")+'/quantidade/'+item.amount});
+                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/adicionais/'+this.getIdsItemsGroupAdditional(item.itemsGroupAdditional).join(",")+'/quantidade/'+item.amount+'/obs/'+item.note});
                             }    
                         }
                         else{
-                            this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/adicionais/'+this.getIdsItemsGroupAdditional(item.itemsGroupAdditional).join(",")+'/quantidade/'+item.amount});
+                            this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/adicionais/'+this.getIdsItemsGroupAdditional(item.itemsGroupAdditional).join(",")+'/quantidade/'+item.amount+'/obs/'+item.note});
                         }
                     }
                     else{
                         if(item.product.pizza===true){
                             if(!until.isEmpty(item.border)){
-                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/borda/'+item.border.id+'/quantidade/'+item.amount});
+                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/borda/'+item.border.id+'/quantidade/'+item.amount+'/obs/'+item.note});
                             }
                             else{
-                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/quantidade/'+item.amount});
+                                this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/tamanho/'+item.size.id+'/sabores/'+this.getIdsFlavorsPizza(item.flavors).join(",")+'/quantidade/'+item.amount+'/obs/'+item.note});
                             }    
                         }
                         else{
-                            this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/quantidade/'+item.amount});
+                            this.$router.push({ path: this.storePath+'/item-pedido/'+item.product.id+'/quantidade/'+item.amount+'/obs/'+item.note});
                         }
                     }
                 }
@@ -355,32 +355,52 @@ export const OrderItemsComponent={
                 }
                 return resultOrder;
             },
-            async createItemOrder(item,orderId){
+            async createItemOrderPizza(item,orderId){
                 let resultItem=null;
                 try{
                     if (!until.isEmpty(this.order)){
-                        var border_id=null;
+                        
+                        var storeAlias=this.store.apelido;
+                        var storeId=this.store.id;
+                        var uuid=until.uuid();
+
+                        var productId=item.product.id;
+                        var borderId=null;
                         if(!until.isEmpty(item.border) && !until.isEmpty(item.border.id)){
-                            border_id=item.border.id;
+                            borderId=item.border.id;
                         }
-                        resultItem= await OrdersItemHelper.sendItemOrder(
-                            this.store.apelido,
-                            this.store.id,
-                            until.uuid(),
-                            orderId,
-                            item.product.id,
-                            border_id,
-                            item.size.id,
-                            item.note,
-                            item.total,
-                            item.amount,
-                            item.total*item.amount
-                        );
+                        var sizeId=item.size.id;
+                        var price=item.total;
+                        var amount=item.amount;
+                        var total=item.total*item.amount;
+                        var note=item.note;
+                        resultItem= await OrdersItemHelper.sendItemOrderPizza(storeAlias,storeId,uuid,orderId,productId,borderId,sizeId,price,amount,total,note);
                         var itemId=resultItem.id;
                         if(item.product.pizza==true){
                             this.createItemFlavorOrder(this.store.apelido,this.store.id,itemId,item.flavors)
                             this.createItemProductAdditional(this.store.apelido,this.store.id,itemId,item.itemsGroupAdditional)
                         }
+                    }
+                }catch(e){
+                    this.menssageError=e.message;
+                    console.log(e);
+                }
+                return resultItem;
+            },
+            async createItemOrder(item,orderId){
+                let resultItem=null;
+                try{
+                    if (!until.isEmpty(this.order)){
+                        var storeAlias=this.store.apelido;
+                        var storeId=this.store.id;
+                        var uuid=until.uuid();
+
+                        var productId=item.product.id;
+                        var price=item.total;
+                        var amount=item.amount;
+                        var total=item.total*item.amount;
+                        var note=item.note;
+                        resultItem= await OrdersItemHelper.sendItemOrder(storeAlias,storeId,uuid,orderId,productId,price,amount,total,note);
                     }
                 }catch(e){
                     this.menssageError=e.message;
@@ -424,11 +444,17 @@ export const OrderItemsComponent={
             },
             async confirmOrder(){
                 let resultOrder= await this.createOrder();
+                let createItemOrderPizza=this.createItemOrderPizza;
                 let createItemOrder=this.createItemOrder;
                 if (!until.isEmpty(resultOrder) && !until.isEmpty(resultOrder.id)){
                     var orderId=resultOrder.id;
                     this.order.forEach((item, index) => {
-                        createItemOrder(item,orderId);
+                        if(item.product.pizza==true){
+                            createItemOrderPizza(item,orderId);
+                        }
+                        else{
+                            createItemOrder(item,orderId);
+                        }
                     });
                     this.clearOrder();
                     this.$router.push({ name: 'create-order-success-store',path:this.storePath+'/create-order-success/'+resultOrder.id, params: { id: resultOrder.id}},);

@@ -4,7 +4,29 @@ import {StoresHelper} from './Stores-helper.js'
 export const OrdersItemHelper= {
     url:'itempedidos',
    
-    async sendItemOrder(storeAlias,storeId,uuid,orderId,productId,borderId,sizeId,note,price,amount,total){
+    async sendItemOrder(storeAlias,storeId,uuid,orderId,productId,price,amount,total,note){
+        try{
+            var params={
+                "empresa": storeId,
+                "pedido": orderId,
+                "uuid": uuid,
+                "produto": productId,
+                "preco": price,
+                "quantidade": amount,
+                "valor_total_item": total,
+                "observacao": note,
+            };
+            let resultItemOrder= await conect.post(
+                this.url+"?"+(new URLSearchParams({"empresa.apelido":storeAlias})).toString(),
+                params
+            );
+            return resultItemOrder.data;
+        }
+        catch(e){
+            throw Error("Erro ao enviar item o pedido");
+        }
+    },
+    async sendItemOrderPizza(storeAlias,storeId,uuid,orderId,productId,borderId,sizeId,price,amount,total,note){
         try{
             var params={
                 "empresa": storeId,
@@ -13,10 +35,10 @@ export const OrdersItemHelper= {
                 "produto": productId,
                 "bordatamanho": borderId,
                 "tamanho": sizeId,
-                "observacao": note,
                 "preco": price,
                 "quantidade": amount,
                 "valor_total_item": total,
+                "observacao": note,
             };
             let resultItemOrder= await conect.post(
                 this.url+"?"+(new URLSearchParams({"empresa.apelido":storeAlias})).toString(),

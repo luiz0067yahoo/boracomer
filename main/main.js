@@ -57,7 +57,7 @@ function startRouterVue(){
     }
 }
 async function  loadTemplates(){
-    var base_path=window.location.protocol+"//"+window.location.hostname+"/boracomer/";
+    var base_path=window.location.protocol+"//"+window.location.hostname+"/";
     var templates=$("script[type='text/x-template']");
     templates.each(function(index){
         var template=$(this);

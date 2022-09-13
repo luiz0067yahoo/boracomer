@@ -35,6 +35,7 @@ export const OrderItemComponent={
                 itemsGroupAdditionalParam:[],
                 amount:1,
                 amountParam:1,
+                noteParam:"",
                 note:"",
                 total:0,
                 messageError:"",
@@ -81,6 +82,10 @@ export const OrderItemComponent={
                     }
                 });
                 this.changeBorder();
+            }
+            if(!until.isEmpty(this.$route.params.note)){
+                this.noteParam=this.$route.params.note;
+                this.note=this.$route.params.note;
             }
             if(!until.isEmpty(this.$route.params.amount)){
                 this.amountParam=this.$route.params.amount;
@@ -314,7 +319,7 @@ export const OrderItemComponent={
                 }
                 return price;
             },
-            itemPizzaEquals(productA,sizeA,flavorsA,borderA,itemsGroupAdditionalA,productB,sizeB,flavorsB,borderB,itemsGroupAdditionalB){
+            itemPizzaEquals(productA,sizeA,flavorsA,borderA,itemsGroupAdditionalA,noteA,productB,sizeB,flavorsB,borderB,itemsGroupAdditionalB,noteB){
                 var result=(
                     (
                         this.getIdsFlavorsPizza(flavorsA).join(",")
@@ -349,10 +354,18 @@ export const OrderItemComponent={
                             &&(sizeA.id==sizeB.id)
                         )
                     )
+                    &&
+                    (
+                        (
+                            (!until.isEmpty(noteA))
+                            &&(!until.isEmpty(noteB))
+                            &&(noteA==noteB)
+                        )
+                    )
                 );
                 return result;
             },
-            itemIndexOf(order,product,size,flavors,border,itemsGroupAdditional){
+            itemIndexOf(order,product,size,flavors,border,itemsGroupAdditional,note){
                 var position=-1;
                 order.forEach((element,index) => {
                     if
@@ -366,11 +379,13 @@ export const OrderItemComponent={
                                 element.flavors,
                                 element.border,
                                 element.itemsGroupAdditional,
+                                element.note,
                                 product,
                                 size,
                                 flavors,
                                 border,
                                 itemsGroupAdditional,
+                                note,
                             )
                         )
                         ||
@@ -438,7 +453,7 @@ export const OrderItemComponent={
                     var note=this.note;
                     var total=this.calcPriceProduct();                   
                     if((product.pizza===false)||this.validPizza(product,size,flavors)){
-                        var index=this.itemIndexOf(order,product,sizeParam,flavorsParam,borderParam,itemsGroupAdditionalParam);
+                        var index=this.itemIndexOf(order,product,sizeParam,flavorsParam,borderParam,itemsGroupAdditionalParam,note);
                         if(index!=-1){
                             order[index].amount=amount;
                             order[index].total=total;
@@ -451,7 +466,12 @@ export const OrderItemComponent={
                             }
                         }
                         else{
-                            order.push({"amount":amount,"product":product,"size":size,"flavors":flavors,"border":border,"itemsGroupAdditional":itemsGroupAdditional,"total":total,"note":note})
+                            if(product.pizza==true){
+                                order.push({"amount":amount,"product":product,"size":size,"flavors":flavors,"border":border,"itemsGroupAdditional":itemsGroupAdditional,"total":total,"note":note});
+                            }
+                            else{
+                                order.push({"amount":amount,"product":product,"total":total,"note":note});
+                            }
                         }
                         this.saveOrder(order);
                         this.$router.push({ name: 'items-pedido-store',path:this.storePath+'/items-pedido'});
