@@ -8,9 +8,8 @@ RUN apt-get update && \
 #RUN echo 'Hello World!' > /var/www/html/index.html
 RUN  git clone https://github.com/luiz0067yahoo/boracomer.git /var/www/html/boracomer/
 RUN ls /var/www/html/boracomer/
-RUN mv /var/www/html/boracomer/ /var/www/html/
 RUN chmod -R 755 /var/www/html/
-RUN rm -rf /var/www/html/boracomer/main/components/Check-login-component.js
+RUN mv /var/www/html/boracomer/ /var/www/html/
 #RUN mv /var/www/html/boracomer /var/www/html/
 
 # Configure apache
