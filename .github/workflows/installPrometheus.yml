@@ -31,7 +31,7 @@ jobs:
             key: ${{ secrets.AWS_SSH_KEY_PEM }}
             port: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
             script: | 
-              apt-get update
+              sudo apt-get update
               echo "update system"
               sudo apt install net-tools
               netstat -nl | grep 9323
