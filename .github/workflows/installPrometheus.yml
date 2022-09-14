@@ -99,14 +99,15 @@ jobs:
               sudo echo "Type=simple" >> /etc/systemd/system/prometheus.service
               sudo echo "ExecStart=/usr/local/bin/prometheus --config.file /etc/prometheus/prometheus.yml --storage.tsdb.path /var/lib/prometheus/ --web.console.templates=/etc/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries" >> /etc/systemd/system/prometheus.service
               sudo echo "" >> /etc/systemd/system/prometheus.service
-              echo "[Install]" >> /etc/systemd/system/prometheus.service
-              echo "WantedBy=multi-user.target" >> /etc/systemd/system/prometheus.service
-              echo "SyslogIdentifier=prometheus" >> /etc/systemd/system/prometheus.service
-              echo "Restart=always" >> /etc/systemd/system/prometheus.service
-              chown prometheus:prometheus /var/lib/prometheus -R
-              chmod 775 /var/lib/prometheus -R
-              systemctl daemon-reload
-              systemctl daemon-reload
-              systemctl start prometheus
-              echo "http://34.216.84.149:9090"
+              sudo echo "[Install]" >> /etc/systemd/system/prometheus.service
+              sudo echo "WantedBy=multi-user.target" >> /etc/systemd/system/prometheus.service
+              sudo echo "SyslogIdentifier=prometheus" >> /etc/systemd/system/prometheus.service
+              sudo echo "Restart=always" >> /etc/systemd/system/prometheus.service
+              sudo chown prometheus:prometheus /var/lib/prometheus -R
+              sudo chmod 775 /var/lib/prometheus -R
+              sudo systemctl daemon-reload
+              sudo systemctl daemon-reload
+              sudo systemctl start prometheus
+              sudo echo "54.166.21.114:9090"
               sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/prometheus*
+              sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/downloads/prometheus*
