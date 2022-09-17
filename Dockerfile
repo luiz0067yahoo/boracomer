@@ -9,6 +9,7 @@ RUN echo "update and install"
 RUN  git clone https://github.com/luiz0067yahoo/boracomer.git ~/boracomer/
 RUN echo "load repositorio"
 RUN chmod -R 755 /var/www/html/
+RUN chmod -R 755 ~/boracomer/
 RUN echo "permission folder"
 RUN rm -rf /var/www/html/*
 RUN echo "clean server"
