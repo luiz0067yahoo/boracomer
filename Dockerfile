@@ -14,8 +14,7 @@ RUN rm -rf /var/www/html/*
 RUN echo "clean server"
 RUN mv ~/boracomer/* /var/www/html
 RUN echo "move project"
-RUN a2enmod rewrite
-RUN echo "enabled .htaccess"
+
 # Configure apache
 RUN echo '. /etc/apache2/envvars' > /root/run_apache.sh && \
  echo 'mkdir -p /var/run/apache2' >> /root/run_apache.sh && \
@@ -25,4 +24,7 @@ RUN echo '. /etc/apache2/envvars' > /root/run_apache.sh && \
 
 EXPOSE 80
 
+RUN a2enmod rewrite
+RUN echo "enabled .htaccess"
 CMD /root/run_apache.sh
+
