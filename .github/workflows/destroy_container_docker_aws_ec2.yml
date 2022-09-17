@@ -1,4 +1,5 @@
-name: DestroyAwsEC2
+
+name: DestroyContainerDockerAwsEC2
 
 on:
 
@@ -30,13 +31,17 @@ jobs:
             port: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
             script: | 
               echo "remove all containers"
-              sudo docker stop $(docker ps -a -q)
+              #sudo docker stop $(docker ps -a -q)
+              sudo docker stop ${{ github.event.repository.name }}
               echo "stop all containers by force"
-              sudo docker kill $(docker ps -q)
+              #sudo docker kill $(docker ps -q)
+              sudo docker kill ${{ github.event.repository.name }}
               echo "remove all containers"
-              sudo docker rm $(docker ps -a -q)
+              #sudo docker rm $(docker ps -a -q)
+              sudo docker rm ${{ github.event.repository.name }}
               echo "remove all docker images"
-              sudo docker rmi $(docker images -q)
+              #sudo docker rmi $(docker images -q)
+              sudo docker rmi ${{ github.event.repository.name }}
               echo "purge the rest"
               sudo docker system prune --all --force --volumes
               echo "remove folder"

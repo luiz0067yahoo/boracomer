@@ -1,0 +1,22 @@
+name: TestSSHAwsEC2
+
+on:
+
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: SSH connect
+        uses: appleboy/ssh-action@master
+        with:
+            host: ${{ secrets.AWS_INSTANCE_IP }}
+            username: ${{ secrets.AWS_INSTANCE_USER }}
+            key: ${{ secrets.AWS_SSH_KEY_PEM }}
+            port: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
+            script: ls /
