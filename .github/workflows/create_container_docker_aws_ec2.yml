@@ -45,10 +45,10 @@ jobs:
               sudo wget https://github.com/${{ github.actor }}/${{ github.event.repository.name }}/blob/master/Dockerfile /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}/Dockerfile
               echo "download Dockerfile"
 
-              docker container stop container_${{ github.event.repository.name }} 
-              echo "stop container"
-              docker kill container_${{ github.event.repository.name }} 
-              echo "kill container"
+              #docker container stop container_${{ github.event.repository.name }} 
+              #echo "stop container"
+              #docker kill container_${{ github.event.repository.name }} 
+              #echo "kill container"
 
               sudo docker build -t ${{ github.event.repository.name }} .
               echo "build container"
