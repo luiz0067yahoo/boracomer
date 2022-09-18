@@ -39,16 +39,16 @@ jobs:
               cat /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}/Dockerfile
 
               
-              #docker container stop container_${{ github.event.repository.name }} 
-              #echo "stop container"
-              #docker kill container_${{ github.event.repository.name }} 
-              #echo "kill container"
+              docker container stop container_${{ github.event.repository.name }} 
+              echo "stop container"
+              docker kill container_${{ github.event.repository.name }} 
+              echo "kill container"
 
               sudo docker build -t ${{ github.event.repository.name }} .
               echo "build container"
               
               
-              docker run --name container_${{ github.event.repository.name }} --rm -p ${{ secrets.APP_PORT }}:${{ secrets.APP_PORT }} -ti ${{ github.event.repository.name }}
+              docker run -d --name container_${{ github.event.repository.name }} --rm -p ${{ secrets.APP_PORT }}:${{ secrets.APP_PORT }} -ti ${{ github.event.repository.name }}
               #sudo docker run -d -p ${{ secrets.APP_PORT }}:${{ secrets.APP_PORT }} ${{ github.event.repository.name }} 
               echo "run container"
 
