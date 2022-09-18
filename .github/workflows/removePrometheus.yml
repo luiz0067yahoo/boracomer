@@ -1,1 +1,41 @@
+name: removePrometheusAwsEC2
 
+on:
+
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: SSH connect
+        uses: appleboy/ssh-action@master
+        with:
+            host: ${{ secrets.AWS_INSTANCE_IP }}
+            username: ${{ secrets.AWS_INSTANCE_USER }}
+            key: ${{ secrets.AWS_SSH_KEY_PEM }}
+            port: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
+            script: | 
+              sudo systemctl stop prometheus
+              sudo rm /etc/systemd/system/prometheus.service
+              sudo rm -rf /etc/prometheus 
+              sudo rm -rf /usr/local/bin/prometheus
+              sudo rm -rf /usr/local/bin/promtool
+              sudo rm -rf /var/lib/prometheus
+              sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/prometheus*
+              sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/downloads/prometheus 
+              echo "remove folder prometheus ########################################"
+              
+              sudo apt remove net-tools
+              echo "remove net-tools ###############################################"
+
+              sudo groupdel --system prometheus
+              echo "remove group user prometheus ####################################"
+              sudo userdel -r -g prometheus prometheus
+              echo "remove group sudo user prometheus ##################################"
+              
+              sudo systemctl daemon-reload
