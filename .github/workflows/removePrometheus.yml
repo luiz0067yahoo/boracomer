@@ -21,6 +21,13 @@ jobs:
             port: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
             script: | 
               sudo systemctl stop prometheus
+              sudo systemctl disable prometheus
+              sudo systemctl daemon-reload
+              systemctl status prometheus
+              sudo ufw deny 9090/tcp
+              
+              
+              
               sudo rm /etc/systemd/system/prometheus.service
               sudo rm -rf /etc/prometheus 
               sudo rm -rf /usr/local/bin/prometheus
@@ -28,14 +35,15 @@ jobs:
               sudo rm -rf /var/lib/prometheus
               sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/prometheus*
               sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/downloads/prometheus 
+              sudo rm -rf /tmp/prometheus
               echo "remove folder prometheus ########################################"
               
-              sudo apt remove net-tools
-              echo "remove net-tools ###############################################"
+              sudo apt remove net-tools curl vim
+              echo "remove net-tools curl vim #######################################"
 
               sudo groupdel --system prometheus
               echo "remove group user prometheus ####################################"
               sudo userdel -r -g prometheus prometheus
-              echo "remove group sudo user prometheus ##################################"
+              echo "remove group sudo user prometheus ###############################"
+            sudo systemctl daemon-reload
               
-              sudo systemctl daemon-reload
