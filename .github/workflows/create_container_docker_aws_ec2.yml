@@ -48,11 +48,7 @@ jobs:
               echo "build container"
               
               
-              #docker run --name container_${{ github.event.repository.name }} --rm \
-              #-p 80:80 \
-              #-ti {{ github.event.repository.name }} \
-              #watch "date >> /var/log/date.log"
-              docker run -d --name container_${{ github.event.repository.name }} ${{ github.event.repository.name }} watch "date >> /var/log/date.log"
+              docker run --name container_${{ github.event.repository.name }} --rm -p ${{ secrets.APP_PORT }}:${{ secrets.APP_PORT }} -ti ${{ github.event.repository.name }}
               #sudo docker run -d -p ${{ secrets.APP_PORT }}:${{ secrets.APP_PORT }} ${{ github.event.repository.name }} 
               echo "run container"
 
