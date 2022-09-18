@@ -1,6 +1,6 @@
 # Bora Comer
 **Protótipo de Aplicativo de pedidos in VUE.js**<br>
-## Bora Comer
+## REQUISITOS
 ------------
 - servidor amazon aws ec2
 - linux server ubunbtu 18.04
@@ -8,7 +8,29 @@
 - apache2
 - git
 ------------
-Apache/2.4.53
+APP_PORT
+Updated yesterday
+AWS_ACCESS_KEY_ID
+Updated 8 days ago
+AWS_INSTANCE_DNS
+Updated 8 days ago
+AWS_INSTANCE_ID
+Updated 8 days ago
+AWS_INSTANCE_IP
+Updated 8 days ago
+AWS_INSTANCE_LOCAL_IP
+Updated 8 days ago
+AWS_INSTANCE_SSH_PORT
+Updated 8 days ago
+AWS_INSTANCE_USER
+Updated 8 days ago
+AWS_REGION
+Updated 8 days ago
+AWS_SECRET_ACCESS_KEY
+Updated 8 days ago
+AWS_SSH_KEY_PEM
+Updated yesterday
+## ITEMS
 ------------
 - Cadastro de Usuário com dados pessoais
 - Cadastro de Endereço de entrega do usuário
