@@ -22,8 +22,8 @@ jobs:
             script: | 
               sudo systemctl stop prometheus
               sudo systemctl disable prometheus
-              sudo systemctl daemon-reload
               systemctl status prometheus
+              sudo systemctl daemon-reload
               sudo ufw deny 9090/tcp
               
               
@@ -45,5 +45,4 @@ jobs:
               echo "remove group user prometheus ####################################"
               sudo userdel -r -g prometheus prometheus
               echo "remove group sudo user prometheus ###############################"
-            sudo systemctl daemon-reload
               
