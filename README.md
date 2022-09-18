@@ -1,6 +1,6 @@
 ### Bora Comer
-**Protótipo de Aplicativo de pedidos in VUE.js**
-Requisitos
+**Protótipo de Aplicativo de pedidos in VUE.js**<br>
+->Requisitos
 ------------
 - servidor amazon aws ec2
 - linux server ubunbtu 18.04
