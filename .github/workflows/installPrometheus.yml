@@ -31,6 +31,7 @@ jobs:
             key: ${{ secrets.AWS_SSH_KEY_PEM }}
             port: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
             script: | 
+              sudo ufw allow 9090/tcp
               sudo apt-get update
               echo "update system ###################################################"
               sudo apt install net-tools
@@ -117,9 +118,12 @@ jobs:
               echo "permission prometheus ##########################################"
               
               sudo systemctl daemon-reload
+              sudo systemctl enable prometheus
               echo "reload prometheus ##############################################"
+              systemctl status prometheus
               sudo systemctl start prometheus
               echo "start prometheus ################################################"
+              sudo systemctl daemon-reload
               sudo echo "54.166.21.114:9090"
               sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/prometheus*
               sudo rm -rf /home/${{ secrets.AWS_INSTANCE_USER }}/downloads/prometheus*
