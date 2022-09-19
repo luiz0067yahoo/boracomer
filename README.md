@@ -1,12 +1,12 @@
 # BORA COMER
-****Protótipo de Aplicativo de pedidos in VUE.js****<br>
+**Protótipo de Aplicativo de pedidos in VUE.js**<br>
 ------------
 ## TECNOLOGIAS USADAS
-- Visual studio Code para codificação
-- GitHub Desktop para Versionamento
-- PostMan para controled de transações da api Rest
-- Navegador Google Chrome para depuração e Console
-- HTML5 Liguagem estrutural das páginas web
+- **Visual studio Code** para codificação
+- **GitHub Desktop** para Versionamento
+- **PostMan** para controled de transações da api Rest
+- **Google Chrome** para teste, depuração e Console
+- **HTML5** Liguagem estrutural das páginas web
 - **CSS3** Linquagem de marcação de estilos
 -- **Bootstrap 5** padronização de estilos
 - **Java Script** ECMAScript 5 para manipulação de eventos
@@ -17,12 +17,12 @@
 -- **moment-with-locales** biblioteca para calcúlos que envolve formatação de Data Hora
 ------------
 ## REQUISITOS
-- servidor amazon aws ec2
-- linux server ubunbtu 18.04
-- docker
-- apache2
-- git
-- navegador de internet Google Chrome, Mozilla Firefox, Opera, etc...
+- **servidor amazon aws ec2**
+- **linux server ubunbtu 18.04**
+- **docker**
+- **apache2**
+- **git**
+- navegador de internet **Google Chrome**, **Mozilla Firefox**, **Opera**, etc...
 ------------
 ## CONFIGURANDO DEPLOY KEYS
 - Clique em ⚙️ **Settings** na área superior esquerda de seu projeto
@@ -32,16 +32,16 @@
 - Preencha todas as chaves
 ------------
 ## CHAVES
-- AWS_ACCESS_KEY_ID
-- AWS_INSTANCE_DNS
-- AWS_INSTANCE_ID
-- AWS_INSTANCE_IP
-- AWS_INSTANCE_LOCAL_IP
-- AWS_INSTANCE_SSH_PORT
-- AWS_INSTANCE_USER
-- AWS_REGION
-- AWS_SECRET_ACCESS_KEY
-- AWS_SSH_KEY_PEM
+- **AWS_ACCESS_KEY_ID**
+- **AWS_INSTANCE_DNS**
+- **AWS_INSTANCE_ID**
+- **AWS_INSTANCE_IP**
+- **AWS_INSTANCE_LOCAL_IP**
+- **AWS_INSTANCE_SSH_PORT**
+- **AWS_INSTANCE_USER**
+- **AWS_REGION**
+- **AWS_SECRET_ACCESS_KEY**
+- **AWS_SSH_KEY_PEM**
 ------------
 
 ## LOCALIZANDO AS CHAVES
