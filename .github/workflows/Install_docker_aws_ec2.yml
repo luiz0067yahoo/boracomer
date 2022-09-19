@@ -1,47 +1,39 @@
-name: InstallDockerAwsEC2
+              #git config --global user.email "${GH_USERNAME}@users.noreply.github.com"
+              #git config --global user.name "${GH_USERNAME}"
 
-on:
+              #sudo wget https://raw.githubusercontent.com/${{ github.actor }}/${{ github.event.repository.name }}/main/Dockerfile /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}/Dockerfile
+              sudo wget https://raw.githubusercontent.com/${{ github.actor }}/${{ github.event.repository.name }}/master/Dockerfile /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}/Dockerfile
+              echo "download Dockerfile"
+              cat /home/${{ secrets.AWS_INSTANCE_USER }}/${{ github.event.repository.name }}/Dockerfile
 
-  workflow_dispatch:
+              
+              docker stop container_${{ github.event.repository.name }} 
+              echo "stop container"
+              docker kill container_${{ github.event.repository.name }} 
+              echo "kill container"
+              docker rm container_${{ github.event.repository.name }} 
 
-jobs:
+              sudo docker build -t ${{ github.event.repository.name }} .
+              echo "build container"
+              
+              
+              docker run -d --name container_${{ github.event.repository.name }} --rm -p ${{ secrets.APP_PORT }}:${{ secrets.APP_PORT }} -ti ${{ github.event.repository.name }}
+              #sudo docker run -d -p ${{ secrets.APP_PORT }}:${{ secrets.APP_PORT }} ${{ github.event.repository.name }} 
+              echo "run container"
 
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-
-      - name: Start AWS EC2
-
-        run: |
-          aws ec2 start-instances --instance-ids ${{secrets.AWS_INSTANCE_ID }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-
-      - name: SSH connect
-        uses: appleboy/ssh-action@master
-        with:
-            host: ${{ secrets.AWS_INSTANCE_IP }}
-            username: ${{ secrets.AWS_INSTANCE_USER }}
-            key: ${{ secrets.AWS_SSH_KEY_PEM }}
-            port: ${{ secrets.AWS_INSTANCE_SSH_PORT }}
-            script: | 
-              sudo apt-get update
-              echo "update system"
-              sudo apt-get install docker.io
-              echo "install docker"
-              sudo rm -rf /etc/docker/daemon.json
-              echo "config docker"
-              sudo touch /etc/docker/daemon.json
-              sudo chmod 777 /etc/docker/daemon.json
-              sudo echo '{' >> /etc/docker/daemon.json
-              sudo echo '"metrics-addr" : "0.0.0.0:9323",' >> /etc/docker/daemon.json
-              sudo echo '"experimental" : true' >> /etc/docker/daemon.json
-              sudo echo '}' >> /etc/docker/daemon.json
-              echo "edit file config docker"
-              sudo service docker restart
-              echo "restart docker"
-              #sudo dockerd
+              #sudo docker exec –it container_${{ github.event.repository.name }} /bin/bash
+              #sudo  docker run -d -p 3000:3000 demo_cms_rails
+              #docker run --name pandora_community --rm \
+              #-p 8085:80 \
+              #-p 41121:41121 \
+              #-p 162:162 \
+              #-e DBHOST=mysqlhost.local \
+              #-e DBNAME=pandora \
+              #-e DBUSER=pandora \
+              #-e DBPASS=pandora \
+              #-e DBPORT=3306 \
+              #-e SLEEP=5 \
+              #-e RETRIES=3 \
+              #-e INSTANCE_NAME=pandora_community \
+              #-ti rameijeiras/pandorafms-community:740
+              #docker run -d --name container-name alpine watch "date >> /var/log/date.log"
