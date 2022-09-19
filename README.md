@@ -14,13 +14,13 @@
 - **Google Chrome** para teste, depuração e Console
 - **HTML5** Liguagem estrutural das páginas web
 - **CSS3** Linquagem de marcação de estilos
--- **Bootstrap 5** padronização de estilos
+- - **Bootstrap 5** padronização de estilos
 - **Java Script** ECMAScript 5 para manipulação de eventos
--- **jQuery** biblioteca Java Script para manipulação de elementos objetos html e css
--- **Vue.js** 3.0 framework java script para controle de rotas e ações
--- **Axios** para comunicação ajax da api Rest
--- **jquery.inputmask** para a mascara de campo de texto como telefone e CEP
--- **moment-with-locales** biblioteca para calcúlos que envolve formatação de Data Hora
+- - **jQuery** biblioteca Java Script para manipulação de elementos objetos html e css
+- - **Vue.js** 3.0 framework java script para controle de rotas e ações
+- - **Axios** para comunicação ajax da api Rest
+- - **jquery.inputmask** para a mascara de campo de texto como telefone e CEP
+- - **moment-with-locales** biblioteca para calcúlos que envolve formatação de Data Hora
 ------------
 ## REQUISITOS
 - **servidor amazon aws ec2**
