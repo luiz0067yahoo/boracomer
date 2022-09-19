@@ -45,9 +45,9 @@
 ------------
 
 ## LOCALIZANDO AS CHAVES
-- Acesse em seu navegador [https://aws.amazon.com/](https://aws.amazon.com/)
+- Acesse em seu navegador https://aws.amazon.com/
 - Faça o login na aws 
--- Caso não tiver a conta basta criar segue um exemplo no vídeo [https://www.youtube.com/watch?v=veq3rnybSyk](https://www.youtube.com/watch?v=veq3rnybSyk) 
+-- Caso não tiver a conta basta criar segue um exemplo no vídeo https://www.youtube.com/watch?v=veq3rnybSyk
 
 ### AWS_ACCESS_KEY_ID e AWS_SECRET_ACCESS_KEY
 - Clique em seu usuário no canto superior direito e selecione **My Security Credentials**
@@ -58,13 +58,13 @@
 - Clique no botão ⬜ **Criar chave de acesso**
 - Clique e mostra Credenciais de segurança do usuário 
 - De preferencia salve em um arquivo csv
-- Segue um exemplo no vídeo (https://www.youtube.com/watch?v=Dy6uShmEYfM)[https://www.youtube.com/watch?v=Dy6uShmEYfM]
+- Segue um exemplo no vídeo https://www.youtube.com/watch?v=Dy6uShmEYfM
 ------------
 
 ### AWS_SSH_KEY_PEM 
 - Crie uma instância ec2 de preferência grátis por 1 ano 
--- Segue um exemplo no vídeo (https://www.youtube.com/watch?v=8cDk1QSdt3M)[https://www.youtube.com/watch?v=8cDk1QSdt3M]
--- Se já tiver uma instância para gerar um novo certificado segue a documentação [https://docs.aws.amazon.com/pt_br/AWSEC2/latest/UserGuide/ec2-key-pairs.html](https://docs.aws.amazon.com/pt_br/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
+-- Segue um exemplo no vídeo https://www.youtube.com/watch?v=8cDk1QSdt3M
+-- Se já tiver uma instância para gerar um novo certificado segue a documentação https://docs.aws.amazon.com/pt_br/AWSEC2/latest/UserGuide/ec2-key-pairs.html
 - Configure e salve seu certificado ssh no formato .pem
 - Abra o conteudo do certificado .pem em um editor de texto simples como notepad, leaftpad, notepad++, Visual Studio Code, etc...
 - Copie o conteudo do certificado e cole na chave **AWS_SSH_KEY_PEM**
@@ -79,7 +79,7 @@
 - Copie DNS IPv4 público para **AWS_INSTANCE_DNS**
 - Copie Endereços IPv4 privados **AWS_INSTANCE_LOCAL_IP**
 - Por padrão é 22 copie para **AWS_INSTANCE_SSH_PORT** podendo ser mudado na aba ⬜ **Segurança** em **Grupos de segurança**
-- Na aba **Redes** ⬜ Zona de disponibilidade confira com (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html)[https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html] copie o valor para AWS_REGION
+- Na aba **Redes** ⬜ Zona de disponibilidade confira com https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html copie o valor para AWS_REGION
 - Clique no botão **Conectar** ⬜ procure a caixa de texto **Nome do usuário** copie o valor para **AWS_INSTANCE_USER**
 ------------
 
