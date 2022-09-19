@@ -7,19 +7,19 @@
 		<div v-if="product.pizza" class="w-100 d-flex justify-content-between font-size-button margin-bottom-20">
 			<div class="list-products d-flex justify-content-between mx-auto">
 				<div id="pizza" class="product-image  mx-auto" >
-					<div v-if="countFlavorsPizzapy-0 form-selected() == 1" class="pieContainer">
+					<div v-if="countFlavorsPizzaSelected() == 1" class="pieContainer">
 						<div class="only" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(0) + ')' }"></div>
 					</div>
-					<div v-else-if ="countFlavorsPizzapy-0 form-selected()==2" class="pieContainer">
+					<div v-else-if ="countFlavorsPizzaSelected()==2" class="pieContainer">
 						<div  class=" pieSlice-1-2 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(0) + ')' }"></div></div>
 						<div  class=" pieSlice-2-2 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(1) + ')' }"></div></div>
 					</div>
-					<div v-else-if="countFlavorsPizzapy-0 form-selected()==3" class="pieContainer">
+					<div v-else-if="countFlavorsPizzaSelected()==3" class="pieContainer">
 						<div  class=" pieSlice-1-3 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(0) + ')' }"></div></div>
 						<div  class=" pieSlice-2-3 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(1) + ')' }"></div></div>
 						<div  class=" pieSlice-3-3 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(2) + ')' }"></div></div>
 					</div>
-					<div v-else-if="countFlavorsPizzapy-0 form-selected()==4" class="pieContainer">
+					<div v-else-if="countFlavorsPizzaSelected()==4" class="pieContainer">
 						<div  class=" pieSlice-1-4 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(0) + ')' }"></div></div>
 						<div  class=" pieSlice-2-4 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(1) + ')' }"></div></div>
 						<div  class=" pieSlice-3-4 hold" ><div class="pie" v-bind:style="{ backgroundImage: 'url(' + getLegendFlavorsSlice(2) + ')' }"></div></div>
@@ -41,23 +41,23 @@
 				<label  class="font-size-2 m-0  w-100"><b>{{product.descricao}}</b></label>
 				<div v-if="group.nome === 'Pizzas'" class="w-100">
 					<label class="font-size-3 w-100"> Tamanho </label>
-					<py-0 form-select v-model="sizePizzapy-0 form-selected"  class="big-button form-py-0 form-select form-py-0 form-select-lg font-size-2 w-100" @change="changeSize()">
-						<option disabled  py-0 form-selected>Escolha o Tamanho</option>
+					<select v-model="sizePizzaSelected"  class="big-button py-0 form-select form-select-lg font-size-2 w-100" @change="changeSize()">
+						<option disabled  selected>Escolha o Tamanho</option>
 						<option  v-for="(item) in sizesPizza"  :value="item" :key="item.id">{{item.descricao}} - {{formatMoney(item.valor_tamanho)}} - até {{item.maximo_sabores}} sabores</option>
-					</py-0 form-select>
-					<div  v-for="(flavorspizzapy-0 form-selected, index) in flavorsPizzapy-0 form-selected" class="w-100" >
+					</select>
+					<div  v-for="(flavorspizzaselected, index) in flavorsPizzaSelected" class="w-100" >
 						<label class="font-size-3 w-100"> Sabor {{index+1}}</label>
-						<py-0 form-select v-model="flavorsPizzapy-0 form-selected[index]"  class="big-button form-py-0 form-select form-py-0 form-select-lg font-size-2 w-100"  @change="changeFlavor(index)">
-							<option disabled  py-0 form-selected>Escolha o sabor {{index+1}} 	</option>
+						<select v-model="flavorsPizzaSelected[index]"  class="big-button py-0 form-select form-select-lg font-size-2 w-100"  @change="changeFlavor(index)">
+							<option disabled  selected>Escolha o sabor {{index+1}} 	</option>
 							<option v-if="index>=2">Nenhum</option>
 							<option  v-for="(item) in flavorsPizza"  :value="item" :key="item.id">{{item.descricao}}{{(item.valor==0)?"":" - "+formatMoney(item.valor)}}</option>
-						</py-0 form-select>
+						</select>
 					</div>
 					<label class="font-size-3 w-100"> Borda </label>
-					<py-0 form-select v-model="borderPizzapy-0 form-selected"  class="big-button form-py-0 form-select form-py-0 form-select-lg font-size-2 w-100" @change="changeBorder()">
-						<option   py-0 form-selected>Sem Borda</option>
+					<select v-model="borderPizzaSelected"  class="big-button py-0 form-select form-select-lg font-size-2 w-100" @change="changeBorder()">
+						<option   selected>Sem Borda</option>
 						<option  v-for="(item) in bordersPizza"  :value="item" :key="item.id">{{item.descricao}}{{(getValueBoderbySize(item.id)==0 || getValueBoderbySize(item.id)==null)?"":" - "+formatMoney(getValueBoderbySize(item.id))}}</option>
-					</py-0 form-select>
+					</select>
 				</div>
 
 
