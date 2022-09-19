@@ -41,20 +41,20 @@
 				<label  class="font-size-2 m-0  w-100"><b>{{product.descricao}}</b></label>
 				<div v-if="group.nome === 'Pizzas'" class="w-100">
 					<label class="font-size-3 w-100"> Tamanho </label>
-					<select v-model="sizePizzaSelected"  class="big-button form-select form-select-lg font-size-2 w-100" @change="changeSize()">
+					<select v-model="sizePizzaSelected"  class="big-button p-y-0 form-select p-y-0 form-select-lg font-size-2 w-100" @change="changeSize()">
 						<option disabled  selected>Escolha o Tamanho</option>
 						<option  v-for="(item) in sizesPizza"  :value="item" :key="item.id">{{item.descricao}} - {{formatMoney(item.valor_tamanho)}} - até {{item.maximo_sabores}} sabores</option>
 					</select>
 					<div  v-for="(flavorspizzaselected, index) in flavorsPizzaSelected" class="w-100" >
 						<label class="font-size-3 w-100"> Sabor {{index+1}}</label>
-						<select v-model="flavorsPizzaSelected[index]"  class="big-button form-select form-select-lg font-size-2 w-100"  @change="changeFlavor(index)">
+						<select v-model="flavorsPizzaSelected[index]"  class="big-button p-y-0 form-select p-y-0 form-select-lg font-size-2 w-100"  @change="changeFlavor(index)">
 							<option disabled  selected>Escolha o sabor {{index+1}} 	</option>
 							<option v-if="index>=2">Nenhum</option>
 							<option  v-for="(item) in flavorsPizza"  :value="item" :key="item.id">{{item.descricao}}{{(item.valor==0)?"":" - "+formatMoney(item.valor)}}</option>
 						</select>
 					</div>
 					<label class="font-size-3 w-100"> Borda </label>
-					<select v-model="borderPizzaSelected"  class="big-button form-select form-select-lg font-size-2 w-100" @change="changeBorder()">
+					<select v-model="borderPizzaSelected"  class="big-button p-y-0 form-select p-y-0 form-select-lg font-size-2 w-100" @change="changeBorder()">
 						<option   selected>Sem Borda</option>
 						<option  v-for="(item) in bordersPizza"  :value="item" :key="item.id">{{item.descricao}}{{(getValueBoderbySize(item.id)==0 || getValueBoderbySize(item.id)==null)?"":" - "+formatMoney(getValueBoderbySize(item.id))}}</option>
 					</select>
