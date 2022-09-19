@@ -2,6 +2,12 @@
 **Protótipo de Aplicativo de pedidos in VUE.js**<br>
 ------------
 ## TECNOLOGIAS USADAS
+- **[Canvas](https://www.canva.com/)** para diagramação
+- **Inkscape** para designer vetorial
+- **[photopea](https://www.photopea.com/)** para edição de fotos
+- **[remove.bg](https://www.remove.bg/)** para remoção de fundo
+- **Obs Stúdio** para gração de vídeo
+- **Open Shot** para edição de vídeo
 - **Visual studio Code** para codificação
 - **GitHub Desktop** para Versionamento
 - **PostMan** para controled de transações da api Rest
