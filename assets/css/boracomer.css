@@ -6,6 +6,13 @@ html, boby,#divMain{
 	min-height:100vh;	
 	font-family: JosefinSans-Regular;
 }
+select{
+	padding-top:0px;
+	padding-bottom:0px;
+}
+option{
+    align-self: center;
+}
 @font-face {
   font-family: JosefinSans-Regular;
   src: url('../fonts/JosefinSans-Regular.ttf');
