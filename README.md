@@ -14,13 +14,13 @@
 - **Google Chrome** para teste, depuração e Console
 - **HTML5** Liguagem estrutural das páginas web
 - **CSS3** Linquagem de marcação de estilos
-- - **Bootstrap 5** padronização de estilos
+  - **Bootstrap 5** padronização de estilos
 - **Java Script** ECMAScript 5 para manipulação de eventos
-- - **jQuery** biblioteca Java Script para manipulação de elementos objetos html e css
-- - **Vue.js** 3.0 framework java script para controle de rotas e ações
-- - **Axios** para comunicação ajax da api Rest
-- - **jquery.inputmask** para a mascara de campo de texto como telefone e CEP
-- - **moment-with-locales** biblioteca para calcúlos que envolve formatação de Data Hora
+  - **jQuery** biblioteca Java Script para manipulação de elementos objetos html e css
+  - **Vue.js** 3.0 framework java script para controle de rotas e ações
+  - **Axios** para comunicação ajax da api Rest
+  - **jquery.inputmask** para a mascara de campo de texto como telefone e CEP
+  - **moment-with-locales** biblioteca para calcúlos que envolve formatação de Data Hora
 ------------
 ## REQUISITOS
 - **servidor amazon aws ec2**
@@ -53,13 +53,13 @@
 ## LOCALIZANDO AS CHAVES
 - Acesse em seu navegador https://aws.amazon.com/
 - Faça o login na aws 
--- Caso não tiver a conta basta criar segue um exemplo no vídeo https://www.youtube.com/watch?v=veq3rnybSyk
+  - Caso não tiver a conta basta criar segue um exemplo no vídeo https://www.youtube.com/watch?v=veq3rnybSyk
 
 ### AWS_ACCESS_KEY_ID e AWS_SECRET_ACCESS_KEY
 - Clique em seu usuário no canto superior direito e selecione **My Security Credentials**
 - Clique em **Usuários** barra lateral esquerda
 - Clique no seu usuário
--- Clique caso não tiver no botão azul 🟦 **Adicionar usuários**
+  - Clique caso não tiver no botão azul 🟦 **Adicionar usuários**
 - Clique na aba ⬜ **Credenciais de segurança**
 - Clique no botão ⬜ **Criar chave de acesso**
 - Clique e mostra Credenciais de segurança do usuário 
@@ -69,8 +69,8 @@
 
 ### AWS_SSH_KEY_PEM 
 - Crie uma instância ec2 de preferência grátis por 1 ano 
--- Segue um exemplo no vídeo https://www.youtube.com/watch?v=8cDk1QSdt3M
--- Se já tiver uma instância para gerar um novo certificado segue a documentação https://docs.aws.amazon.com/pt_br/AWSEC2/latest/UserGuide/ec2-key-pairs.html
+  - Segue um exemplo no vídeo https://www.youtube.com/watch?v=8cDk1QSdt3M
+  - Se já tiver uma instância para gerar um novo certificado segue a documentação https://docs.aws.amazon.com/pt_br/AWSEC2/latest/UserGuide/ec2-key-pairs.html
 - Configure e salve seu certificado ssh no formato .pem
 - Abra o conteudo do certificado .pem em um editor de texto simples como notepad, leaftpad, notepad++, Visual Studio Code, etc...
 - Copie o conteudo do certificado e cole na chave **AWS_SSH_KEY_PEM**
