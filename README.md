@@ -15,6 +15,7 @@
 - **HTML5** Liguagem estrutural das páginas web
 - **CSS3** Linquagem de marcação de estilos
   - **Bootstrap 5** padronização de estilos
+  - **[fontawesome](https://fontawesome.com/)** icones botões e simbolos  
 - **Java Script** ECMAScript 5 para manipulação de eventos
   - **jQuery** biblioteca Java Script para manipulação de elementos objetos html e css
   - **Vue.js** 3.0 framework java script para controle de rotas e ações
