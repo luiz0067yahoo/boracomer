@@ -107,7 +107,7 @@
 - Lançamento de pedidos
 ------------
 Configurar API Rest<br/>
-'../untils/until.js'<br/>
+'../untils/conect.js'<br/>
 ```javascript
 const serverUrl="http://localhost/";
 url backend
