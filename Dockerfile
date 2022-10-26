@@ -50,6 +50,15 @@ RUN apt-get update && apt-get upgrade && apt-get dist-upgrade --yes \
  RUN echo "install basic"
 #####################################################################################   INSTALL     ##############################################################
 
+#####################################################################################   INSTALL NODE ##############################################################
+
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get --yes  install nodejs
+RUN ln -sf /usr/bin/nodejs /usr/local/bin/node   
+RUN node -v
+RUN echo "Install Node"
+#####################################################################################   INSTALL NODE ##############################################################
+
 #####################################################################################   CONFIG      ##############################################################
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
