@@ -77,12 +77,12 @@ WORKDIR /var/www/html
 
 
 
-COPY . /var/www/html/.
+#COPY . /var/www/html/.
 RUN composer install
 RUN composer update
 RUN npm install
 RUN echo "COPY project"
-//RUN  git clone https://github.com/luiz0067yahoo/boracomer.git ~/boracomer/
+RUN  git clone https://github.com/luiz0067yahoo/boracomer.git /var/www/html/
 RUN chmod o+w ./storage/ -R
 RUN chmod -R 755 /var/www/html/
 
