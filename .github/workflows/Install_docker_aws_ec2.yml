@@ -1,4 +1,4 @@
-name: CreateContainerDockerAwsEC2
+name: Install_docker_aws_ec2
 
 on:
 
