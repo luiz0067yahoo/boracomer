@@ -44,7 +44,7 @@ jobs:
               docker kill container_${{ github.event.repository.name }} 
               echo "kill container"
 
-              sudo docker build -t ${{ github.event.repository.name }} .
+              sudo docker build -t container_${{ github.event.repository.name }} .
               echo "build container"
               
               
